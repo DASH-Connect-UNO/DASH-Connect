@@ -1,0 +1,138 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #d3d3d3;
+        }
+        .container {
+            padding: 20px;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #ffffff;
+            padding: 10px 20px;
+            border-bottom: 1px solid #ccc;
+        }
+        .logo img {
+            width: 100px;
+            height: auto;
+        }
+        .nav-links a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #000;
+        }
+        .profile-container {
+            display: flex;
+            margin-top: 20px;
+        }
+        .sidebar {
+            width: 200px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-right: 1px solid #ccc;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .sidebar button {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .form-section {
+            margin-bottom: 20px;
+        }
+        .form-section input {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 8px;
+        }
+        .form-section button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .edit-section {
+            margin-bottom: 20px;
+        }
+        .edit-section input {
+            display: inline-block;
+            width: auto;
+            padding: 8px;
+            margin-right: 10px;
+        }
+        .edit-section button {
+            display: inline-block;
+            padding: 8px 16px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    {% load static %}
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <img src="{% static 'accounts/uno_logo.png' %}" alt="UNO logo">
+            </div>
+            <div class="nav-links">
+                <a href="#">Student Profile</a>
+                <a href="#">Student Data</a>
+                <a href="#">Student Information</a>
+                <a href="#">DASH Pillars and Events</a>
+                <a href="{% url 'logout' %}">Logout</a>
+            </div>
+        </div>
+        <div class="profile-container">
+            <div class="sidebar">
+                <button>Add Admin</button>
+                <button>Remove Admin</button>
+            </div>
+            <div class="content">
+                <h1>Administration Profile</h1>
+                <div class="edit-section">
+                    <h2>Admin Details</h2>
+                    <input type="text" placeholder="First Name" disabled>
+                    <input type="text" placeholder="M" disabled>
+                    <input type="text" placeholder="Last Name" disabled>
+                    <button>Edit</button>
+                </div>
+                <div class="edit-section">
+                    <input type="text" placeholder="NUID" disabled>
+                    <button>Edit</button>
+                </div>
+                <div class="edit-section">
+                    <input type="email" placeholder="Email" disabled>
+                    <button>Edit</button>
+                </div>
+                <div class="edit-section">
+                    <input type="text" placeholder="Role within DASH" disabled>
+                    <button>Edit</button>
+                </div>
+                <div>
+                    <h2>Edits Made</h2>
+                    <p>(List Dates / What was Edited)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
