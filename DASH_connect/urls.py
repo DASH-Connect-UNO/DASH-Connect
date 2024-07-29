@@ -10,4 +10,6 @@ urlpatterns = [
     path('admin/', admin.site.urls), # THIS IS A REQUIRED DJANGO DEFAULT FOR THE DJANGO ADMIN PAGE
     path('accounts/', include('accounts.urls')),  # Include the accounts app URLs
     path('', views.home, name='home'),  # Add a root URL view
+    path('pillars/', include('DASH_pillars.urls')),
+
 ]

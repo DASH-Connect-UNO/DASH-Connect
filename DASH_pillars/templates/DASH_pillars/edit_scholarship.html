@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Profile</title>
+    <title>Edit Scholarship</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -69,25 +69,9 @@
             font-size: 16px;
             cursor: pointer;
         }
-        .edit-section {
-            margin-bottom: 20px;
-        }
-        .edit-section input {
-            display: inline-block;
-            width: auto;
-            padding: 8px;
-            margin-right: 10px;
-        }
-        .edit-section button {
-            display: inline-block;
-            padding: 8px 16px;
-            font-size: 14px;
-            cursor: pointer;
-        }
     </style>
 </head>
 <body>
-    {% load static %}
     <div class="container">
         <div class="header">
             <div class="logo">
@@ -104,36 +88,31 @@
         </div>
         <div class="profile-container">
             <div class="sidebar">
-                <button>Add Admin</button>
-                <button>Remove Admin</button>
+                <div class="button-container">
+                    <button><a href="{% url 'pillars_home' %}">DASH PILLARS</a></button>
+                </div>
+                <div class="button-container">
+                    <button><a href="{% url 'list_scholarships' %}">Scholarships</a></button>
+                </div>
+                <div class="button-container">
+                    <button><a href="{% url 'list_hardships' %}">Hardships</a></button>
+                </div>
+                <div class="button-container">
+                    <button><a href="{% url 'list_basic_need_supports' %}">Basic Need Supports</a></button>
+                </div>
             </div>
             <div class="content">
-                <h1>Administration Profile</h1>
-                <div class="edit-section">
-                    <h2>Admin Details</h2>
-                    <input type="text" placeholder="First Name" disabled>
-                    <input type="text" placeholder="M" disabled>
-                    <input type="text" placeholder="Last Name" disabled>
-                    <button>Edit</button>
-                </div>
-                <div class="edit-section">
-                    <input type="text" placeholder="NUID" disabled>
-                    <button>Edit</button>
-                </div>
-                <div class="edit-section">
-                    <input type="email" placeholder="Email" disabled>
-                    <button>Edit</button>
-                </div>
-                <div class="edit-section">
-                    <input type="text" placeholder="Role within DASH" disabled>
-                    <button>Edit</button>
-                </div>
-                <div>
-                    <h2>Edits Made</h2>
-                    <p>(List Dates / What was Edited)</p>
+                <h1>Edit Scholarship</h1>
+                <div class="form-section">
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="text" name="name" value="{{ scholarship.name }}">
+                        <button type="submit">Save</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 </body>
 </html>
+
