@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Scholarship, Hardship, BasicNeedSupport, Event
+from .models import Scholarship, Hardship, BasicNeedSupport
 
 
 def pillars_home(request):
