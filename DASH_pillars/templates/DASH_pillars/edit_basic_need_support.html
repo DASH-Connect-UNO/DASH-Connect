@@ -109,18 +109,17 @@
                 <img src="{% static 'accounts/uno_logo.png' %}" alt="UNO logo">
             </div>
             <div class="nav-links">
-                <a href="#">Student Profile</a>
-                <a href="#">Student Data</a>
-                <a href="#">Student Information</a>
+                <a href="">Student Data</a>
+                <a href="{% url 'student_information' %}">Student Information</a>
                 <a href="{% url 'pillars_home' %}">DASH Pillars</a>
-                <a href="{% url 'admin_profile' %}">Admin Profile</a>
+                <a href="{% url 'admin_profile' %}">Administration</a>
                 <a href="{% url 'logout' %}">Logout</a>
-            </div>
+             </div>
         </div>
         <div class="profile-container">
             <div class="sidebar">
                 <div class="button-container">
-                    <button><a href="{% url 'pillars_home' %}">DASH PILLARS</a></button>
+                    <button><a href="{% url 'pillars_home' %}">DASH Pillars</a></button>
                 </div>
                 <div class="button-container">
                     <button><a href="{% url 'list_scholarships' %}">Scholarships</a></button>

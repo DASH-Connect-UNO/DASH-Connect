@@ -35,69 +35,39 @@
         .profile-container {
             display: flex;
             margin-top: 20px;
-            background-color: #ffffff;
-            border: 1px solid #ccc;
         }
         .sidebar {
             width: 200px;
             padding: 20px;
+            background-color: #ffffff;
             border-right: 1px solid #ccc;
-            background-color: #f9f9f9;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
         }
         .content {
             flex-grow: 1;
             padding: 20px;
-        }
-        .sidebar .button-container {
-            margin-bottom: 10px;
-            width: 100%;
-            display: flex;
-            justify-content: center;
+            background-color: #f9f9f9;
         }
         .sidebar button {
             display: block;
             width: 100%;
+            margin-bottom: 10px;
             padding: 10px;
             font-size: 16px;
             cursor: pointer;
-            background: #f1f1f1;
-            border: 1px solid #ccc;
-            text-align: center;
-            color: #000;
-            text-decoration: none;
-        }
-        .sidebar button a {
-            text-decoration: none;
-            color: #000;
-            display: block;
-            width: 100%;
-            height: 100%;
-        }
-        .sidebar button:hover {
-            background-color: #ddd;
         }
         .form-section {
             margin-bottom: 20px;
-            max-width: 600px;
-            width: 100%;
         }
         .form-section input {
             display: block;
             width: 100%;
             margin-bottom: 10px;
             padding: 8px;
-            border: 1px solid #ccc;
         }
         .form-section button {
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
-            border: 1px solid #ccc;
-            background-color: #f1f1f1;
-            display: block;
         }
     </style>
 </head>
@@ -108,18 +78,17 @@
                 <img src="{% static 'accounts/uno_logo.png' %}" alt="UNO logo">
             </div>
             <div class="nav-links">
-                <a href="#">Student Profile</a>
-                <a href="#">Student Data</a>
-                <a href="#">Student Information</a>
+                <a href="">Student Data</a>
+                <a href="{% url 'student_information' %}">Student Information</a>
                 <a href="{% url 'pillars_home' %}">DASH Pillars</a>
-                <a href="{% url 'admin_profile' %}">Admin Profile</a>
+                <a href="{% url 'admin_profile' %}">Administration</a>
                 <a href="{% url 'logout' %}">Logout</a>
-            </div>
+             </div>
         </div>
         <div class="profile-container">
             <div class="sidebar">
                 <div class="button-container">
-                    <button><a href="{% url 'pillars_home' %}">DASH PILLARS</a></button>
+                    <button><a href="{% url 'pillars_home' %}">DASH Pillars</a></button>
                 </div>
                 <div class="button-container">
                     <button><a href="{% url 'list_scholarships' %}">Scholarships</a></button>
@@ -145,4 +114,3 @@
     </div>
 </body>
 </html>
-

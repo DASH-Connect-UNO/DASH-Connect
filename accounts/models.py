@@ -8,3 +8,32 @@ class CustomUser(AbstractUser):
     groups = models.ManyToManyField(Group, related_name='customuser_set', blank=True)
     user_permissions = models.ManyToManyField(Permission, related_name='customuser_set', blank=True)
 
+
+class Admin(models.Model):
+    first_name = models.CharField(max_length=30)
+    middle_name = models.CharField(max_length=30, blank=True, null=True)
+    last_name = models.CharField(max_length=30)
+    NUID = models.CharField(max_length=20, unique=True)
+    email = models.EmailField()
+    role_within_dash = models.CharField(max_length=50)
+    edits_made = models.TextField(blank=True, null=True)  # To track edits
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name} ({self.nuid})"
+
+class Student(models.Model):
+    first_name = models.CharField(max_length=255)
+    middle_name = models.CharField(max_length=255, blank=True, null=True)
+    last_name = models.CharField(max_length=255)
+    NUID = models.CharField(max_length=20, unique=True)
+    email = models.EmailField()
+    year = models.CharField(max_length=50)
+    is_dash_member = models.BooleanField(default=False)
+    scholarships = models.ManyToManyField('DASH_pillars.Scholarship', blank=True)
+    hardships = models.ManyToManyField('DASH_pillars.Hardship', blank=True)
+    basic_need_supports = models.ManyToManyField('DASH_pillars.BasicNeedSupport', blank=True)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+

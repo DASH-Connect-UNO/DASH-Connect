@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Basic Need Support</title>
+    <title>Remove Student</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -32,28 +32,9 @@
             text-decoration: none;
             color: #000;
         }
-        .profile-container {
-            display: flex;
-            margin-top: 20px;
-        }
-        .sidebar {
-            width: 200px;
-            padding: 20px;
-            background-color: #ffffff;
-            border-right: 1px solid #ccc;
-        }
         .content {
-            flex-grow: 1;
             padding: 20px;
             background-color: #f9f9f9;
-        }
-        .sidebar button {
-            display: block;
-            width: 100%;
-            margin-bottom: 10px;
-            padding: 10px;
-            font-size: 16px;
-            cursor: pointer;
         }
         .form-section {
             margin-bottom: 20px;
@@ -78,6 +59,7 @@
                 <img src="{% static 'accounts/uno_logo.png' %}" alt="UNO logo">
             </div>
             <div class="nav-links">
+                <a href=" ">Student Profile</a>
                 <a href="">Student Data</a>
                 <a href="{% url 'student_information' %}">Student Information</a>
                 <a href="{% url 'pillars_home' %}">DASH Pillars</a>
@@ -85,31 +67,16 @@
                 <a href="{% url 'logout' %}">Logout</a>
              </div>
         </div>
-        <div class="profile-container">
-            <div class="sidebar">
-                <div class="button-container">
-                    <button><a href="{% url 'pillars_home' %}">DASH Pillars</a></button>
-                </div>
-                <div class="button-container">
-                    <button><a href="{% url 'list_scholarships' %}">Scholarships</a></button>
-                </div>
-                <div class="button-container">
-                    <button><a href="{% url 'list_hardships' %}">Hardships</a></button>
-                </div>
-                <div class="button-container">
-                    <button><a href="{% url 'list_basic_need_supports' %}">Basic Need Supports</a></button>
-                </div>
-            </div>
-            <div class="content">
-                <h1>Add Basic Need Support</h1>
+        <div class="content">
+            <h1>Remove Student</h1>
+            <form method="post">
+                {% csrf_token %}
                 <div class="form-section">
-                    <form method="post">
-                        {% csrf_token %}
-                        <input type="text" name="name" placeholder="Basic Need Support Name">
-                        <button type="submit">Add</button>
-                    </form>
+                    <label for="nuid">NUID</label>
+                    <input type="text" id="nuid" name="nuid" required>
                 </div>
-            </div>
+                <button type="submit">Remove</button>
+            </form>
         </div>
     </div>
 </body>

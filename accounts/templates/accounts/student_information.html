@@ -1,0 +1,135 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Information</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #d3d3d3;
+        }
+        .container {
+            padding: 20px;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #ffffff;
+            padding: 10px 20px;
+            border-bottom: 1px solid #ccc;
+        }
+        .logo img {
+            width: 100px;
+            height: auto;
+        }
+        .nav-links a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #000;
+        }
+        .content {
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .table-container {
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+        }
+        table th, table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        table th {
+            background-color: #f2f2f2;
+        }
+        .add-student-btn {
+            display: block;
+            margin: 20px 0;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .add-student-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <img src="{% static 'accounts/uno_logo.png' %}" alt="UNO logo">
+            </div>
+            <div class="nav-links">
+                <a href="">Student Data</a>
+                <a href="{% url 'student_information' %}">Student Information</a>
+                <a href="{% url 'pillars_home' %}">DASH Pillars</a>
+                <a href="{% url 'admin_profile' %}">Administration</a>
+                <a href="{% url 'logout' %}">Logout</a>
+             </div>
+        </div>
+        <div class="content">
+            <h1>Student Information</h1>
+            <a href="{% url 'add_student' %}" class="add-student-btn">Add Student</a>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student Full Name</th>
+                            <th>NUID</th>
+                            <th>E-mail</th>
+                            <th>Year</th>
+                            <th>DASH Member</th>
+                            <th>Scholarship(s)</th>
+                            <th>Hardship(s)</th>
+                            <th>Basic Need Support(s)</th>
+                            <th>Date Added</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in students %}
+                        <tr>
+                            <td><a href="{% url 'student_profile' student.id %}">{{ student.first_name }} {{ student.middle_name }} {{ student.last_name }}</a></td>
+                            <td>{{ student.nuid }}</td>
+                            <td>{{ student.email }}</td>
+                            <td>{{ student.year }}</td>
+                            <td>{{ student.is_dash_member|yesno:"Yes,No" }}</td>
+                            <td>
+                                {% for scholarship in student.scholarships.all %}
+                                    {{ scholarship.name }}{% if not forloop.last %}, {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td>
+                                {% for hardship in student.hardships.all %}
+                                    {{ hardship.name }}{% if not forloop.last %}, {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td>
+                                {% for support in student.basic_need_supports.all %}
+                                    {{ support.name }}{% if not forloop.last %}, {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td>{{ student.date_added }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

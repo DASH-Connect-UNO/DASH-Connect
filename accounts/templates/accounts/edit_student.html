@@ -1,0 +1,134 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Student</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #d3d3d3;
+        }
+        .container {
+            padding: 20px;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #ffffff;
+            padding: 10px 20px;
+            border-bottom: 1px solid #ccc;
+        }
+        .logo img {
+            width: 100px;
+            height: auto;
+        }
+        .nav-links a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #000;
+        }
+        .content {
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .form-section {
+            margin-bottom: 20px;
+        }
+        .form-section input, .form-section select {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 8px;
+        }
+        .form-section button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <img src="{% static 'accounts/uno_logo.png' %}" alt="UNO logo">
+            </div>
+            <div class="nav-links">
+                <a href="">Student Data</a>
+                <a href="{% url 'student_information' %}">Student Information</a>
+                <a href="{% url 'pillars_home' %}">DASH Pillars</a>
+                <a href="{% url 'admin_profile' %}">Administration</a>
+                <a href="{% url 'logout' %}">Logout</a>
+             </div>
+        </div>
+        <div class="content">
+            <h1>Edit Student</h1>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-section">
+                    <label for="first_name">First Name</label>
+                    <input type="text" id="first_name" name="first_name" value="{{ form.first_name.value }}" required>
+                </div>
+                <div class="form-section">
+                    <label for="middle_name">Middle Name</label>
+                    <input type="text" id="middle_name" name="middle_name" value="{{ form.middle_name.value }}">
+                </div>
+                <div class="form-section">
+                    <label for="last_name">Last Name</label>
+                    <input type="text" id="last_name" name="last_name" value="{{ form.last_name.value }}" required>
+                </div>
+                <div class="form-section">
+                    <label for="nuid">NUID</label>
+                    <input type="text" id="nuid" name="nuid" value="{{ form.nuid.value }}" required>
+                </div>
+                <div class="form-section">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" value="{{ form.email.value }}" required>
+                </div>
+                <div class="form-section">
+                    <label for="year">Year</label>
+                    <input type="text" id="year" name="year" value="{{ form.year.value }}" required>
+                </div>
+                <div class="form-section">
+                    <label for="is_dash_member">DASH Member</label>
+                    <select id="is_dash_member" name="is_dash_member">
+                        <option value="True" {% if form.is_dash_member.value == 'True' %}selected{% endif %}>Yes</option>
+                        <option value="False" {% if form.is_dash_member.value == 'False' %}selected{% endif %}>No</option>
+                    </select>
+                </div>
+                <div class="form-section">
+                    <label for="scholarships">Scholarships</label>
+                    <select id="scholarships" name="scholarships" multiple>
+                        {% for scholarship in form.scholarships.field.queryset %}
+                            <option value="{{ scholarship.id }}" {% if scholarship in form.scholarships.value %}selected{% endif %}>{{ scholarship.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-section">
+                    <label for="hardships">Hardships</label>
+                    <select id="hardships" name="hardships" multiple>
+                        {% for hardship in form.hardships.field.queryset %}
+                            <option value="{{ hardship.id }}" {% if hardship in form.hardships.value %}selected{% endif %}>{{ hardship.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-section">
+                    <label for="basic_need_supports">Basic Need Supports</label>
+                    <select id="basic_need_supports" name="basic_need_supports" multiple>
+                        {% for support in form.basic_need_supports.field.queryset %}
+                            <option value="{{ support.id }}" {% if support in form.basic_need_supports.value %}selected{% endif %}>{{ support.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit">Save</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
+tml>
