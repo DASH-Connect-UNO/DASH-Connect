@@ -1,5 +1,4 @@
 from django import forms
-from django.contrib.auth import get_user_model
 from .models import Student, Admin
 
 
@@ -18,12 +17,4 @@ class AdminForm(forms.ModelForm):
 class RemoveAdminForm(forms.Form):
     nuid = forms.CharField(max_length=20)
     confirm_nuid = forms.CharField(max_length=20)
-
-User = get_user_model()
-
-class DeactivateAdminForm(forms.Form):
-    admin_id = forms.IntegerField()
-
-class ReactivateAdminForm(forms.Form):
-    admin_id = forms.IntegerField()
 
