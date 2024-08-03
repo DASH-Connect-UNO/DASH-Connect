@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administration Profile</title>
+    <title>Admin List</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -61,6 +61,22 @@
             border: 2px solid #ccc;
             border-radius: 10px;
         }
+        .admin-item {
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            padding: 15px;
+        }
+        .admin-item h2 {
+            margin: 0 0 10px 0;
+        }
+        .admin-item p {
+            margin: 5px 0;
+        }
+        .admin-item form {
+            display: inline;
+        }
     </style>
 </head>
 <body>
@@ -83,7 +99,8 @@
                 <a href="{% url 'admin_list' %}">Admin List</a>
             </div>
             <div class="content">
-                <h1>Administration Profile</h1>
+                <h1>Admin List</h1>
+                {% for admin in admins %}
                 <div class="admin-item">
                     <h2>{{ admin.first_name }} {{ admin.middle_name }} {{ admin.last_name }}</h2>
                     <p>NUID: {{ admin.NUID }}</p>
@@ -91,7 +108,21 @@
                     <p>Role within DASH: {{ admin.role_within_dash }}</p>
                     <p>Status: {{ admin.is_active|yesno:"Active,Deactivated" }}</p>
                     <a href="{% url 'edit_admin' admin.id %}">Edit</a>
+                    {% if admin.is_active %}
+                    <form method="post" action="{% url 'deactivate_admin' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="admin_id" value="{{ admin.id }}">
+                        <button type="submit">Deactivate</button>
+                    </form>
+                    {% else %}
+                    <form method="post" action="{% url 'reactivate_admin' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="admin_id" value="{{ admin.id }}">
+                        <button type="submit">Reactivate</button>
+                    </form>
+                    {% endif %}
                 </div>
+                {% endfor %}
             </div>
         </div>
     </div>

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Deactivate Administration</title>
+</head>
+<body>
+    <h1>Deactivate Administration</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Deactivate</button>
+    </form>
+</body>
+</html>
