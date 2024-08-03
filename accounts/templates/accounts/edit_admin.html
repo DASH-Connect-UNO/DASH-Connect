@@ -32,6 +32,35 @@
             text-decoration: none;
             color: #000;
         }
+        .profile-container {
+            display: flex;
+            margin-top: 20px;
+        }
+        .sidebar {
+            width: 200px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-right: 1px solid #ccc;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .sidebar button, .sidebar a {
+            display: block;
+            width: 90%;
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            color: #000;
+            background-color: #f2f2f2;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+        }
         .form-container {
             background-color: #ffffff;
             padding: 20px;
@@ -69,21 +98,29 @@
                 <img src="{% static 'accounts/uno_logo.png' %}" alt="UNO logo">
             </div>
             <div class="nav-links">
-                <a href="">Student Data</a>
+                <a href="#">Student Data</a>
                 <a href="{% url 'student_information' %}">Student Information</a>
                 <a href="{% url 'pillars_home' %}">DASH Pillars</a>
-                <a href="{% url 'admin_profile' %}">Administration</a>
+                <a href="{% url 'admin_profile' %}">Administration Profile</a>
                 <a href="{% url 'logout' %}">Logout</a>
-             </div>div>
-        <div class="form-container">
-            <h2>Edit Administration</h2>
-            <form method="post">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit">Save Changes</button>
-            </form>
+            </div>
         </div>
-    </div>
+        <div class="profile-container">
+            <div class="sidebar">
+                <a href="{% url 'add_admin' %}">Add Admin</a>
+                <a href="{% url 'admin_list' %}">Admin List</a>
+            </div>
+            <div class="content">
+                <div class="form-container">
+                    <h2>Edit Administration</h2>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
