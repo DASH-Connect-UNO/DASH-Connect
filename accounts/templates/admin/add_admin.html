@@ -80,7 +80,8 @@
             <h2>Add Administration</h2>
             <form method="post">
                 {% csrf_token %}
-                {{ form.as_p }}
+                {{ user_form.as_p }}
+                {{ admin_form.as_p }}
                 <button type="submit">Add Admin</button>
             </form>
         </div>
