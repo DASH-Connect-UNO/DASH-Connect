@@ -22,3 +22,4 @@ urlpatterns = [
     path('basic_need_supports/edit/<int:id>/', edit_basic_need_support, name='edit_basic_need_support'),
     path('basic_need_supports/remove/<int:id>/', remove_basic_need_support, name='remove_basic_need_support'),
 ]
+

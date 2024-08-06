@@ -9,7 +9,7 @@ def pillars_home(request):
 
 def student_information(request):
     students = Student.objects.all()
-    return render(request, 'accounts/student_information.html', {'students': students})
+    return render(request, 'student/student_information.html', {'students': students})
 
 def add_student(request):
     if request.method == 'POST':
@@ -19,7 +19,7 @@ def add_student(request):
             return redirect('student_information')
     else:
         form = StudentForm()
-    return render(request, 'accounts/add_student.html', {'form': form})
+    return render(request, 'student/add_student.html', {'form': form})
 
 def list_scholarships(request):
     scholarships = Scholarship.objects.all()
