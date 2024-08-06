@@ -85,13 +85,21 @@ def add_admin(request):
 def edit_admin(request, id):
     admin = get_object_or_404(Admin, id=id)
     if request.method == 'POST':
-        form = AdminForm(request.POST, instance=admin)
-        if form.is_valid():
-            form.save()
-            return redirect('admin_profile')
+        user_form = CustomUserCreationForm(request.POST)
+        admin_form = AdminForm(request.POST, instance=admin)
+        if user_form.is_valid() and admin_form.is_valid():
+            user = user_form.save(commit=False)
+            user.is_admin = True
+            user.set_unusable_password()  # Set the password to be unusable for now
+            user.save()
+
+            admin = admin_form.save(commit=False)
+            admin.user = user
+            admin.save()
     else:
-        form = AdminForm(instance=admin)
-    return render(request, 'admin/edit_admin.html', {'form': form})
+        user_form = CustomUserCreationForm()
+        admin_form = AdminForm(instance=admin)
+    return render(request, 'admin/edit_admin.html', {'user_form': user_form, 'admin_form': admin_form})
 
 
 def admin_list_view(request):
