@@ -61,13 +61,37 @@
             border: 2px solid #ccc;
             border-radius: 10px;
         }
+        .admin-item {
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .admin-item h2 {
+            margin: 0;
+        }
+        .admin-item p {
+            margin: 5px 0;
+        }
+        .admin-item a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #007bff;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .admin-item a:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
             <div class="logo">
-                <img src="{% static 'accounts/uno_logo.png' %}" alt="UNO logo">
+                <img src="{% static 'uno_logo.png' %}" alt="UNO logo">
             </div>
             <div class="nav-links">
                 <a href="#">Student Data</a>
@@ -85,12 +109,12 @@
             <div class="content">
                 <h1>Administration Profile</h1>
                 <div class="admin-item">
-                    <h2>{{ admin.first_name }} {{ admin.middle_name }} {{ admin.last_name }}</h2>
-                    <p>NUID: {{ admin.NUID }}</p>
-                    <p>Email: {{ admin.email }}</p>
-                    <p>Role within DASH: {{ admin.role_within_dash }}</p>
-                    <p>Status: {{ admin.is_active|yesno:"Active,Deactivated" }}</p>
-                    <a href="{% url 'edit_admin' admin.id %}">Edit</a>
+                    <h2>{{ admin_profile.user.first_name }} {{ admin_profile.user.middle_name }} {{ admin_profile.user.last_name }}</h2>
+                    <p>NUID: {{ admin_profile.user.NUID }}</p>
+                    <p>Email: {{ admin_profile.user.email }}</p>
+                    <p>Role within DASH: {{ admin_profile.user.role_within_dash }}</p>
+                    <p>Status: {{ admin_profile.user.is_active|yesno:"Active,Deactivated" }}</p>
+                    <a href="{% url 'edit_admin' admin_profile.user.NUID %}">Edit</a>
                 </div>
             </div>
         </div>

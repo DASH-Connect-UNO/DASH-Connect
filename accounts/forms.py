@@ -1,36 +1,35 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
-from .models import Student, Admin, CustomUser
+from .models import StudentProfile, AdminProfile, CustomUser
 
-
-class CustomUserCreationForm(forms.ModelForm):
-    class Meta:
-        model = CustomUser
-        fields = ['is_admin']
-
-
-class StudentForm(forms.ModelForm):
-    class Meta:
-        model = Student
-        fields = [
-            'first_name', 'middle_name', 'last_name', 'NUID', 'email', 'year',
-            'is_dash_member', 'scholarships', 'hardships', 'basic_need_supports']
-
-class AdminForm(forms.ModelForm):
-    class Meta:
-        model = Admin
-        fields = ['first_name', 'middle_name', 'last_name', 'NUID', 'email', 'role_within_dash']
-
-class RemoveAdminForm(forms.Form):
-    nuid = forms.CharField(max_length=20)
-    confirm_nuid = forms.CharField(max_length=20)
-
+# Get the user model
 User = get_user_model()
 
+# Custom user creation form for handling user creation
+class CustomUserCreationForm(UserCreationForm):
+    class Meta:
+        model = CustomUser
+        fields = ('NUID', 'user_type', 'password1', 'password2', 'first_name', 'middle_name', 'last_name', 'email')
+
+# Form for student profile
+class StudentForm(forms.ModelForm):
+    class Meta:
+        model = StudentProfile
+        fields = [
+            'DASH_Member', 'year', 'scholarships', 'hardships', 'basic_need_supports'
+        ]
+
+# Form for admin profile
+class AdminForm(forms.ModelForm):
+    class Meta:
+        model = AdminProfile
+        fields = ['role_within_DASH']
+
+# Form for deactivating an admin
 class DeactivateAdminForm(forms.Form):
     admin_id = forms.IntegerField()
 
+# Form for reactivating an admin
 class ReactivateAdminForm(forms.Form):
     admin_id = forms.IntegerField()
-

@@ -93,14 +93,14 @@
         </div>
         <div class="profile-container">
             <div class="sidebar">
-                <a href="{% url 'edit_student' student.id %}">Edit</a>
+                <a href="{% url 'edit_student' student.user.NUID %}">Edit</a>
                 <a href="{% url 'remove_student' %}">Remove</a>
             </div>
             <div class="content">
                 <h1>Student Profile</h1>
-                <p><strong>Full Name:</strong> {{ student.first_name }} {{ student.middle_name }} {{ student.last_name }}</p>
-                <p><strong>NUID:</strong> {{ student.nuid }}</p>
-                <p><strong>Email:</strong> {{ student.email }}</p>
+                <p><strong>Full Name:</strong> {{ student.user.first_name }} {{ student.user.middle_name }} {{ student.user.last_name }}</p>
+                <p><strong>NUID:</strong> {{ student.user.NUID }}</p>
+                <p><strong>Email:</strong> {{ student.user.email }}</p>
                 <p><strong>Year:</strong> {{ student.year }}</p>
                 <p><strong>DASH Member:</strong> {{ student.is_dash_member|yesno:"Yes,No" }}</p>
                 <p><strong>Scholarships:</strong>

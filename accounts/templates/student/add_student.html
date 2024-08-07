@@ -66,7 +66,7 @@
     <div class="container">
         <div class="header">
             <div class="logo">
-                <img src="{% static 'accounts/uno_logo.png' %}" alt="UNO logo">
+                <img src="{% static 'uno_logo.png' %}" alt="UNO logo">
             </div>
              <div class="nav-links">
                 <a href="">Student Data</a>
@@ -79,7 +79,11 @@
         <h1>Add Student</h1>
         <form method="post">
             {% csrf_token %}
-            {{ form.as_p }}
+            {{ user_form.as_p }}
+            {{ student_form.as_p }}
+            {{ scholarship_form.as_p }}
+            {{ hardship_form.as_p }}
+            {{ basic_needs_support_form.as_p }}
             <button type="submit">Add Student</button>
         </form>
     </div>
