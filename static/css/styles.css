@@ -1,5 +1,3 @@
-/* static/css/styles.css */
-
 body {
     background-color: #000; /* Black background for the entire page */
     color: #fff; /* White text color for the entire page */
@@ -12,7 +10,7 @@ body {
     padding: 20px;
     background-color: #ccc; /* Light grey background for the container */
     border-radius: 8px;
-    width: 40%; /* Condense the width to 40% */
+    width: 45%; /* Condense the width to 45% */
     box-sizing: border-box; /* Include padding and border in the element's total width and height */
     margin: 20px auto; /* Center the container with auto margins */
     color: #000; /* Black text color for the container */

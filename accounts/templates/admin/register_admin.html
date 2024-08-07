@@ -4,46 +4,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register Administration</title>
+    <title>Register Administrator</title>
     <style>
         body {
+            background-color: #000; /* Black background for the entire page */
+            color: #fff; /* White text color for the entire page */
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #d3d3d3;
         }
+
         .container {
             padding: 20px;
+            background-color: #ccc; /* Light grey background for the container */
+            border-radius: 8px;
+            width: 95%; /* Make the width almost the whole page */
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+            margin: 20px auto; /* Center the container with auto margins */
+            color: #000; /* Black text color for the container */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
+
         .header {
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            background-color: #ffffff;
-            padding: 10px 20px;
-            border-bottom: 1px solid #ccc;
+            align-items: center;
+            margin-bottom: 20px;
+            width: 100%;
         }
-        .logo img {
-            width: 100px;
-            height: auto;
-        }
-        .nav-links a {
-            margin: 0 10px;
-            text-decoration: none;
+
+        .logo-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff; /* White background for the logo-nav container */
+            padding: 10px;
+            border-radius: 8px;
+            width: 100%; /* Make the logo-nav container reach 100% width */
+            margin: 0 auto; /* Center the logo-nav container */
             color: #000;
         }
-        .form-container {
-            background-color: #ffffff;
-            padding: 50px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            max-width: 600px;
-            margin: 20px auto;
+
+        .logo img {
+            max-height: 50px;
         }
+
+        .nav-links a {
+            color: #000; /* Black text color for links */
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        h1, h2 {
+            color: #000; /* Black text color for headings */
+        }
+
+        .form-container {
+            background-color: #fff; /* White background for form sections */
+            padding: 50px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            margin: 20px auto;
+            width: 100%;
+            max-width: 600px; /* Limit the width to 600px */
+            color: #000; /* Black text color for form sections */
+        }
+
         .form-container h2 {
             margin-top: 0;
         }
-        .form-container input, .form-container button {
+
+        .form-container input,
+        .form-container button {
             display: block;
             width: 100%;
             margin-bottom: 10px;
@@ -51,27 +89,38 @@
             font-size: 16px;
             border: 1px solid #ccc;
             border-radius: 5px;
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
         }
+
         .form-container button {
-            background-color: #007bff;
-            color: #fff;
+            background-color: crimson;
+            color: #fff; /* White text color for the button */
             border: none;
             cursor: pointer;
         }
+
         .form-container button:hover {
-            background-color: #0056b3;
+            background-color: darkred;
+        }
+
+        .page-title {
+            text-align: center;
+            font-size: 28px; /* Slightly larger font size */
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <div class="logo">
-                <img src="{% static 'uno_logo.png' %}" alt="UNO logo">
+            <div class="logo-nav">
+                <div class="logo">
+                    <img src="{% static 'uno_logo.png' %}" alt="UNO logo">
+                </div>
             </div>
         </div>
+        <h1 class="page-title">Register Administrator</h1>
         <div class="form-container">
-            <h2>Register Administration</h2>
             <form method="post">
                 {% csrf_token %}
                 {{ user_form.as_p }}
@@ -82,3 +131,4 @@
     </div>
 </body>
 </html>
+

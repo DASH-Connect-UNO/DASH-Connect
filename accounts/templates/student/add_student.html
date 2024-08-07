@@ -5,20 +5,128 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Student</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        body {
+            background-color: #000; /* Black background for the entire page */
+            color: #fff; /* White text color for the entire page */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            padding: 20px;
+            background-color: #ccc; /* Light grey background for the container */
+            border-radius: 8px;
+            width: 100%; /* Make the width almost the whole page */
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+            margin: 20px auto; /* Center the container with auto margins */
+            color: #000; /* Black text color for the container */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .logo-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff; /* White background for the logo-nav container */
+            padding: 10px;
+            border-radius: 8px;
+            width: 100%; /* Make the logo-nav container reach 100% width */
+            margin: 0 auto; /* Center the logo-nav container */
+            color: #000;
+        }
+
+        .logo img {
+            max-height: 50px;
+        }
+
+        .nav-links a {
+            color: #000; /* Black text color for links */
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        h1, h2 {
+            color: #000; /* Black text color for headings */
+        }
+
+        .form-section {
+            background-color: #fff; /* White background for form sections */
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            width: 100%;
+            color: #000; /* Black text color for form sections */
+        }
+
+        form div {
+            margin-bottom: 20px;
+        }
+
+        form div input,
+        form div select,
+        form div textarea {
+            background-color: #fff; /* White background for input elements */
+            color: #000; /* Black text color for input elements */
+            padding: 10px;
+            border: 1px solid #bbb;
+            border-radius: 5px;
+            width: 100%; /* Full width */
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+        }
+
+        .button-container {
+            text-align: center;
+            width: 100%;
+        }
+
+        button {
+            background-color: #555; /* Dark grey background for the button */
+            color: #fff; /* White text color for the button */
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #777; /* Lighter grey on hover */
+        }
+
+        #other-year-container {
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <div class="logo">
-                <img src="{% static 'uno_logo.png' %}" alt="UNO logo">
-            </div>
-            <div class="nav-links">
-                <a href="#">Student Data</a>
-                <a href="{% url 'student_information' %}">Student Information</a>
-                <a href="{% url 'pillars_home' %}">DASH Pillars</a>
-                <a href="{% url 'admin_profile' %}">Administration</a>
-                <a href="{% url 'logout' %}">Logout</a>
+            <div class="logo-nav">
+                <div class="logo">
+                    <img src="{% static 'uno_logo.png' %}" alt="UNO logo">
+                </div>
+                <div class="nav-links">
+                    <a href="#">Student Data</a>
+                    <a href="{% url 'student_information' %}">Student Information</a>
+                    <a href="{% url 'pillars_home' %}">DASH Pillars</a>
+                    <a href="{% url 'admin_profile' %}">Administration</a>
+                    <a href="{% url 'logout' %}">Logout</a>
+                </div>
             </div>
         </div>
         <h1>Add Student</h1>
@@ -35,9 +143,13 @@
                     {{ student_form.other_year.label_tag }} {{ student_form.other_year }}
                 </div>
             </div>
-            <button type="submit">Add Student</button>
+            <div class="button-container">
+                <button type="submit">Add Student</button>
+            </div>
         </form>
     </div>
 </body>
 </html>
+
+
 

@@ -46,8 +46,8 @@ class AdminForm(forms.ModelForm):
 
 # Form for deactivating an admin
 class DeactivateAdminForm(forms.Form):
-    admin_id = forms.IntegerField()
+    admin_NUID = forms.IntegerField()
 
 # Form for reactivating an admin
 class ReactivateAdminForm(forms.Form):
-    admin_id = forms.IntegerField()
+    admin_NUID = forms.IntegerField()
