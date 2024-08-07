@@ -1,14 +1,14 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Scholarship, Hardship, BasicNeedSupport
 from .forms import ScholarshipForm, HardshipForm, BasicNeedSupportForm
-from accounts.models import Student
+from accounts.models import StudentProfile
 from accounts.forms import StudentForm
 
 def pillars_home(request):
     return render(request, 'DASH_pillars/pillars_home.html')
 
 def student_information(request):
-    students = Student.objects.all()
+    students = StudentProfile.objects.all()
     return render(request, 'student/student_information.html', {'students': students})
 
 def add_student(request):

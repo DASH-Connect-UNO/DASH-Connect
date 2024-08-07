@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login</title>
+    <title>Admin Login and Register</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -29,42 +29,83 @@
             font-size: 36px;
             margin-bottom: 20px;
         }
+        .form-container {
+            background-color: #ffffff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            max-width: 400px;
+            margin-bottom: 20px;
+        }
+        .form-container h2 {
+            margin-top: 0;
+        }
         .input-container {
             position: relative;
             margin-bottom: 20px;
         }
-        input[type="text"] {
+        input[type="text"], input[type="password"] {
             font-size: 24px;
             padding: 10px;
-            width: 250px;
+            width: 100%;
             text-align: center;
+            border-radius: 5px;
+            border: 1px solid #ccc;
         }
         button {
             font-size: 24px;
             padding: 10px 20px;
-            background-color: #ffffff;
-            border: 2px solid #000000;
+            background-color: #007bff;
+            border: none;
+            color: #fff;
             cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .error-message {
+            color: #ff0000;
+            font-size: 18px;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="logo">
-            <img src="{% static 'accounts/uno_logo.png' %}" alt="UNO logo">
+            <img src="{% static 'uno_logo.png' %}" alt="UNO logo">
         </div>
-        <h1>DASH Administration Login</h1>
-        <form method="post">
-            {% csrf_token %}
-            <div class="input-container">
-                <input type="text" name="nuid" placeholder="NUID" required>
-            </div>
-            <button type="submit">Login</button>
-        </form>
+        <div class="form-container">
+            <h1>Admin Login</h1>
+            <form method="post" action="{% url 'admin_login' %}">
+                {% csrf_token %}
+                <div class="input-container">
+                    <label>
+                        <input type="text" name="nuid" placeholder="NUID" required>
+                    </label>
+                </div>
+                <div class="input-container">
+                    <label>
+                        <input type="password" name="password" placeholder="Password" required>
+                    </label>
+                </div>
+                <button type="submit">Login</button>
+            </form>
+            {% if error %}
+            <div class="error-message">{{ error }}</div>
+            {% endif %}
+        </div>
+        <div class="form-container">
+            <h2>Register</h2>
+            <form method="POST" action="{% url 'register_admin' %}">
+                {% csrf_token %}
+                {{ user_form.as_p }}
+                {{ admin_form.as_p }}
+                <button type="submit">Register</button>
+            </form>
+        </div>
     </div>
 </body>
 </html>
-
-     
-
 

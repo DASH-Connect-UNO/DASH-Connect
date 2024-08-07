@@ -7,8 +7,8 @@ from .views import (
 
 urlpatterns = [
     path('', pillars_home, name='pillars_home'),
-    path('student_information/', student_information, name='student_information'),
-    path('add_student/', add_student, name='add_student'),
+
+
     path('scholarships/', list_scholarships, name='list_scholarships'),
     path('scholarships/add/', add_scholarship, name='add_scholarship'),
     path('scholarships/edit/<int:id>/', edit_scholarship, name='edit_scholarship'),

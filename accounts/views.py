@@ -1,17 +1,15 @@
-from django.contrib.auth import login, get_user_model
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import AuthenticationForm
-from django.http import HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404, redirect
-from django.utils import timezone
-
-from .forms import StudentForm, AdminForm, DeactivateAdminForm, ReactivateAdminForm, CustomUserCreationForm
-from .models import Student, Admin
-
 import logging
 
-logger = logging.getLogger(__name__)
+from django.contrib.auth import login, authenticate, get_user_model
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm
+from django.shortcuts import render, get_object_or_404, redirect
 
+from DASH_pillars.forms import ScholarshipForm, HardshipForm, BasicNeedSupportForm
+from .forms import StudentForm, AdminForm, DeactivateAdminForm, ReactivateAdminForm, CustomUserCreationForm
+from .models import StudentProfile, AdminProfile
+
+logger = logging.getLogger(__name__)
 User = get_user_model()
 
 
@@ -20,9 +18,11 @@ def student_login_view(request):
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
             user = form.get_user()
-            if user.is_student:
+            if user.user_type == 'student':
                 login(request, user)
-                return redirect('student_dashboard')
+                return redirect('student_profile', id=user.id)
+            else:
+                form.add_error(None, "You are not authorized as a student.")
     else:
         form = AuthenticationForm()
     return render(request, 'student/student_login.html', {'form': form})
@@ -31,33 +31,46 @@ def student_login_view(request):
 def admin_login_view(request):
     if request.method == 'POST':
         nuid = request.POST.get('nuid')
-        logger.warning(f"Received NUID: {nuid}")
-        if not nuid:
-            return render(request, 'admin/admin_login.html', {'error': 'NUID is required'})
-
-        try:
-            admin = Admin.objects.get(NUID=nuid)
-            user = admin.user
-            logger.warning(f"Admin found: {admin}, User: {user}")
-            if user and user.is_admin:
+        password = request.POST.get('password')
+        user = authenticate(request, username=nuid, password=password)  # 'username' here maps to 'USERNAME_FIELD'
+        if user is not None:
+            if user.user_type == 'admin':
                 login(request, user)
-                next_url = request.GET.get('next', '/accounts/admin_profile')
-                return HttpResponseRedirect(next_url)
-        except Admin.DoesNotExist:
-            logger.debug("Admin does not exist")
-            return render(request, 'admin/admin_login.html', {'error': 'Invalid NUID or not an admin'})
+                return redirect('admin_profile')
+            else:
+                return render(request, 'admin/admin_login.html', {'error': 'You are not authorized as an admin.'})
+        else:
+            return render(request, 'admin/admin_login.html', {'error': 'Invalid NUID or password'})
+    else:
+        return render(request, 'admin/admin_login.html')
 
-    return render(request, 'admin/admin_login.html')
+
+def register_admin(request):
+    if request.method == 'POST':
+        user_form = CustomUserCreationForm(request.POST)
+        admin_form = AdminForm(request.POST)
+        if user_form.is_valid() and admin_form.is_valid():
+            user = user_form.save(commit=False)
+            user.user_type = 'admin'
+            user.set_password(user_form.cleaned_data['password1'])
+            user.save()
+            admin = admin_form.save(commit=False)
+            admin.user = user
+            admin.save()
+            return redirect('admin_list')
+    else:
+        user_form = CustomUserCreationForm()
+        admin_form = AdminForm()
+    return render(request, 'admin/register_admin.html', {'user_form': user_form, 'admin_form': admin_form})
+
 
 @login_required(login_url='admin_login')
 def admin_profile_view(request):
     try:
-        admin = request.user.admin_profile
-    except Admin.DoesNotExist:
-        # Handle the case where the authenticated user does not have an admin profile
-        return redirect('admin_login')  # or another appropriate view
-
-    return render(request, 'admin/admin_profile.html', {'admin': admin})
+        admin_profile = request.user.adminprofile
+    except AdminProfile.DoesNotExist:
+        return redirect('admin_login')
+    return render(request, 'admin/admin_profile.html', {'admin_profile': admin_profile})
 
 
 def add_admin(request):
@@ -66,44 +79,39 @@ def add_admin(request):
         admin_form = AdminForm(request.POST)
         if user_form.is_valid() and admin_form.is_valid():
             user = user_form.save(commit=False)
-            user.is_admin = True
-            user.set_unusable_password()  # Set the password to be unusable for now
+            user.user_type = 'admin'
+            user.username = user.NUID  # Ensure the username is set to NUID
             user.save()
-
             admin = admin_form.save(commit=False)
             admin.user = user
             admin.save()
-
-            return redirect('admin_profile')
+            return redirect('admin_list')
     else:
         user_form = CustomUserCreationForm()
         admin_form = AdminForm()
-
     return render(request, 'admin/add_admin.html', {'user_form': user_form, 'admin_form': admin_form})
 
 
-def edit_admin(request, id):
-    admin = get_object_or_404(Admin, id=id)
+def edit_admin(request, NUID):
+    admin = get_object_or_404(AdminProfile, user_id=NUID)
     if request.method == 'POST':
-        user_form = CustomUserCreationForm(request.POST)
+        user_form = CustomUserCreationForm(request.POST, instance=admin.user)
         admin_form = AdminForm(request.POST, instance=admin)
         if user_form.is_valid() and admin_form.is_valid():
             user = user_form.save(commit=False)
-            user.is_admin = True
-            user.set_unusable_password()  # Set the password to be unusable for now
+            user.user_type = 'admin'
+            user.set_password(user_form.cleaned_data['password1'])
             user.save()
-
-            admin = admin_form.save(commit=False)
-            admin.user = user
-            admin.save()
+            admin_form.save()
+            return redirect('admin_list')
     else:
-        user_form = CustomUserCreationForm()
+        user_form = CustomUserCreationForm(instance=admin.user)
         admin_form = AdminForm(instance=admin)
     return render(request, 'admin/edit_admin.html', {'user_form': user_form, 'admin_form': admin_form})
 
 
 def admin_list_view(request):
-    admins = Admin.objects.all()
+    admins = AdminProfile.objects.all()
     return render(request, 'admin/admin_list.html', {'admins': admins})
 
 
@@ -112,10 +120,9 @@ def deactivate_admin_view(request):
         form = DeactivateAdminForm(request.POST)
         if form.is_valid():
             admin_id = form.cleaned_data['admin_id']
-            admin = get_object_or_404(Admin, pk=admin_id)
-            admin.is_active = False
-            admin.deactivated_at = timezone.now()
-            admin.save()
+            admin = get_object_or_404(AdminProfile, pk=admin_id)
+            admin.user.is_active = False
+            admin.user.save()
             return redirect('admin_list')
     else:
         form = DeactivateAdminForm()
@@ -128,53 +135,68 @@ def reactivate_admin_view(request):
         form = ReactivateAdminForm(request.POST)
         if form.is_valid():
             admin_id = form.cleaned_data['admin_id']
-            admin = get_object_or_404(Admin, pk=admin_id)
-            admin.is_active = True
-            admin.deactivated_at = None
-            admin.save()
+            admin = get_object_or_404(AdminProfile, pk=admin_id)
+            admin.user.is_active = True
+            admin.user.save()
             return redirect('admin_list')
     else:
         form = ReactivateAdminForm()
     return render(request, 'admin/reactivate_admin.html', {'form': form})
 
 
-def student_profile(request, id):
-    student = get_object_or_404(Student, id=id)
+def student_profile(request, NUID):
+    student = get_object_or_404(StudentProfile, user_id=NUID)
     return render(request, 'student/student_profile.html', {'student': student})
 
 
 def add_student(request):
     if request.method == 'POST':
-        form = StudentForm(request.POST)
-        if form.is_valid():
-            form.save()
+        user_form = CustomUserCreationForm(request.POST)
+        student_form = StudentForm(request.POST)
+        scholarship_form = ScholarshipForm(request.POST)
+        hardship_form = HardshipForm(request.POST)
+        basic_needs_support_form = BasicNeedSupportForm(request.POST)
+        if user_form.is_valid() and student_form.is_valid():
+            user = user_form.save(commit=False)
+            user.user_type = 'student'
+            user.username = user.NUID  # Ensure the username is set to NUID
+            user.save()
+            student = student_form.save(commit=False)
+            student.user = user
+            student.save()
             return redirect('student_information')
     else:
-        form = StudentForm()
-    return render(request, 'student/add_student.html', {'form': form})
+        user_form = CustomUserCreationForm()
+        student_form = StudentForm()
+        scholarship_form = ScholarshipForm()
+        hardship_form = HardshipForm()
+        basic_needs_support_form = BasicNeedSupportForm()
+    return render(request, 'student/add_student.html',
+                  {'user_form': user_form, 'student_form': student_form, 'scholarship_form': scholarship_form,
+                   'hardship_form': hardship_form, 'basic_needs_support_form': basic_needs_support_form})
 
 
 def remove_student(request):
     if request.method == 'POST':
         NUID = request.POST.get('nuid')
-        student = get_object_or_404(Student, NUID=NUID)
+        student = get_object_or_404(StudentProfile, NUID=NUID)
         student.delete()
         return redirect('student_information')
     return render(request, 'student/remove_student.html')
 
 
-def edit_student(request, id):
-    student = get_object_or_404(Student, id=id)
+def edit_student(request, NUID):
+    student = get_object_or_404(StudentProfile, user_id=NUID)
     if request.method == 'POST':
         form = StudentForm(request.POST, instance=student)
         if form.is_valid():
             form.save()
-            return redirect('student_profile', id=student.id)
+            return redirect('student_profile', NUID=student.user.NUID)
     else:
         form = StudentForm(instance=student)
     return render(request, 'student/edit_student.html', {'form': form})
 
 
 def student_information(request):
-    students = Student.objects.all()
+    students = StudentProfile.objects.all()
     return render(request, 'student/student_information.html', {'students': students})
