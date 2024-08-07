@@ -52,5 +52,6 @@ class StudentProfile(models.Model):
     basic_need_supports = models.ManyToManyField('DASH_pillars.BasicNeedSupport', blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
 
+
     def __str__(self):
         return f"{self.user.first_name} {self.user.last_name}"

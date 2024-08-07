@@ -122,7 +122,11 @@
                             <td>{{ student.user.email }}</td>
                             <td>{{ student.user.year }}</td>
                             <td>{{ student.is_dash_member|yesno:"Yes,No" }}</td>
-                           
+                           <td>
+                                {% for scholarship in student.scholarships.all %}
+                                    {{ scholarship.name }}{% if not forloop.last %}, {% endif %}
+                                {% endfor %}
+                            </td>
                             <td>
                                 {% for hardship in student.hardships.all %}
                                     {{ hardship.name }}{% if not forloop.last %}, {% endif %}
@@ -133,7 +137,9 @@
                                     {{ support.name }}{% if not forloop.last %}, {% endif %}
                                 {% endfor %}
                             </td>
-                            <td>{{ student.date_added }}</td>
+                            <td>
+                            {{ student.date_added }}
+                            </td>
                     </tr>
                 {% endfor %}
                 </tbody>

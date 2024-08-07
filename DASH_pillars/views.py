@@ -22,7 +22,7 @@ def add_student(request):
     return render(request, 'student/add_student.html', {'form': form})
 
 def list_scholarships(request):
-    scholarships = Scholarship.objects.all()
+    scholarships = Scholarship.objects.all().order_by('name')
     return render(request, 'DASH_pillars/list_scholarships.html', {'scholarships': scholarships})
 
 def add_scholarship(request):
@@ -51,7 +51,7 @@ def remove_scholarship(request, id):
     return redirect('list_scholarships')
 
 def list_hardships(request):
-    hardships = Hardship.objects.all()
+    hardships = Hardship.objects.all().order_by('name')
     return render(request, 'DASH_pillars/list_hardships.html', {'hardships': hardships})
 
 def add_hardship(request):
@@ -80,7 +80,7 @@ def remove_hardship(request, id):
     return redirect('list_hardships')
 
 def list_basic_need_supports(request):
-    basic_need_supports = BasicNeedSupport.objects.all()
+    basic_need_supports = BasicNeedSupport.objects.all().order_by('name')
     return render(request, 'DASH_pillars/list_basic_need_supports.html', {'basic_need_supports': basic_need_supports})
 
 def add_basic_need_support(request):

@@ -4,40 +4,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login and Register</title>
+    <title>Administration Login and Register Administration</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
             margin: 0;
             padding: 0;
-            background-color: #d3d3d3; /* Light gray background */
-        }
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
+            background-color: #000; /* Black background */
+            color: #fff; /* White text color */
         }
         .logo img {
-            width: 150px;
-            height: auto;
-            margin-bottom: 20px;
-        }
-        h1 {
-            font-size: 36px;
+            max-height: 50px;
             margin-bottom: 20px;
         }
         .form-container {
-            background-color: #ffffff;
+            background-color: #fff; /* White background for form containers */
             padding: 20px;
-            border: 1px solid #ccc;
+            border: 1px solid #bbb;
             border-radius: 5px;
             max-width: 400px;
+            width: 100%; /* Full width */
             margin-bottom: 20px;
+            color: #000; /* Black text color for form containers */
         }
-        .form-container h2 {
+        .form-container h1, .form-container h2 {
+            color: #000; /* Black text color for headings */
             margin-top: 0;
         }
         .input-container {
@@ -50,22 +43,24 @@
             width: 100%;
             text-align: center;
             border-radius: 5px;
-            border: 1px solid #ccc;
+            border: 1px solid #bbb;
+            background-color: #fff; /* White background for input elements */
+            color: #000; /* Black text color for input elements */
         }
         button {
             font-size: 24px;
             padding: 10px 20px;
-            background-color: #007bff;
+            background-color: #555; /* Dark grey background for the button */
+            color: #fff; /* White text color for the button */
             border: none;
-            color: #fff;
             cursor: pointer;
             border-radius: 5px;
         }
         button:hover {
-            background-color: #0056b3;
+            background-color: #777; /* Lighter grey on hover */
         }
         .error-message {
-            color: #ff0000;
+            color: #ff0000; /* Red color for error messages */
             font-size: 18px;
             margin-top: 20px;
         }
@@ -77,7 +72,7 @@
             <img src="{% static 'uno_logo.png' %}" alt="UNO logo">
         </div>
         <div class="form-container">
-            <h1>Admin Login</h1>
+            <h1>Administration Login</h1>
             <form method="post" action="{% url 'admin_login' %}">
                 {% csrf_token %}
                 <div class="input-container">
@@ -97,7 +92,7 @@
             {% endif %}
         </div>
         <div class="form-container">
-            <h2>Register</h2>
+            <h2>Register Administration</h2>
             <form method="POST" action="{% url 'register_admin' %}">
                 {% csrf_token %}
                 {{ user_form.as_p }}
