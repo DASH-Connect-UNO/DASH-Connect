@@ -6,7 +6,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, get_object_or_404, redirect
 
 from DASH_pillars.forms import ScholarshipForm, HardshipForm, BasicNeedSupportForm
-from .forms import StudentForm, AdminForm, DeactivateAdminForm, ReactivateAdminForm, CustomUserCreationForm
+from .forms import StudentForm, AdminForm, DeactivateAdminForm, ReactivateAdminForm, CustomUserCreationForm, VisitReasonForm
 from .models import StudentProfile, AdminProfile
 
 logger = logging.getLogger(__name__)
@@ -200,3 +200,13 @@ def edit_student(request, NUID):
 def student_information(request):
     students = StudentProfile.objects.all()
     return render(request, 'student/student_information.html', {'students': students})
+
+def visit_reason(request):
+    if request.method == 'POST':
+        form = VisitReasonForm(request.POST)
+        if form.is_valid():
+            # If valid print form
+    else:
+        form = VisitReasonForm()
+
+    return render(request, 'student/visit_reason.html', {'form': form})

@@ -1,0 +1,77 @@
+
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <title>Reason for Visit</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .section h2 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .checkbox-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        .checkbox-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .submit-button {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="{% static 'uno_logo.png' %}" alt="Nebraska Omaha" style="width: 150px;">
+        <h1>Reason for visit today</h1>
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="section">
+                <div class="checkbox-group">
+                    <h2>Please select as many as needed:</h2>
+                    {{ form.appointment }}
+                    {{ form.printing }}
+                    {{ form.study }}
+                    {{ form.socialize }}
+                    {{ form.event }}
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="checkbox-group">
+                    <h2>Would you like DASH to follow up via email on the following (s)?:</h2>
+                    {{ form.schedule_appointment }}
+                    {{ form.hardship }}
+                    {{ form.basic_needs_support }}
+                    {{ form.financial_wellness }}
+                    {{ form.volunteer_opportunities }}
+                </div>
+            </div>
+            
+            <div class="submit-button">
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
