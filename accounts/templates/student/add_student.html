@@ -1,91 +1,155 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Student</title>
+    {% load static %}
     <style>
         body {
+            background-color: #000; /* Black background for the entire page */
+            color: #fff; /* White text color for the entire page */
             font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
             margin: 0;
             padding: 0;
         }
+
         .container {
             padding: 20px;
+            background-color: #ccc; /* Light grey background for the container */
+            border-radius: 8px;
+            width: 100%; /* Make the width almost the whole page */
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+            margin: 20px auto; /* Center the container with auto margins */
+            color: #000; /* Black text color for the container */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
+
         .header {
             display: flex;
             justify-content: space-between;
-            background-color: #ffffff;
-            padding: 10px 20px;
-            border-bottom: 1px solid #ccc;
+            align-items: center;
+            margin-bottom: 20px;
+            width: 100%;
         }
-        .logo img {
-            width: 100px;
-            height: auto;
-        }
-        .nav-links a {
-            margin: 0 10px;
-            text-decoration: none;
+
+        .logo-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff; /* White background for the logo-nav container */
+            padding: 10px;
+            border-radius: 8px;
+            width: 100%; /* Make the logo-nav container reach 100% width */
+            margin: 0 auto; /* Center the logo-nav container */
             color: #000;
         }
-        form {
-            background-color: #ffffff;
+
+        .logo img {
+            max-height: 50px;
+        }
+
+        .nav-links a {
+            color: #000; /* Black text color for links */
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        h1, h2 {
+            color: #000; /* Black text color for headings */
+        }
+
+        .form-section {
+            background-color: #fff; /* White background for form sections */
             padding: 20px;
-            border-radius: 4px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        label {
-            display: block;
-            margin-bottom: 8px;
-        }
-        input, select {
+            border-radius: 8px;
+            margin-bottom: 20px;
             width: 100%;
-            padding: 8px;
-            margin-bottom: 16px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            color: #000; /* Black text color for form sections */
         }
-        button {
-            width: 100%;
+
+        form div {
+            margin-bottom: 20px;
+        }
+
+        form div input,
+        form div select,
+        form div textarea {
+            background-color: #fff; /* White background for input elements */
+            color: #000; /* Black text color for input elements */
             padding: 10px;
-            background-color: #007bff;
-            color: #fff;
+            border: 1px solid #bbb;
+            border-radius: 5px;
+            width: 100%; /* Full width */
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+        }
+
+        .button-container {
+            text-align: center;
+            width: 100%;
+        }
+
+        button {
+            background-color: #555; /* Dark grey background for the button */
+            color: #fff; /* White text color for the button */
             border: none;
-            border-radius: 4px;
+            padding: 10px 20px;
+            border-radius: 5px;
             cursor: pointer;
         }
+
         button:hover {
-            background-color: #0056b3;
+            background-color: #777; /* Lighter grey on hover */
+        }
+
+        #other-year-container {
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <div class="logo">
-                <img src="{% static 'uno_logo.png' %}" alt="UNO logo">
+            <div class="logo-nav">
+                <div class="logo">
+                    <img src="{% static 'uno_logo.png' %}" alt="UNO logo">
+                </div>
+                <div class="nav-links">
+                    <a href="#">Student Data</a>
+                    <a href="{% url 'student_information' %}">Student Information</a>
+                    <a href="{% url 'pillars_home' %}">DASH Pillars</a>
+                    <a href="{% url 'admin_profile' %}">Administration</a>
+                    <a href="{% url 'logout' %}">Logout</a>
+                </div>
             </div>
-             <div class="nav-links">
-                <a href="">Student Data</a>
-                <a href="{% url 'student_information' %}">Student Information</a>
-                <a href="{% url 'pillars_home' %}">DASH Pillars</a>
-                <a href="{% url 'admin_profile' %}">Administration</a>
-                <a href="{% url 'logout' %}">Logout</a>
-             </div>
         </div>
         <h1>Add Student</h1>
         <form method="post">
             {% csrf_token %}
-            {{ user_form.as_p }}
-            {{ student_form.as_p }}
-            {{ scholarship_form.as_p }}
-            {{ hardship_form.as_p }}
-            {{ basic_needs_support_form.as_p }}
-            <button type="submit">Add Student</button>
+            <div class="form-section">
+                <h2>User Information</h2>
+                {{ user_form.as_p }}
+            </div>
+            <div class="form-section">
+                <h2>Student Details</h2>
+                {{ student_form.as_p }}
+                <div id="other-year-container" class="other-year-container">
+                    {{ student_form.other_year.label_tag }} {{ student_form.other_year }}
+                </div>
+            </div>
+            <div class="button-container">
+                <button type="submit">Add Student</button>
+            </div>
         </form>
     </div>
 </body>
 </html>
+
+
+
