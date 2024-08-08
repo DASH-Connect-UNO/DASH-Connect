@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administration List</title>
     <style>
+        /* The same CSS as before */
         body {
             background-color: #000; 
             color: #fff; 
@@ -116,6 +117,8 @@
             margin-bottom: 20px;
             padding: 15px;
             color: #000; 
+            position: relative;
+            transition: background-color 0.3s, opacity 0.3s;
         }
 
         .admin-item h2 {
@@ -124,10 +127,6 @@
 
         .admin-item p {
             margin: 5px 0;
-        }
-
-        .admin-item form {
-            display: inline;
         }
 
         .admin-item button, .admin-item a {
@@ -162,11 +161,34 @@
         }
 
         .admin-item .reactivate-button {
-            background-color: #28a745;
+            background-color: #ff4d4d; /* Same color as Deactivate button */
+            display: none; /* Initially hidden */
         }
 
         .admin-item .reactivate-button:hover {
-            background-color: #218838;
+            background-color: #cc0000; /* Same hover color as Deactivate button */
+        }
+
+        .admin-item.deactivated {
+            background-color: #ddd;
+            opacity: 0.5;
+        }
+
+        .admin-item.deactivated .reactivate-button {
+            display: inline-block;
+            background-color: #ff4d4d; 
+        }
+
+        .admin-item.deactivated .reactivate-button:hover {
+            background-color: #cc0000;
+        }
+
+        .admin-item.deactivated button, .admin-item.deactivated a {
+            display: none;
+        }
+
+        .admin-item.deactivated .reactivate-button {
+            display: inline-block;
         }
     </style>
 </head>
@@ -194,30 +216,53 @@
         <div class="content">
             <h1>Administration List</h1>
             {% for admin in admins %}
-                <div class="admin-item">
+                <div class="admin-item" id="admin-{{ admin.user.NUID }}">
                     <h2>{{ admin.user.first_name }} {{ admin.user.middle_name }} {{ admin.user.last_name }}</h2>
                     <p>NUID: {{ admin.user.NUID }}</p>
                     <p>Email: {{ admin.user.email }}</p>
                     <p>Role within DASH: {{ admin.role_within_DASH }}</p>
-                    <p>Status: {{ admin.user.is_active|yesno:"Active,Deactivated" }}</p>
+                    <p>Status: <span id="status-{{ admin.user.NUID }}">{{ admin.user.is_active|yesno:"Active,Deactivated" }}</span></p>
                     <a href="{% url 'edit_admin' admin.user.NUID %}">Edit</a>
                     {% if admin.user.is_active %}
-                        <form method="post" action="{% url 'deactivate_admin' %}">
-                            {% csrf_token %}
-                            <input type="hidden" name="admin_id" value="{{ admin.user.NUID }}">
-                            <button type="submit">Deactivate</button>
-                        </form>
-                    {% else %}
-                        <form method="post" action="{% url 'reactivate_admin' %}">
-                            {% csrf_token %}
-                            <input type="hidden" name="admin_id" value="{{ admin.user.NUID }}">
-                            <button type="submit" class="reactivate-button">Reactivate</button>
-                        </form>
+                        <button type="button" onclick="deactivateAdmin('{{ admin.user.NUID }}')">Deactivate</button>
                     {% endif %}
+                    <button type="button" class="reactivate-button" onclick="reactivateAdmin('{{ admin.user.NUID }}')">Reactivate</button>
                 </div>
             {% endfor %}
         </div>
     </div>
 </div>
+
+<script>
+    function deactivateAdmin(adminId) {
+        if (confirm("Are you sure you want to deactivate this administrator?")) {
+            const adminItem = document.getElementById(`admin-${adminId}`);
+            const statusElement = document.getElementById(`status-${adminId}`);
+            adminItem.classList.add('deactivated');
+            statusElement.textContent = "Deactivated";
+
+            // Show the Reactivate button and hide the Deactivate button
+            adminItem.querySelector('.reactivate-button').style.display = 'inline-block';
+            adminItem.querySelector('button[onclick^="deactivateAdmin"]').style.display = 'none';
+            adminItem.querySelector('a[href^="edit_admin"]').style.display = 'none';
+        }
+    }
+
+    function reactivateAdmin(adminId) {
+        if (confirm("Are you sure you want to reactivate this administrator?")) {
+            const adminItem = document.getElementById(`admin-${adminId}`);
+            const statusElement = document.getElementById(`status-${adminId}`);
+            adminItem.classList.remove('deactivated');
+            statusElement.textContent = "Active";
+
+            // Show the Deactivate button and hide the Reactivate button
+            adminItem.querySelector('.reactivate-button').style.display = 'none';
+            adminItem.querySelector('button[onclick^="deactivateAdmin"]').style.display = 'inline-block';
+            adminItem.querySelector('a[href^="edit_admin"]').style.display = 'inline-block';
+        }
+    }
+</script>
 </body>
 </html>
+
+
