@@ -206,6 +206,7 @@ def visit_reason(request):
         form = VisitReasonForm(request.POST)
         if form.is_valid():
             # If valid print form
+            print(form.cleaned_data)
     else:
         form = VisitReasonForm()
 
