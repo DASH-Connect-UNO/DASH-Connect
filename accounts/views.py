@@ -119,8 +119,8 @@ def deactivate_admin_view(request):
     if request.method == 'POST':
         form = DeactivateAdminForm(request.POST)
         if form.is_valid():
-            admin_id = form.cleaned_data['admin_id']
-            admin = get_object_or_404(AdminProfile, pk=admin_id)
+            admin_NUID = form.cleaned_data['admin_NUID']
+            admin = get_object_or_404(AdminProfile, pk=admin_NUID)
             admin.user.is_active = False
             admin.user.save()
             return redirect('admin_list')
@@ -134,8 +134,8 @@ def reactivate_admin_view(request):
     if request.method == 'POST':
         form = ReactivateAdminForm(request.POST)
         if form.is_valid():
-            admin_id = form.cleaned_data['admin_id']
-            admin = get_object_or_404(AdminProfile, pk=admin_id)
+            admin_NUID = form.cleaned_data['admin_NUID']
+            admin = get_object_or_404(AdminProfile, pk=admin_NUID)
             admin.user.is_active = True
             admin.user.save()
             return redirect('admin_list')

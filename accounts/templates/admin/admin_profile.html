@@ -4,49 +4,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administration Profile</title>
+    <title>Administrator Profile</title>
     <style>
         body {
+            background-color: #000; /* Black background for the entire page */
+            color: #fff; /* White text color for the entire page */
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #d3d3d3;
         }
+
         .container {
             padding: 20px;
+            background-color: #ccc; /* Light grey background for the container */
+            border-radius: 8px;
+            width: 95%; /* Make the width almost the whole page */
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+            margin: 20px auto; /* Center the container with auto margins */
+            color: #000; /* Black text color for the container */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
+
         .header {
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            background-color: #ffffff;
-            padding: 10px 20px;
-            border-bottom: 1px solid #ccc;
+            align-items: center;
+            margin-bottom: 20px;
+            width: 100%;
         }
-        .logo img {
-            width: 100px;
-            height: auto;
-        }
-        .nav-links a {
-            margin: 0 10px;
-            text-decoration: none;
+
+        .logo-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff; /* White background for the logo-nav container */
+            padding: 10px;
+            border-radius: 8px;
+            width: 100%; /* Make the logo-nav container reach 100% width */
+            margin: 0 auto; /* Center the logo-nav container */
             color: #000;
         }
+
+        .logo img {
+            max-height: 50px;
+        }
+
+        .nav-links a {
+            color: #000; /* Black text color for links */
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        h1, h2 {
+            color: #000; /* Black text color for headings */
+        }
+
         .profile-container {
             display: flex;
+            width: 100%;
             margin-top: 20px;
         }
+
         .sidebar {
             width: 200px;
             padding: 20px;
-            background-color: #ffffff;
+            background-color: #fff; /* White background for sidebar */
             border-right: 1px solid #ccc;
+            border-radius: 8px;
+            color: #000; /* Black text color for sidebar */
+            margin-right: 20px; /* Add some space between sidebar and content */
         }
+
         .content {
             flex-grow: 1;
             padding: 20px;
             background-color: #f9f9f9;
+            border-radius: 8px;
+            color: #000; /* Black text color for content */
         }
+
         .sidebar button, .sidebar a {
             display: block;
             width: 90%;
@@ -61,35 +103,43 @@
             border: 2px solid #ccc;
             border-radius: 10px;
         }
+
         .admin-item {
-            padding: 20px;
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            background-color: #fff; /* White background for admin items */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            padding: 15px;
+            color: #000; /* Black text color for admin items */
         }
+
         .admin-item h2 {
-            margin: 0;
+            margin: 0 0 10px 0;
         }
+
         .admin-item p {
             margin: 5px 0;
         }
+
         .admin-item a {
             display: inline-block;
             margin-top: 10px;
             padding: 10px;
             background-color: #007bff;
-            color: #ffffff;
+            color: #fff; /* White text color for links */
             text-decoration: none;
             border-radius: 5px;
         }
+
         .admin-item a:hover {
             background-color: #0056b3;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
+<div class="container">
+    <div class="header">
+        <div class="logo-nav">
             <div class="logo">
                 <img src="{% static 'uno_logo.png' %}" alt="UNO logo">
             </div>
@@ -97,28 +147,28 @@
                 <a href="#">Student Data</a>
                 <a href="{% url 'student_information' %}">Student Information</a>
                 <a href="{% url 'pillars_home' %}">DASH Pillars</a>
-                <a href="{% url 'admin_profile' %}">Administration Profile</a>
+                <a href="{% url 'admin_profile' %}">Administrator Profile</a>
                 <a href="{% url 'logout' %}">Logout</a>
             </div>
         </div>
-        <div class="profile-container">
-            <div class="sidebar">
-                <a href="{% url 'add_admin' %}">Add Admin</a>
-                <a href="{% url 'admin_list' %}">Admin List</a>
-            </div>
-            <div class="content">
-                <h1>Administration Profile</h1>
-                <div class="admin-item">
-                    <h2>{{ admin_profile.user.first_name }} {{ admin_profile.user.middle_name }} {{ admin_profile.user.last_name }}</h2>
-                    <p>NUID: {{ admin_profile.user.NUID }}</p>
-                    <p>Email: {{ admin_profile.user.email }}</p>
-                    <p>Role within DASH: {{ admin_profile.user.role_within_dash }}</p>
-                    <p>Status: {{ admin_profile.user.is_active|yesno:"Active,Deactivated" }}</p>
-                    <a href="{% url 'edit_admin' admin_profile.user.NUID %}">Edit</a>
-                </div>
+    </div>
+    <div class="profile-container">
+        <div class="sidebar">
+            <a href="{% url 'add_admin' %}">Add Administrator</a>
+            <a href="{% url 'admin_list' %}">Administration List</a>
+        </div>
+        <div class="content">
+            <h1>Administrator Profile</h1>
+            <div class="admin-item">
+                <h2>{{ admin_profile.user.first_name }} {{ admin_profile.user.middle_name }} {{ admin_profile.user.last_name }}</h2>
+                <p>NUID: {{ admin_profile.user.NUID }}</p>
+                <p>Email: {{ admin_profile.user.email }}</p>
+                <p>Role within DASH: {{ admin_profile.user.role_within_dash }}</p>
+                <p>Status: {{ admin_profile.user.is_active|yesno:"Active,Deactivated" }}</p>
+                <a href="{% url 'edit_admin' admin_profile.user.NUID %}">Edit</a>
             </div>
         </div>
     </div>
+</div>
 </body>
 </html>
-

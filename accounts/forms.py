@@ -33,19 +33,3 @@ class DeactivateAdminForm(forms.Form):
 # Form for reactivating an admin
 class ReactivateAdminForm(forms.Form):
     admin_id = forms.IntegerField()
-
-class VisitReasonForm(forms.Form):
-    # One field should be required
-    appointment = forms.BooleanField(label='Appointment with DASH staff', required=False)
-    printing = forms.BooleanField(label='Printing', required=False)
-    study = forms.BooleanField(label='Study', required=False)
-    socialize = forms.BooleanField(label='Socialize/Relax', required=False)
-    event = forms.BooleanField(label='Event', required=False)
-
-    # Follow-up options
-    # Optional
-    schedule_appointment = forms.BooleanField(label='Schedule an appointment', required=False)
-    hardship = forms.BooleanField(label='Hardship', required=False)
-    basic_needs_support = forms.BooleanField(label='Basic Needs Support', required=False)
-    financial_wellness = forms.BooleanField(label='Financial Wellness', required=False)
-    volunteer_opportunities = forms.BooleanField(label='Volunteer Opportunities', required=False)
