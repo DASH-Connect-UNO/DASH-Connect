@@ -1,4 +1,5 @@
-{% load static %} <!DOCTYPE html>
+{% load static %}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,65 +7,102 @@
     <title>Student Login</title>
     <style>
         body {
+            background-color: #000; /* Black background */
+            color: #fff; /* White text */
             font-family: Arial, sans-serif;
             text-align: center;
             margin: 0;
             padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
+
         .container {
+            background-color: #fff; /* White background for the container */
+            padding: 20px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 400px;
+            box-sizing: border-box;
+            color: #000; /* Black text color for the container */
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 100vh;
         }
+
         .logo img {
             width: 150px;
             height: auto;
             margin-bottom: 20px;
         }
+
         h1 {
             font-size: 36px;
             margin-bottom: 10px;
+            color: #000; /* Black text */
         }
+
         p {
             font-size: 18px;
             margin-bottom: 30px;
+            color: #000; /* Black text */
         }
+
         .input-container {
             position: relative;
+            width: 100%;
         }
-        input[type="text"] {
+
+        input[type="text"],
+        input[type="password"] {
             font-size: 24px;
             padding: 10px;
-            width: 200px;
+            width: 100%;
             text-align: center;
             margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+            background-color: #fff; /* White background for input */
+            color: #000; /* Black text for input */
         }
+
         button {
             font-size: 24px;
             padding: 10px 20px;
-            background-color: #ff9999;
+            background-color: crimson;
+            color: #fff; /* White text for button */
             border: none;
+            border-radius: 5px;
             cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: darkred;
         }
     </style>
 </head>
 <body>
-    {% load static %}
     <div class="container">
         <div class="logo">
-            <img src="{% static 'accounts/uno_logo.png' %}" alt="UNO logo">
+            <img src="{% static 'uno_logo.png' %}" alt="UNO logo">
         </div>
         <h1>Welcome to DASH</h1>
-        <p>Please enter your NUID</p>
+        <p>Please enter your NUID and password</p>
         <form method="post">
             {% csrf_token %}
             <div class="input-container">
                 <input type="text" name="username" placeholder="90129303" required>
+            </div>
+            <div class="input-container">
+                <input type="password" name="password" placeholder="Password" required>
             </div>
             <button type="submit">Go</button>
         </form>
     </div>
 </body>
 </html>
+
