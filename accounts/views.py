@@ -1,5 +1,4 @@
 import logging
-
 from django.contrib.auth import login, authenticate, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
@@ -32,7 +31,7 @@ def admin_login_view(request):
     if request.method == 'POST':
         nuid = request.POST.get('nuid')
         password = request.POST.get('password')
-        user = authenticate(request, username=nuid, password=password)  # 'username' here maps to 'USERNAME_FIELD'
+        user = authenticate(request, username=nuid, password=password)
         if user is not None:
             if user.user_type == 'admin':
                 login(request, user)

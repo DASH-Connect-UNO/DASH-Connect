@@ -5,8 +5,8 @@ from django.utils import timezone
 
 class CustomUser(AbstractUser):
     USER_TYPE_CHOICES = (
-        ('student', 'Student'),
         ('admin', 'Admin'),
+        ('student', 'Student'),
     )
     user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES, default='student')
     NUID = models.CharField(max_length=8, unique=True, primary_key=True)

@@ -9,8 +9,17 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = CustomUser
         fields = ('NUID', 'user_type', 'password1', 'password2', 'first_name', 'middle_name', 'last_name', 'email')
+        error_messages = {
+            'NUID': {'required': ''},
+            'user_type': {'required': ''},
+            'password1': {'required': ''},
+            'password2': {'required': ''},
+            'first_name': {'required': ''},
+            'middle_name': {'required': ''},
+            'last_name': {'required': ''},
+            'email': {'required': ''},
+        }
 
-#Student Profile
 class StudentForm(forms.ModelForm):
     YEAR_CHOICES = [
         ('First Year', 'First Year'),
@@ -26,9 +35,14 @@ class StudentForm(forms.ModelForm):
 
     class Meta:
         model = StudentProfile
-        fields = [
-            'DASH_Member', 'year', 'other_year', 'scholarships', 'hardships', 'basic_need_supports'
-        ]
+        fields = ['DASH_Member', 'year', 'other_year', 'scholarships', 'hardships', 'basic_need_supports']
+        error_messages = {
+            'DASH_Member': {'required': ''},
+            'year': {'required': ''},
+            'scholarships': {'required': ''},
+            'hardships': {'required': ''},
+            'basic_need_supports': {'required': ''},
+        }
 
     def clean(self):
         cleaned_data = super().clean()
@@ -38,16 +52,17 @@ class StudentForm(forms.ModelForm):
         if year == 'Other' and not other_year:
             self.add_error('other_year', 'Please specify the other year.')
 
-#Admin Profile
 class AdminForm(forms.ModelForm):
     class Meta:
         model = AdminProfile
         fields = ['role_within_DASH']
+        error_messages = {
+            'role_within_DASH': {'required': ''},
+        }
 
-# Form for deactivating an admin
 class DeactivateAdminForm(forms.Form):
-    admin_NUID = forms.IntegerField()
+    admin_NUID = forms.IntegerField(error_messages={'required': ''})
 
-# Form for reactivating an admin
 class ReactivateAdminForm(forms.Form):
-    admin_NUID = forms.IntegerField()
+    admin_NUID = forms.IntegerField(error_messages={'required': ''})
+
