@@ -7,8 +7,8 @@
     <title>Administration List</title>
     <style>
         body {
-            background-color: #000; /* Black background for the entire page */
-            color: #fff; /* White text color for the entire page */
+            background-color: #000; 
+            color: #fff; 
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -16,12 +16,11 @@
 
         .container {
             padding: 20px;
-            background-color: #ccc; /* Light grey background for the container */
+            background-color: #333333; 
             border-radius: 8px;
-            width: 95%; /* Make the width almost the whole page */
-            box-sizing: border-box; /* Include padding and border in the element's total width and height */
-            margin: 20px auto; /* Center the container with auto margins */
-            color: #000; /* Black text color for the container */
+            width: 95%; 
+            box-sizing: border-box; 
+            margin: 20px auto; 
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -39,11 +38,11 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #fff; /* White background for the logo-nav container */
+            background-color: #fff; 
             padding: 10px;
             border-radius: 8px;
-            width: 100%; /* Make the logo-nav container reach 100% width */
-            margin: 0 auto; /* Center the logo-nav container */
+            width: 100%; 
+            margin: 0 auto; 
             color: #000;
         }
 
@@ -52,17 +51,18 @@
         }
 
         .nav-links a {
-            color: #000; /* Black text color for links */
+            color: #000; 
             text-decoration: none;
             margin-left: 20px;
+            font-weight: bold;
         }
 
         .nav-links a:hover {
             text-decoration: underline;
         }
 
-        h1, h2 {
-            color: #000; /* Black text color for headings */
+        h1 {
+            color: #000; 
         }
 
         .profile-container {
@@ -74,11 +74,11 @@
         .sidebar {
             width: 200px;
             padding: 20px;
-            background-color: #fff; /* White background for sidebar */
+            background-color: #fff; 
             border-right: 1px solid #ccc;
             border-radius: 8px;
-            color: #000; /* Black text color for sidebar */
-            margin-right: 20px; /* Add some space between sidebar and content */
+            color: #000; 
+            margin-right: 20px; 
         }
 
         .content {
@@ -86,7 +86,7 @@
             padding: 20px;
             background-color: #f9f9f9;
             border-radius: 8px;
-            color: #000; /* Black text color for content */
+            color: #000; 
         }
 
         .sidebar button, .sidebar a {
@@ -98,19 +98,24 @@
             cursor: pointer;
             text-align: center;
             text-decoration: none;
-            color: #000;
-            background-color: #f2f2f2;
+            color: #fff;
+            background-color: crimson;
             border: 2px solid #ccc;
             border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .sidebar button:hover, .sidebar a:hover {
+            background-color: darkred;
         }
 
         .admin-item {
-            background-color: #fff; /* White background for admin items */
+            background-color: #fff; 
             border: 1px solid #ccc;
             border-radius: 5px;
             margin-bottom: 20px;
             padding: 15px;
-            color: #000; /* Black text color for admin items */
+            color: #000; 
         }
 
         .admin-item h2 {
@@ -133,11 +138,13 @@
             text-decoration: none;
             text-align: center;
             border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
         }
 
         .admin-item a {
             background-color: #007bff;
-            color: #fff; /* White text color for links */
+            
         }
 
         .admin-item a:hover {
@@ -146,9 +153,8 @@
 
         .admin-item button {
             background-color: #ff4d4d;
-            color: #fff; /* White text color for buttons */
             border: none;
-            cursor: pointer;
+            
         }
 
         .admin-item button:hover {

@@ -1,6 +1,6 @@
 body {
-    background-color: #000; /* Black background for the entire page */
-    color: #fff; /* White text color for the entire page */
+    background-color: #000;
+    color: #fff;
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -8,12 +8,12 @@ body {
 
 .container {
     padding: 20px;
-    background-color: #ccc; /* Light grey background for the container */
+    background-color: #ccc;
     border-radius: 8px;
-    width: 45%; /* Condense the width to 45% */
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
-    margin: 20px auto; /* Center the container with auto margins */
-    color: #000; /* Black text color for the container */
+    width: 95%;
+    box-sizing: border-box;
+    margin: 20px auto;
+    color: #000;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -24,15 +24,18 @@ body {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    width: 100%;
 }
 
 .logo-nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #444; /* Darker grey background for the logo-nav container */
+    background-color: #fff;
     padding: 10px;
     border-radius: 8px;
+    width: 100%;
+    color: #000;
 }
 
 .logo img {
@@ -40,7 +43,7 @@ body {
 }
 
 .nav-links a {
-    color: #000; /* Black text color for links */
+    color: #000;
     text-decoration: none;
     margin-left: 20px;
 }
@@ -50,56 +53,52 @@ body {
 }
 
 h1, h2 {
-    color: #000; /* Black text color for headings */
-}
-
-.form-section {
-    margin-bottom: 20px;
-}
-
-form div {
-    margin-bottom: 20px;
-}
-
-form div input,
-form div select,
-form div textarea {
-    background-color: #fff; /* White background for input elements */
-    color: #000; /* Black text color for input elements */
-    padding: 10px;
-    border: 1px solid #bbb;
-    border-radius: 5px;
-    width: 100%; /* Full width */
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
-}
-
-button {
-    background-color: #555; /* Dark grey background for the button */
-    color: #fff; /* White text color for the button */
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #777; /* Lighter grey on hover */
-}
-
-#other-year-container {
-    margin-top: 10px;
+    color: #000;
 }
 
 .form-container {
-    background-color: #fff; /* White background for form containers */
-    padding: 20px;
-    border: 1px solid #bbb;
-    border-radius: 5px;
-    max-width: 400px;
-    width: 100%; /* Full width */
-    margin-bottom: 20px;
-    color: #000; /* Black text color for form containers */
+    background-color: #fff;
+    padding: 50px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin: 20px auto;
+    width: 100%;
+    max-width: 600px;
+    color: #000;
 }
+
+.form-container h2 {
+    margin-top: 0;
+}
+
+.form-container input,
+.form-container button {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.form-container button {
+    background-color: crimson;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.form-container button:hover {
+    background-color: darkred;
+}
+
+.button-container {
+    text-align: center;
+    width: 100%;
+}
+
 
 
 

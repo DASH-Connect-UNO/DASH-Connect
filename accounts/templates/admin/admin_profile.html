@@ -12,16 +12,16 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            font-weight: bold;
         }
 
         .container {
             padding: 20px;
-            background-color: #ccc; /* Light grey background for the container */
+            background-color: #333333; /* Dark grey background for the container */
             border-radius: 8px;
             width: 95%; /* Make the width almost the whole page */
             box-sizing: border-box; /* Include padding and border in the element's total width and height */
             margin: 20px auto; /* Center the container with auto margins */
-            color: #000; /* Black text color for the container */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -39,11 +39,11 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #fff; /* White background for the logo-nav container */
+            background-color: #fff;
             padding: 10px;
             border-radius: 8px;
-            width: 100%; /* Make the logo-nav container reach 100% width */
-            margin: 0 auto; /* Center the logo-nav container */
+            width: 100%;
+            margin: 0 auto;
             color: #000;
         }
 
@@ -52,9 +52,10 @@
         }
 
         .nav-links a {
-            color: #000; /* Black text color for links */
+            color: #000;
             text-decoration: none;
             margin-left: 20px;
+            font-weight: bold;
         }
 
         .nav-links a:hover {
@@ -62,7 +63,7 @@
         }
 
         h1, h2 {
-            color: #000; /* Black text color for headings */
+            color: #000;
         }
 
         .profile-container {
@@ -81,27 +82,31 @@
             margin-right: 20px; /* Add some space between sidebar and content */
         }
 
-        .content {
-            flex-grow: 1;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            color: #000; /* Black text color for content */
-        }
-
         .sidebar button, .sidebar a {
             display: block;
-            width: 90%;
+            width: 90%; /* Make buttons fit the container */
             margin-bottom: 10px;
             padding: 10px;
             font-size: 16px;
             cursor: pointer;
             text-align: center;
             text-decoration: none;
-            color: #000;
-            background-color: #f2f2f2;
+            color: #fff; /* White text for buttons */
+            background-color: crimson; /* Crimson background for buttons */
             border: 2px solid #ccc;
             border-radius: 10px;
+        }
+
+        .sidebar button:hover, .sidebar a:hover {
+            background-color: darkred; /* Dark red background on hover */
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            color: #000; /* Black text color for content */
         }
 
         .admin-item {
@@ -163,7 +168,7 @@
                 <h2>{{ admin_profile.user.first_name }} {{ admin_profile.user.middle_name }} {{ admin_profile.user.last_name }}</h2>
                 <p>NUID: {{ admin_profile.user.NUID }}</p>
                 <p>Email: {{ admin_profile.user.email }}</p>
-                <p>Role within DASH: {{ admin_profile.user.role_within_dash }}</p>
+                <p>Role within DASH: {{ admin_profile.role_within_DASH }}</p>
                 <p>Status: {{ admin_profile.user.is_active|yesno:"Active,Deactivated" }}</p>
                 <a href="{% url 'edit_admin' admin_profile.user.NUID %}">Edit</a>
             </div>
@@ -172,3 +177,4 @@
 </div>
 </body>
 </html>
+

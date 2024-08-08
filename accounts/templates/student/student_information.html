@@ -10,80 +10,125 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #d3d3d3;
+            background-color: #000; /* Dark background */
+            color: #fff; /* Light text */
         }
 
         .container {
             padding: 20px;
+            background-color: #333333; /* Lighter black */
+            border-radius: 8px;
+            width: 98%; /* Increased width to stretch more across the page */
+            box-sizing: border-box;
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .header {
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            background-color: #ffffff;
-            padding: 10px 20px;
-            border-bottom: 1px solid #ccc;
+            align-items: center;
+            background-color: #fff; /* White background for the header */
+            padding: 10px;
+            border-radius: 8px;
+            width: 100%;
+            margin-bottom: 20px;
+            color: #000; /* Dark text */
         }
 
         .logo img {
-            width: 100px;
-            height: auto;
+            max-height: 50px;
         }
 
         .nav-links a {
-            margin: 0 10px;
+            color: #000; /* Dark text */
             text-decoration: none;
-            color: #000;
+            margin-left: 20px;
+            font-weight: bold;
         }
 
-        .content {
-            padding: 20px;
-            background-color: #f9f9f9;
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        h1 {
+            color: #fff; /* Light text for headings */
+            text-align: center;
         }
 
         .table-container {
             margin-top: 20px;
+            width: 100%;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            background-color: #fff;
+            background-color: #fff; /* White background for the table */
+            color: #000; /* Dark text */
+            border-radius: 8px;
+            overflow: hidden;
         }
 
         table th, table td {
-            border: 1px solid #ccc;
-            padding: 10px;
+            padding: 10px 15px;
             text-align: left;
         }
 
         table th {
             background-color: #f2f2f2;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        table tr {
+            border-bottom: 1px solid #ccc;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        table tr:hover {
+            background-color: #f1f1f1;
         }
 
         .add-student-btn {
             display: block;
-            margin: 20px 0;
-            padding: 10px 20px;
+            margin: 20px auto; /* Center the button */
+            padding: 5px 10px; /* Shrink by 50% */
             font-size: 16px;
-            background-color: #007bff;
+            background-color: crimson;
             color: #fff;
             text-align: center;
             text-decoration: none;
             border-radius: 5px;
+            width: fit-content; /* Shrink width */
         }
 
         .add-student-btn:hover {
-            background-color: #0056b3;
+            background-color: darkred;
         }
+
+        a {
+            color: crimson; /* Links within the table */
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
     </style>
 </head>
 <body>
 <div class="container">
     <div class="header">
         <div class="logo">
-            <img src="{% static 'accounts/uno_logo.png' %}" alt="UNO logo">
+            <img src="{% static 'uno_logo.png' %}" alt="UNO logo">
         </div>
         <div class="nav-links">
             <a href="#">Student Data</a>
@@ -114,32 +159,29 @@
                 <tbody>
                 {% for student in students %}
                     <tr>
-                        <p><strong>Scholarships:</strong>
-                            <td>
-                                <a href="{% url 'student_profile' student.user.NUID %}">{{ student.user.first_name }} {{ student.user.middle_name }} {{ student.user.last_name }}</a>
-                            </td>
-                            <td>{{ student.user.NUID }}</td>
-                            <td>{{ student.user.email }}</td>
-                            <td>{{ student.user.year }}</td>
-                            <td>{{ student.is_dash_member|yesno:"Yes,No" }}</td>
-                           <td>
-                                {% for scholarship in student.scholarships.all %}
-                                    {{ scholarship.name }}{% if not forloop.last %}, {% endif %}
-                                {% endfor %}
-                            </td>
-                            <td>
-                                {% for hardship in student.hardships.all %}
-                                    {{ hardship.name }}{% if not forloop.last %}, {% endif %}
-                                {% endfor %}
-                            </td>
-                            <td>
-                                {% for support in student.basic_need_supports.all %}
-                                    {{ support.name }}{% if not forloop.last %}, {% endif %}
-                                {% endfor %}
-                            </td>
-                            <td>
-                            {{ student.date_added }}
-                            </td>
+                        <td>
+                            <a href="{% url 'student_profile' student.user.NUID %}">{{ student.user.first_name }} {{ student.user.middle_name }} {{ student.user.last_name }}</a>
+                        </td>
+                        <td>{{ student.user.NUID }}</td>
+                        <td>{{ student.user.email }}</td>
+                        <td>{{ student.year }}</td>
+                        <td>{{ student.is_dash_member|yesno:"Yes,No" }}</td>
+                        <td>
+                            {% for scholarship in student.scholarships.all %}
+                                {{ scholarship.name }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for hardship in student.hardships.all %}
+                                {{ hardship.name }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for support in student.basic_need_supports.all %}
+                                {{ support.name }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>{{ student.date_added }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>

@@ -7,133 +7,240 @@
     <title>Edit Student</title>
     <style>
         body {
+            background-color: #000;
+            color: #fff;
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #d3d3d3;
+            font-weight: bold;
         }
+
         .container {
             padding: 20px;
+            background-color: #333333;
+            border-radius: 8px;
+            width: 95%;
+            box-sizing: border-box;
+            margin: 20px auto;
+            color: #000;
+            display: flex;
+            flex-direction: column;
+            align-: center;
         }
+
         .header {
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            background-color: #ffffff;
-            padding: 10px 20px;
-            border-bottom: 1px solid #ccc;
+            align-items: center;
+            margin-bottom: 20px;
+            width: 100%;
         }
-        .logo img {
-            width: 100px;
-            height: auto;
-        }
-        .nav-links a {
-            margin: 0 10px;
-            text-decoration: none;
+
+        .logo-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            width: 100%;
+            margin: 0 auto;
             color: #000;
         }
-        .content {
-            padding: 20px;
-            background-color: #f9f9f9;
+
+        .logo img {
+            max-height: 50px;
         }
+
+        .nav-links a {
+            color: #000;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: bold;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        h1 {
+            color: #fff;
+        }
+
         .form-section {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            width: 98%;
+            max-width: 2000px; 
+            color: #000;
+        }
+
+        form div {
             margin-bottom: 20px;
         }
-        .form-section input, .form-section select {
-            display: block;
+
+        form div input,
+        form div select,
+        form div textarea {
+            background-color: #fff;
+            color: #000;
+            padding: 10px;
+            border: 1px solid #bbb;
+            border-radius: 5px;
             width: 100%;
-            margin-bottom: 10px;
-            padding: 8px;
+            box-sizing: border-box;
         }
-        .form-section button {
+
+        form div label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .button-container {
+            text-align: center;
+            width: 100%;
+        }
+
+        button {
+            background-color: crimson;
+            color: #fff;
+            border: none;
             padding: 10px 20px;
-            font-size: 16px;
+            border-radius: 5px;
             cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: darkred;
+        }
+
+        .form-section h2 {
+            color: #000;
+        }
+
+        .hidden {
+            display: none;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
+<div class="container">
+    <div class="header">
+        <div class="logo-nav">
             <div class="logo">
-                <img src="{% static 'accounts/uno_logo.png' %}" alt="UNO logo">
+                <img src="{% static 'uno_logo.png' %}" alt="UNO logo">
             </div>
             <div class="nav-links">
-                <a href="">Student Data</a>
+                <a href="#">Student Data</a>
                 <a href="{% url 'student_information' %}">Student Information</a>
                 <a href="{% url 'pillars_home' %}">DASH Pillars</a>
                 <a href="{% url 'admin_profile' %}">Administration</a>
                 <a href="{% url 'logout' %}">Logout</a>
-             </div>
-        </div>
-        <div class="content">
-            <h1>Edit Student</h1>
-            <form method="post">
-                {% csrf_token %}
-                <div class="form-section">
-                    <label for="first_name">First Name</label>
-                    <input type="text" id="first_name" name="first_name" value="{{ user.first_name }}" required>
-                </div>
-                <div class="form-section">
-                    <label for="middle_name">Middle Name</label>
-                    <input type="text" id="middle_name" name="middle_name" value="{{ user.middle_name }}">
-                </div>
-                <div class="form-section">
-                    <label for="last_name">Last Name</label>
-                    <input type="text" id="last_name" name="last_name" value="{{ user.last_name }}" required>
-                </div>
-                <div class="form-section">
-                    <label for="nuid">NUID</label>
-                    <input type="text" id="nuid" name="nuid" value="{{ user.NUID }}" required>
-                </div>
-                <div class="form-section">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" value="{{ user.email }}" required>
-                </div>
-                <div class="form-section">
-                    <label for="{{ form.year.id_for_label }}">Year</label>
-                    {{ form.year }}
-                    {% if form.year.value == 'Other' %}
-                        <div class="form-section">
-                            <label for="{{ form.other_year.id_for_label }}">Please Specify if Selected Other for Year</label>
-                            {{ form.other_year }}
-                        </div>
-                    {% endif %}
-                </div>
-                <div class="form-section">
-                    <label for="is_dash_member">DASH Member</label>
-                    <select id="is_dash_member" name="is_dash_member">
-                        <option value="True" {% if form.is_dash_member.value == 'True' %}selected{% endif %}>Yes</option>
-                        <option value="False" {% if form.is_dash_member.value == 'False' %}selected{% endif %}>No</option>
-                    </select>
-                </div>
-                <div class="form-section">
-                    <label for="scholarships">Scholarships</label>
-                    <select id="scholarships" name="scholarships" multiple>
-                        {% for scholarship in form.scholarships.field.queryset %}
-                            <option value="{{ scholarship.id }}" {% if scholarship in form.scholarships.value %}selected{% endif %}>{{ scholarship.name }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="form-section">
-                    <label for="hardships">Hardships</label>
-                    <select id="hardships" name="hardships" multiple>
-                        {% for hardship in form.hardships.field.queryset %}
-                            <option value="{{ hardship.id }}" {% if hardship in form.hardships.value %}selected{% endif %}>{{ hardship.name }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="form-section">
-                    <label for="basic_need_supports">Basic Need Supports</label>
-                    <select id="basic_need_supports" name="basic_need_supports" multiple>
-                        {% for support in form.basic_need_supports.field.queryset %}
-                            <option value="{{ support.id }}" {% if support in form.basic_need_supports.value %}selected{% endif %}>{{ support.name }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <button type="submit">Save</button>
-            </form>
+            </div>
         </div>
     </div>
+    <h1>Edit Student</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-section">
+            <h2>User Information</h2>
+            <div>
+                <label for="first_name">First Name</label>
+                <input type="text" id="first_name" name="first_name" value="{{ user.first_name }}" required>
+            </div>
+            <div>
+                <label for="middle_name">Middle Name</label>
+                <input type="text" id="middle_name" name="middle_name" value="{{ user.middle_name }}">
+            </div>
+            <div>
+                <label for="last_name">Last Name</label>
+                <input type="text" id="last_name" name="last_name" value="{{ user.last_name }}" required>
+            </div>
+            <div>
+                <label for="nuid">NUID</label>
+                <input type="text" id="nuid" name="nuid" value="{{ user.NUID }}" required>
+            </div>
+            <div>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" value="{{ user.email }}" required>
+            </div>
+        </div>
+        <div class="form-section">
+            <h2>Student Details</h2>
+            <div>
+                <label for="{{ form.year.id_for_label }}">Year</label>
+                {{ form.year }}
+            </div>
+            <div id="other-year-container" class="other-year-container {% if form.year.value != 'Other' %}hidden{% endif %}">
+                <label for="{{ form.other_year.id_for_label }}">If selected Other for year, please give your description below</label>
+                <textarea id="{{ form.other_year.id_for_label }}" name="other_year" rows="4">{{ form.other_year.value }}</textarea>
+            </div>
+            <div>
+                <label for="is_dash_member">DASH Member</label>
+                <select id="is_dash_member" name="is_dash_member">
+                    <option value="True" {% if form.is_dash_member.value == 'True' %}selected{% endif %}>Yes</option>
+                    <option value="False" {% if form.is_dash_member.value == 'False' %}selected{% endif %}>No</option>
+                </select>
+            </div>
+            <div>
+                <label for="scholarships">Scholarships</label>
+                <select id="scholarships" name="scholarships" multiple>
+                    {% for scholarship in form.scholarships.field.queryset %}
+                        <option value="{{ scholarship.id }}" {% if scholarship in form.scholarships.value %}selected{% endif %}>{{ scholarship.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="hardships">Hardships</label>
+                <select id="hardships" name="hardships" multiple>
+                    {% for hardship in form.hardships.field.queryset %}
+                        <option value="{{ hardship.id }}" {% if hardship in form.hardships.value %}selected{% endif %}>{{ hardship.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="basic_need_supports">Basic Need Supports</label>
+                <select id="basic_need_supports" name="basic_need_supports" multiple>
+                    {% for support in form.basic_need_supports.field.queryset %}
+                        <option value="{{ support.id }}" {% if support in form.basic_need_supports.value %}selected{% endif %}>{{ support.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="button-container">
+            <button type="submit">Save</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const yearSelect = document.getElementById("{{ form.year.id_for_label }}");
+        const otherYearContainer = document.getElementById("other-year-container");
+
+        function toggleOtherYearContainer() {
+            if (yearSelect.value === "Other") {
+                otherYearContainer.classList.remove("hidden");
+            } else {
+                otherYearContainer.classList.add("hidden");
+            }
+        }
+
+        yearSelect.addEventListener("change", toggleOtherYearContainer);
+
+        // Initial check
+        toggleOtherYearContainer();
+    });
+</script>
 </body>
 </html>
+
+
+
+
+
+
+
