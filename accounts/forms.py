@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
+
+from DASH_pillars.models import Hardship, BasicNeedSupport, Scholarship
 from .models import StudentProfile, AdminProfile, CustomUser, VisitReason
 from django.utils.translation import gettext_lazy as _
 
@@ -47,6 +49,15 @@ class StudentForm(forms.ModelForm):
             'basic_need_supports': {'required': ''},
         }
 
+    def __init__(self, *args, **kwargs):
+        super(StudentForm, self).__init__(*args, **kwargs)
+        # Filter scholarships to exclude deactivated ones
+        self.fields['scholarships'].queryset = Scholarship.objects.filter(is_deactivated=False)
+        # Filter hardships to exclude deactivated ones
+        self.fields['hardships'].queryset = Hardship.objects.filter(is_deactivated=False)
+        # Filter basic need supports to exclude deactivated ones
+        self.fields['basic_need_supports'].queryset = BasicNeedSupport.objects.filter(is_deactivated=False)
+
     def clean(self):
         cleaned_data = super().clean()
         year = cleaned_data.get('year')
@@ -54,6 +65,7 @@ class StudentForm(forms.ModelForm):
 
         if year == 'Other' and not other_year:
             self.add_error('other_year', 'Please specify the other year.')
+
 
 class AdminForm(forms.ModelForm):
     class Meta:

@@ -4,12 +4,15 @@ from .forms import ScholarshipForm, HardshipForm, BasicNeedSupportForm
 from accounts.models import StudentProfile
 from accounts.forms import StudentForm
 
+
 def pillars_home(request):
     return render(request, 'DASH_pillars/pillars_home.html')
+
 
 def student_information(request):
     students = StudentProfile.objects.all()
     return render(request, 'student/student_information.html', {'students': students})
+
 
 def add_student(request):
     if request.method == 'POST':
@@ -21,9 +24,11 @@ def add_student(request):
         form = StudentForm()
     return render(request, 'student/add_student.html', {'form': form})
 
+
 def list_scholarships(request):
-    scholarships = Scholarship.objects.all().order_by('name')
+    scholarships = Scholarship.objects.order_by('is_deactivated', 'name')
     return render(request, 'DASH_pillars/list_scholarships.html', {'scholarships': scholarships})
+
 
 def add_scholarship(request):
     if request.method == 'POST':
@@ -34,6 +39,7 @@ def add_scholarship(request):
     else:
         form = ScholarshipForm()
     return render(request, 'DASH_pillars/add_scholarship.html', {'form': form})
+
 
 def edit_scholarship(request, id):
     scholarship = get_object_or_404(Scholarship, id=id)
@@ -46,13 +52,10 @@ def edit_scholarship(request, id):
         form = ScholarshipForm(instance=scholarship)
     return render(request, 'DASH_pillars/edit_scholarship.html', {'form': form})
 
-def remove_scholarship(request, id):
-    Scholarship.objects.get(id=id).delete()
-    return redirect('list_scholarships')
-
 def list_hardships(request):
-    hardships = Hardship.objects.all().order_by('name')
+    hardships = Hardship.objects.order_by('is_deactivated', 'name')
     return render(request, 'DASH_pillars/list_hardships.html', {'hardships': hardships})
+
 
 def add_hardship(request):
     if request.method == 'POST':
@@ -63,6 +66,7 @@ def add_hardship(request):
     else:
         form = HardshipForm()
     return render(request, 'DASH_pillars/add_hardship.html', {'form': form})
+
 
 def edit_hardship(request, id):
     hardship = get_object_or_404(Hardship, id=id)
@@ -75,13 +79,11 @@ def edit_hardship(request, id):
         form = HardshipForm(instance=hardship)
     return render(request, 'DASH_pillars/edit_hardship.html', {'form': form})
 
-def remove_hardship(request, id):
-    Hardship.objects.get(id=id).delete()
-    return redirect('list_hardships')
 
 def list_basic_need_supports(request):
-    basic_need_supports = BasicNeedSupport.objects.all().order_by('name')
+    basic_need_supports = BasicNeedSupport.objects.order_by('is_deactivated', 'name')
     return render(request, 'DASH_pillars/list_basic_need_supports.html', {'basic_need_supports': basic_need_supports})
+
 
 def add_basic_need_support(request):
     if request.method == 'POST':
@@ -92,6 +94,7 @@ def add_basic_need_support(request):
     else:
         form = BasicNeedSupportForm()
     return render(request, 'DASH_pillars/add_basic_need_support.html', {'form': form})
+
 
 def edit_basic_need_support(request, id):
     basic_need_support = get_object_or_404(BasicNeedSupport, id=id)
@@ -104,6 +107,26 @@ def edit_basic_need_support(request, id):
         form = BasicNeedSupportForm(instance=basic_need_support)
     return render(request, 'DASH_pillars/edit_basic_need_support.html', {'form': form})
 
-def remove_basic_need_support(request, id):
-    BasicNeedSupport.objects.get(id=id).delete()
+
+def toggle_basic_need_support(request, id):
+    basic_need_support = get_object_or_404(BasicNeedSupport, id=id)
+    if request.method == 'POST':
+        basic_need_support.is_deactivated = not basic_need_support.is_deactivated
+        basic_need_support.save()
     return redirect('list_basic_need_supports')
+
+
+def toggle_hardship(request, id):
+    hardship = get_object_or_404(Hardship, id=id)
+    if request.method == 'POST':
+        hardship.is_deactivated = not hardship.is_deactivated
+        hardship.save()
+    return redirect('list_hardships')
+
+
+def toggle_scholarship(request, id):
+    scholarship = get_object_or_404(Scholarship, id=id)
+    if request.method == 'POST':
+        scholarship.is_deactivated = not scholarship.is_deactivated
+        scholarship.save()
+    return redirect('list_scholarships')

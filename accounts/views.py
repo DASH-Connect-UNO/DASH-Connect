@@ -12,21 +12,6 @@ logger = logging.getLogger(__name__)
 User = get_user_model()
 
 
-def student_login_view(request):
-    if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            user = form.get_user()
-            if user.user_type == 'student':
-                login(request, user)
-                return redirect('student_profile', NUID=user.NUID)
-            else:
-                form.add_error(None, "You are not authorized as a student.")
-    else:
-        form = AuthenticationForm()
-    return render(request, 'student/student_login.html', {'form': form})
-
-
 def admin_login_view(request):
     if request.method == 'POST':
         nuid = request.POST.get('nuid')
@@ -110,8 +95,24 @@ def edit_admin(request, NUID):
 
 
 def admin_list_view(request):
-    admins = AdminProfile.objects.all()
+    admins = AdminProfile.objects.order_by('-user__is_active', 'user__first_name')
     return render(request, 'admin/admin_list.html', {'admins': admins})
+
+
+def deactivate_admin(request, NUID):
+    if request.method == "POST":
+        admin = get_object_or_404(User, NUID=NUID)
+        admin.is_active = False
+        admin.save()
+        return redirect('admin_list')
+
+
+def reactivate_admin(request, NUID):
+    if request.method == "POST":
+        admin = get_object_or_404(User, NUID=NUID)
+        admin.is_active = True
+        admin.save()
+        return redirect('admin_list')
 
 
 def student_profile(request, NUID):
@@ -146,6 +147,21 @@ def add_student(request):
                    'hardship_form': hardship_form, 'basic_needs_support_form': basic_needs_support_form})
 
 
+def student_login_view(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            if user.user_type == 'student':
+                login(request, user)
+                return redirect('student_profile', NUID=user.NUID)
+            else:
+                form.add_error(None, "You are not authorized as a student.")
+    else:
+        form = AuthenticationForm()
+    return render(request, 'student/student_login.html', {'form': form})
+
+
 def edit_student(request, NUID):
     student = get_object_or_404(StudentProfile, user_id=NUID)
     user = student.user
@@ -172,12 +188,14 @@ def student_information(request):
     students = StudentProfile.objects.order_by('-user__is_active', 'user__first_name')
     return render(request, 'student/student_information.html', {'students': students})
 
+
 def toggle_student_status(request, NUID):
     if request.method == "POST":
         student = get_object_or_404(User, NUID=NUID)
         student.is_active = not student.is_active
         student.save()
     return redirect('student_information')  # Replace with your actual redirect URL
+
 
 def visit_reason(request):
     if request.method == 'POST':

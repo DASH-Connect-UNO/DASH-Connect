@@ -96,6 +96,10 @@
             color: gray; /* Faded text */
             background-color: #e0e0e0; /* Lighter background */
         }
+        .deactivated-item {
+            color: gray;
+            opacity: 0.5;
+        }
         .action-button {
             padding: 8px 12px;
             font-size: 14px;
@@ -171,17 +175,23 @@
                         <td>{{ student.is_dash_member|yesno:"Yes,No" }}</td>
                         <td>
                             {% for scholarship in student.scholarships.all %}
-                                {{ scholarship.name }}{% if not forloop.last %}, {% endif %}
+                                <span class="{% if scholarship.is_deactivated %}deactivated-item{% endif %}">
+                                    {{ scholarship.name }}
+                                </span>{% if not forloop.last %}, {% endif %}
                             {% endfor %}
                         </td>
                         <td>
                             {% for hardship in student.hardships.all %}
-                                {{ hardship.name }}{% if not forloop.last %}, {% endif %}
+                                <span class="{% if hardship.is_deactivated %}deactivated-item{% endif %}">
+                                    {{ hardship.name }}
+                                </span>{% if not forloop.last %}, {% endif %}
                             {% endfor %}
                         </td>
                         <td>
                             {% for basic_need in student.basic_need_supports.all %}
-                                {{ basic_need.name }}{% if not forloop.last %}, {% endif %}
+                                <span class="{% if basic_need.is_deactivated %}deactivated-item{% endif %}">
+                                    {{ basic_need.name }}
+                                </span>{% if not forloop.last %}, {% endif %}
                             {% endfor %}
                         </td>
                         <td>{{ student.date_added }}</td>
@@ -199,25 +209,6 @@
             </table>
         </div>
     </div>
-
-    <script>
-        function toggleStudentStatus(studentId) {
-            const buttonElement = document.getElementById(`toggleButton-${studentId}`);
-            const rowElement = document.getElementById(`student-${studentId}`);
-
-            if (buttonElement.textContent.trim() === "Deactivate") {
-                if (confirm("Are you sure you want to deactivate this student?")) {
-                    rowElement.classList.add('deactivated');
-                    buttonElement.textContent = "Activate";
-                }
-            } else {
-                if (confirm("Are you sure you want to reactivate this student?")) {
-                    rowElement.classList.remove('deactivated');
-                    buttonElement.textContent = "Deactivate";
-                }
-            }
-        }
-    </script>
 </body>
 </html>
 

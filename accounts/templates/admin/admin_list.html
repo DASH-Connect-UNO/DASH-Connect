@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administration List</title>
     <style>
-        /* The same CSS as before */
         body {
             background-color: #000; 
             color: #fff; 
@@ -144,7 +143,6 @@
         .admin-item a {
             background-color: #007bff;
             font-weight: bold;
-            
         }
 
         .admin-item a:hover {
@@ -155,7 +153,6 @@
             background-color: #ff4d4d;
             border: none;
             font-weight: bold;
-            
         }
 
         .admin-item button:hover {
@@ -219,53 +216,33 @@
         <div class="content">
             <h1>Administration List</h1>
             {% for admin in admins %}
-                <div class="admin-item" id="admin-{{ admin.user.NUID }}">
+                <div class="admin-item {% if not admin.user.is_active %}deactivated{% endif %}" id="admin-{{ admin.user.NUID }}">
                     <h2>{{ admin.user.first_name }} {{ admin.user.middle_name }} {{ admin.user.last_name }}</h2>
                     <p>NUID: {{ admin.user.NUID }}</p>
                     <p>Email: {{ admin.user.email }}</p>
                     <p>Role within DASH: {{ admin.role_within_DASH }}</p>
                     <p>Status: <span id="status-{{ admin.user.NUID }}">{{ admin.user.is_active|yesno:"Active,Deactivated" }}</span></p>
                     <a href="{% url 'edit_admin' admin.user.NUID %}">Edit</a>
+                    
                     {% if admin.user.is_active %}
-                        <button type="button" onclick="deactivateAdmin('{{ admin.user.NUID }}')">Deactivate</button>
+                        <form method="post" action="{% url 'deactivate_admin' admin.user.NUID %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit">Deactivate</button>
+                        </form>
                     {% endif %}
-                    <button type="button" class="reactivate-button" onclick="reactivateAdmin('{{ admin.user.NUID }}')">Reactivate</button>
+                    
+                    <form method="post" action="{% url 'reactivate_admin' admin.user.NUID %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="reactivate-button" {% if admin.user.is_active %}style="display:none;"{% endif %}>Activate</button>
+                    </form>
                 </div>
             {% endfor %}
         </div>
     </div>
 </div>
 
-<script>
-    function deactivateAdmin(adminId) {
-        if (confirm("Are you sure you want to deactivate this administrator?")) {
-            const adminItem = document.getElementById(`admin-${adminId}`);
-            const statusElement = document.getElementById(`status-${adminId}`);
-            adminItem.classList.add('deactivated');
-            statusElement.textContent = "Deactivated";
-
-            // Show the Reactivate button and hide the Deactivate button
-            adminItem.querySelector('.reactivate-button').style.display = 'inline-block';
-            adminItem.querySelector('button[onclick^="deactivateAdmin"]').style.display = 'none';
-            adminItem.querySelector('a[href^="edit_admin"]').style.display = 'none';
-        }
-    }
-
-    function reactivateAdmin(adminId) {
-        if (confirm("Are you sure you want to reactivate this administrator?")) {
-            const adminItem = document.getElementById(`admin-${adminId}`);
-            const statusElement = document.getElementById(`status-${adminId}`);
-            adminItem.classList.remove('deactivated');
-            statusElement.textContent = "Active";
-
-            // Show the Deactivate button and hide the Reactivate button
-            adminItem.querySelector('.reactivate-button').style.display = 'none';
-            adminItem.querySelector('button[onclick^="deactivateAdmin"]').style.display = 'inline-block';
-            adminItem.querySelector('a[href^="edit_admin"]').style.display = 'inline-block';
-        }
-    }
-</script>
 </body>
 </html>
+
 
 

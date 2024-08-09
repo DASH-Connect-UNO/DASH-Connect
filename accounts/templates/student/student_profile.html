@@ -73,9 +73,14 @@
         }
         .content p {
             margin: 10px 0;
+            font-weight: normal; /* Set the font-weight to normal for the content */
         }
         .content p strong {
-            color: #000; /* Dark text for strong elements */
+            font-weight: bold; /* Bold text for field labels */
+        }
+        .deactivated-item {
+            color: gray;
+            opacity: 0.5;
         }
         .edit-button {
             position: absolute;
@@ -123,17 +128,23 @@
                 <p><strong>DASH Member:</strong> {{ student.is_dash_member|yesno:"Yes,No" }}</p>
                 <p><strong>Scholarships:</strong>
                     {% for scholarship in student.scholarships.all %}
-                        {{ scholarship.name }}{% if not forloop.last %}, {% endif %}
+                        <span class="{% if scholarship.is_deactivated %}deactivated-item{% endif %}">
+                            {{ scholarship.name }}
+                        </span>{% if not forloop.last %}, {% endif %}
                     {% endfor %}
                 </p>
                 <p><strong>Hardships:</strong>
                     {% for hardship in student.hardships.all %}
-                        {{ hardship.name }}{% if not forloop.last %}, {% endif %}
+                        <span class="{% if hardship.is_deactivated %}deactivated-item{% endif %}">
+                            {{ hardship.name }}
+                        </span>{% if not forloop.last %}, {% endif %}
                     {% endfor %}
                 </p>
                 <p><strong>Basic Need Supports:</strong>
                     {% for support in student.basic_need_supports.all %}
-                        {{ support.name }}{% if not forloop.last %}, {% endif %}
+                        <span class="{% if support.is_deactivated %}deactivated-item{% endif %}">
+                            {{ support.name }}
+                        </span>{% if not forloop.last %}, {% endif %}
                     {% endfor %}
                 </p>
                 <p><strong>Date Added:</strong> {{ student.date_added }}</p>
@@ -143,6 +154,7 @@
     </div>
 </body>
 </html>
+
 
 
 

@@ -104,6 +104,29 @@ h1, h2 {
     background-color: #e0e0e0; /* Lighter background */
 }
 
+.basic-need-support-item .buttons button {
+    color: #fff;
+    background-color: crimson;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.basic-need-support-item .buttons button.reactivate {
+    background-color: green;
+}
+
+.basic-need-support-item .buttons button:hover {
+    background-color: darkred;
+}
+
+.scholarship-item .buttons {
+    display: flex;
+    gap: 10px;
+    align-items: center; /* This ensures the buttons are aligned correctly */
+}
+
 
 
 
