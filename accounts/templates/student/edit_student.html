@@ -22,7 +22,6 @@
             width: 95%;
             box-sizing: border-box;
             margin: 20px auto;
-            color: #000;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -65,19 +64,19 @@
 
         h1 {
             color: #fff;
-            text-align: center;
+        }
+        
+        h2 {
+            color: #000;
         }
 
         .form-section {
             background-color: #fff;
             padding: 20px;
             border-radius: 8px;
-            margin-bottom: 20px;
-            width: 175%;
-            max-width: 2000px; 
+            margin-bottom: 50px;
+            width: 100%;
             color: #000;
-            box-sizing: border-box;
-            margin-left: -35.5%; 
         }
 
         form div {
@@ -86,7 +85,8 @@
 
         form div input,
         form div select,
-        form div textarea {
+        form div textarea,
+        .form-container button {
             background-color: #fff;
             color: #000;
             padding: 10px;
@@ -94,6 +94,7 @@
             border-radius: 5px;
             width: 100%;
             box-sizing: border-box;
+            font-size: 16px;
         }
 
         form div label {
@@ -106,22 +107,19 @@
             width: 100%;
         }
 
-        button {
+        .button-container button {
             background-color: crimson;
             color: #fff;
             border: none;
-            padding: 10px 20px;
+            padding: 10px;
             border-radius: 5px;
             cursor: pointer;
             font-weight: bold;
+            width: 100%;
         }
 
-        button:hover {
+        .button-container button:hover {
             background-color: darkred;
-        }
-
-        .form-section h2 {
-            color: #000;
         }
 
         .hidden {
@@ -149,79 +147,60 @@
     <form method="post">
         {% csrf_token %}
         <div class="form-section">
-            <h2>User Information</h2>
-            <div>
-                <label for="first_name">First Name</label>
-                <input type="text" id="first_name" name="first_name" value="{{ user.first_name }}" required>
-            </div>
-            <div>
-                <label for="middle_name">Middle Name</label>
-                <input type="text" id="middle_name" name="middle_name" value="{{ user.middle_name }}">
-            </div>
-            <div>
-                <label for="last_name">Last Name</label>
-                <input type="text" id="last_name" name="last_name" value="{{ user.last_name }}" required>
-            </div>
-            <div>
-                <label for="nuid">NUID</label>
-                <input type="text" id="nuid" name="nuid" value="{{ user.NUID }}" required>
-            </div>
-            <div>
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" value="{{ user.email }}" required>
-            </div>
+            <h2>Student Information</h2>
+            {{ user_form.as_p }}
         </div>
         <div class="form-section">
             <h2>Student Details</h2>
             <div>
-                <label for="{{ form.year.id_for_label }}">Year</label>
-                {{ form.year }}
+                <label for="{{ student_form.year.id_for_label }}">Year</label>
+                {{ student_form.year }}
             </div>
-            <div id="other-year-container" class="other-year-container {% if form.year.value != 'Other' %}hidden{% endif %}">
-                <label for="{{ form.other_year.id_for_label }}">If selected Other for year, please give your description below</label>
-                <textarea id="{{ form.other_year.id_for_label }}" name="other_year" rows="4">{{ form.other_year.value }}</textarea>
+            <div id="other-year-container" class="other-year-container hidden">
+                <label for="{{ student_form.other_year.id_for_label }}">If selected Other for year, please specify below</label>
+                <textarea id="{{ student_form.other_year.id_for_label }}" name="other_year" rows="4">{{ student_form.other_year.value }}</textarea>
             </div>
             <div>
                 <label for="is_dash_member">DASH Member</label>
                 <select id="is_dash_member" name="is_dash_member">
-                    <option value="True" {% if form.is_dash_member.value == 'True' %}selected{% endif %}>Yes</option>
-                    <option value="False" {% if form.is_dash_member.value == 'False' %}selected{% endif %}>No</option>
+                    <option value="True" {% if student_form.is_dash_member.value == 'True' %}selected{% endif %}>Yes</option>
+                    <option value="False" {% if student_form.is_dash_member.value == 'False' %}selected{% endif %}>No</option>
                 </select>
             </div>
             <div>
                 <label for="scholarships">Scholarships</label>
                 <select id="scholarships" name="scholarships" multiple>
-                    {% for scholarship in form.scholarships.field.queryset %}
-                        <option value="{{ scholarship.id }}" {% if scholarship in form.scholarships.value %}selected{% endif %}>{{ scholarship.name }}</option>
+                    {% for scholarship in student_form.scholarships.field.queryset %}
+                        <option value="{{ scholarship.id }}" {% if scholarship in student_form.scholarships.value %}selected{% endif %}>{{ scholarship.name }}</option>
                     {% endfor %}
                 </select>
             </div>
             <div>
                 <label for="hardships">Hardships</label>
                 <select id="hardships" name="hardships" multiple>
-                    {% for hardship in form.hardships.field.queryset %}
-                        <option value="{{ hardship.id }}" {% if hardship in form.hardships.value %}selected{% endif %}>{{ hardship.name }}</option>
+                    {% for hardship in student_form.hardships.field.queryset %}
+                        <option value="{{ hardship.id }}" {% if hardship in student_form.hardships.value %}selected{% endif %}>{{ hardship.name }}</option>
                     {% endfor %}
                 </select>
             </div>
             <div>
                 <label for="basic_need_supports">Basic Need Supports</label>
                 <select id="basic_need_supports" name="basic_need_supports" multiple>
-                    {% for support in form.basic_need_supports.field.queryset %}
-                        <option value="{{ support.id }}" {% if support in form.basic_need_supports.value %}selected{% endif %}>{{ support.name }}</option>
+                    {% for support in student_form.basic_need_supports.field.queryset %}
+                        <option value="{{ support.id }}" {% if support in student_form.basic_need_supports.value %}selected{% endif %}>{{ support.name }}</option>
                     {% endfor %}
                 </select>
             </div>
-        </div>
-        <div class="button-container">
-            <button type="submit">Save</button>
+            <div class="button-container">
+                <button type="submit">Save Changes</button>
+            </div>
         </div>
     </form>
 </div>
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        const yearSelect = document.getElementById("{{ form.year.id_for_label }}");
+        const yearSelect = document.getElementById("{{ student_form.year.id_for_label }}");
         const otherYearContainer = document.getElementById("other-year-container");
 
         function toggleOtherYearContainer() {
@@ -234,9 +213,10 @@
 
         yearSelect.addEventListener("change", toggleOtherYearContainer);
 
-        // Initial check
+        // Initial check to hide the "Other" field if it's not selected
         toggleOtherYearContainer();
     });
 </script>
 </body>
 </html>
+

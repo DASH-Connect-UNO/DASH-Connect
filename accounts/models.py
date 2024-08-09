@@ -17,20 +17,10 @@ class CustomUser(AbstractUser):
     last_name = models.CharField(max_length=255)
     email = models.EmailField()
     is_active = models.BooleanField(default=True)
-    deactivated_at = models.DateTimeField(null=True, blank=True)
 
     USERNAME_FIELD = 'NUID'
     REQUIRED_FIELDS = ['email']
 
-    def deactivate(self):
-        self.is_active = False
-        self.deactivated_at = timezone.now()
-        self.save()
-
-    def reactivate(self):
-        self.is_active = True
-        self.deactivated_at = None
-        self.save()
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} ({self.NUID})"

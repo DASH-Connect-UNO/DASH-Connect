@@ -148,19 +148,36 @@ def add_student(request):
 
 def edit_student(request, NUID):
     student = get_object_or_404(StudentProfile, user_id=NUID)
+    user = student.user
+
     if request.method == 'POST':
-        form = StudentForm(request.POST, instance=student)
-        if form.is_valid():
-            form.save()
+        user_form = CustomUserCreationForm(request.POST, instance=user)
+        student_form = StudentForm(request.POST, instance=student)
+
+        if user_form.is_valid() and student_form.is_valid():
+            user_form.save()
+            student_form.save()
             return redirect('student_profile', NUID=student.user.NUID)
     else:
-        form = StudentForm(instance=student)
-    return render(request, 'student/edit_student.html', {'form': form})
+        user_form = CustomUserCreationForm(instance=user)
+        student_form = StudentForm(instance=student)
+
+    return render(request, 'student/edit_student.html', {
+        'user_form': user_form,
+        'student_form': student_form
+    })
 
 
 def student_information(request):
-    students = StudentProfile.objects.all()
+    students = StudentProfile.objects.order_by('-user__is_active', 'user__first_name')
     return render(request, 'student/student_information.html', {'students': students})
+
+def toggle_student_status(request, NUID):
+    if request.method == "POST":
+        student = get_object_or_404(User, NUID=NUID)
+        student.is_active = not student.is_active
+        student.save()
+    return redirect('student_information')  # Replace with your actual redirect URL
 
 def visit_reason(request):
     if request.method == 'POST':

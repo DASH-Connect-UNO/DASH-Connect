@@ -93,7 +93,8 @@
             background-color: #f9f9f9;
         }
         .deactivated td {
-            opacity: 0.5; /* Faded effect */
+            color: gray; /* Faded text */
+            background-color: #e0e0e0; /* Lighter background */
         }
         .action-button {
             padding: 8px 12px;
@@ -185,9 +186,12 @@
                         </td>
                         <td>{{ student.date_added }}</td>
                         <td>
-                            <button type="button" class="action-button" id="toggleButton-{{ student.user.NUID }}" onclick="toggleStudentStatus('{{ student.user.NUID }}')">
-                                {% if student.user.is_active %}Deactivate{% else %}Reactivate{% endif %}
-                            </button>
+                            <form method="post" action="{% url 'toggle_student_status' student.user.NUID %}">
+                                {% csrf_token %}
+                                <button type="submit" class="action-button">
+                                    {% if student.user.is_active %}Deactivate{% else %}Activate{% endif %}
+                                </button>
+                            </form>
                         </td>
                     </tr>
                     {% endfor %}
@@ -204,20 +208,19 @@
             if (buttonElement.textContent.trim() === "Deactivate") {
                 if (confirm("Are you sure you want to deactivate this student?")) {
                     rowElement.classList.add('deactivated');
-                    buttonElement.textContent = "Reactivate";
-                    // Add logic to update the student's status in the backend here
+                    buttonElement.textContent = "Activate";
                 }
             } else {
                 if (confirm("Are you sure you want to reactivate this student?")) {
                     rowElement.classList.remove('deactivated');
                     buttonElement.textContent = "Deactivate";
-                    // Add logic to update the student's status in the backend here
                 }
             }
         }
     </script>
 </body>
 </html>
+
 
 
 

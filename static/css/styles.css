@@ -99,6 +99,10 @@ h1, h2 {
     width: 100%;
 }
 
+.deactivated td {
+    color: gray; /* Faded text */
+    background-color: #e0e0e0; /* Lighter background */
+}
 
 
 
