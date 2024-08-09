@@ -4,12 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administration Login and Register Administration</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <style>
         body {
             font-family: Arial, sans-serif;
-            text-align: center;
             margin: 0;
             padding: 0;
             background-color: #000; 
@@ -18,35 +16,39 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            text-align: center;
         }
         .container {
             background-color: #fff; 
             border-radius: 8px;
             border: 2px solid #000; 
-            width: 35%;
-            max-width: 1200px;
+            width: 45%;
+            max-width: 800px;
             padding: 20px;
             box-sizing: border-box;
-            color: #000; 
-            text-align: left;
+            color: #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         .header {
-            display: flex;
-            align-items: center;
             margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            width: 100%;
         }
         .logo {
-            margin-right: auto; 
+            text-align: center;
         }
         .logo img {
-            max-height: 200px; 
-            max-width: 300px; 
-        }
+            max-height: 100px; 
+            max-width: 100%;
         }
         .form-wrapper {
             display: flex;
             flex-direction: column;
             align-items: center;
+            width: 100%;
         }
         .form-container {
             padding: 20px;
@@ -55,16 +57,17 @@
             max-width: 400px;
             width: 100%; 
             margin-bottom: 20px;
-            color: #000; 
-            text-align: center; 
+            color: #fff; 
+            background-color: #333333; 
         }
         .form-container h1, .form-container h2 {
-            color: #000; 
+            color: #fff; 
             margin-top: 0;
         }
         .input-container {
             position: relative;
             margin-bottom: 20px;
+            width: 100%;
         }
         input[type="text"], input[type="password"] {
             font-size: 24px;
@@ -86,14 +89,24 @@
             border-radius: 5px;
             margin: 0 auto; 
             display: block; 
+            font-weight: bold;
         }
         button:hover {
             background-color: darkred; 
         }
         .error-message {
-            color: #ff0000; /
+            color: #ff0000; 
             font-size: 18px;
             margin-top: 20px;
+        }
+        label {
+            color: #fff; 
+        }
+        .title {
+            font-size: 45px;
+            font-weight: bold;
+            color: #000; 
+            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -105,6 +118,7 @@
             </div>
         </div>
         <div class="form-wrapper">
+            <div class="title">DASH Connect</div>
             <div class="form-container">
                 <h1>Administration Login</h1>
                 <form method="post" action="{% url 'admin_login' %}">
@@ -138,6 +152,5 @@
     </div>
 </body>
 </html>
-
 
 

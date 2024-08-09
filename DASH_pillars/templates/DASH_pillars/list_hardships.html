@@ -7,45 +7,75 @@
     <title>Hardships</title>
     <style>
         body {
+            background-color: #121212; /* Dark background */
+            color: #fff;
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #d3d3d3;
         }
         .container {
             padding: 20px;
+            background-color: #333333; /* Lighter black */
+            border-radius: 8px;
+            width: 95%;
+            box-sizing: border-box;
+            margin: 20px auto;
+            color: #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         .header {
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            background-color: #ffffff;
-            padding: 10px 20px;
-            border-bottom: 1px solid #ccc;
+            align-items: center;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        .logo-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            width: 100%;
+            margin: 0 auto;
+            color: #000;
         }
         .logo img {
-            width: 100px;
-            height: auto;
+            max-height: 50px;
         }
         .nav-links a {
-            margin: 0 10px;
+            color: #000;
             text-decoration: none;
+            margin-left: 20px;
+            font-weight: bold;
+        }
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+        h1, h2 {
             color: #000;
         }
         .profile-container {
             display: flex;
-            margin-top: 20px;
+            width: 100%;
         }
         .sidebar {
             width: 200px;
             padding: 20px;
-            background-color: #ffffff;
+            background-color: #fff;
             border-right: 1px solid #ccc;
+            border-radius: 8px;
         }
         .content {
             flex-grow: 1;
             padding: 20px;
             background-color: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            margin-left: 20px;
         }
         .sidebar button {
             display: block;
@@ -53,26 +83,115 @@
             margin-bottom: 10px;
             padding: 10px;
             font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: crimson;
+            color: #fff;
             cursor: pointer;
+            font-weight: bold;
+        }
+        .sidebar button a {
+            color: #fff;
+            text-decoration: none;
+        }
+        .sidebar button:hover {
+            background-color: darkred;
         }
         .list-section {
             margin-bottom: 20px;
         }
+        .list-section .add-button {
+            display: inline-block;
+            background-color: crimson;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-bottom: 10px;
+        }
+        .list-section .add-button:hover {
+            background-color: darkred;
+        }
+        .hardship-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ccc;
+            padding: 10px 0;
+            transition: opacity 0.3s ease;
+        }
+        .hardship-item.deactivated {
+            opacity: 0.5;
+        }
+        .hardship-item .buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .hardship-item .buttons a {
+            color: #fff;
+            background-color: crimson;
+            padding: 5px 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .hardship-item .buttons a.deactivate {
+            background-color: crimson;
+        }
+        .hardship-item .buttons a.reactivate {
+            background-color: green;
+        }
+        .hardship-item .buttons a.edit {
+            background-color: #0066cc;
+        }
+        .hardship-item .buttons a.edit:hover {
+            background-color: #005bb5;
+        }
+        .hardship-item .buttons a:hover {
+            background-color: darkred;
+        }
     </style>
+    <script>
+        function toggleHardshipStatus(button) {
+            const listItem = button.closest('.hardship-item');
+            const isDeactivated = listItem.classList.toggle('deactivated');
+
+            if (isDeactivated) {
+                button.textContent = 'Reactivate';
+                button.classList.remove('deactivate');
+                button.classList.add('reactivate');
+            } else {
+                button.textContent = 'Deactivate';
+                button.classList.remove('reactivate');
+                button.classList.add('deactivate');
+            }
+
+            // Optionally, here you could add AJAX requests to perform the backend toggle as well.
+            // Example (replace with actual AJAX logic):
+            // const hardshipId = button.dataset.hardshipId;
+            // fetch(`/hardship/toggle/${hardshipId}`, { method: 'POST' })
+            //     .then(response => response.json())
+            //     .then(data => {
+            //         // handle response
+            //     });
+        }
+    </script>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <div class="logo">
-                <img src="{% static 'accounts/uno_logo.png' %}" alt="UNO logo">
+            <div class="logo-nav">
+                <div class="logo">
+                    <img src="{% static 'uno_logo.png' %}" alt="UNO logo">
+                </div>
+                <div class="nav-links">
+                    <a href="">Student Data</a>
+                    <a href="{% url 'student_information' %}">Student Information</a>
+                    <a href="{% url 'pillars_home' %}">DASH Pillars</a>
+                    <a href="{% url 'admin_profile' %}">Administration</a>
+                    <a href="{% url 'logout' %}">Logout</a>
+                </div>
             </div>
-            <div class="nav-links">
-                <a href="">Student Data</a>
-                <a href="{% url 'student_information' %}">Student Information</a>
-                <a href="{% url 'pillars_home' %}">DASH Pillars</a>
-                <a href="{% url 'admin_profile' %}">Administration</a>
-                <a href="{% url 'logout' %}">Logout</a>
-             </div>
         </div>
         <div class="profile-container">
             <div class="sidebar">
@@ -92,12 +211,19 @@
             <div class="content">
                 <h1>Hardships</h1>
                 <div class="list-section">
-                    <a href="{% url 'add_hardship' %}">Add Hardship</a>
+                    <a href="{% url 'add_hardship' %}" class="add-button">Add Hardship</a>
                     <ul>
                         {% for hardship in hardships %}
-                        <li>{{ hardship.name }}
-                            <a href="{% url 'edit_hardship' hardship.id %}">Edit</a>
-                            <a href="{% url 'remove_hardship' hardship.id %}">Remove</a>
+                        <li class="hardship-item {% if hardship.is_deactivated %}deactivated{% endif %}">
+                            <span>{{ hardship.name }}</span>
+                            <div class="buttons">
+                                <a href="{% url 'edit_hardship' hardship.id %}" class="edit">Edit</a>
+                                <a href="javascript:void(0);"
+                                   class="deactivate {% if hardship.is_deactivated %}reactivate{% endif %}"
+                                   onclick="toggleHardshipStatus(this)">
+                                    {% if hardship.is_deactivated %}Reactivate{% else %}Deactivate{% endif %}
+                                </a>
+                            </div>
                         </li>
                         {% endfor %}
                     </ul>

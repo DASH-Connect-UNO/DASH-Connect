@@ -12,26 +12,55 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = CustomUser
         fields = ('NUID', 'user_type', 'password1', 'password2', 'first_name', 'middle_name', 'last_name', 'email')
+        error_messages = {
+            'NUID': {'required': ''},
+            'user_type': {'required': ''},
+            'password1': {'required': ''},
+            'password2': {'required': ''},
+            'first_name': {'required': ''},
+            'middle_name': {'required': ''},
+            'last_name': {'required': ''},
+            'email': {'required': ''},
+        }
 
-# Form for student profile
 class StudentForm(forms.ModelForm):
     class Meta:
         model = StudentProfile
+
         fields = [
             'DASH_Member', 'year', 'scholarships', 'hardships', 'basic_need_supports'
         ]
+        
+        fields = ['DASH_Member', 'year', 'other_year', 'scholarships', 'hardships', 'basic_need_supports']
+        error_messages = {
+            'DASH_Member': {'required': ''},
+            'year': {'required': ''},
+            'scholarships': {'required': ''},
+            'hardships': {'required': ''},
+            'basic_need_supports': {'required': ''},
+        }
 
-# Form for admin profile
+    def clean(self):
+        cleaned_data = super().clean()
+        year = cleaned_data.get('year')
+        other_year = cleaned_data.get('other_year')
+
+        if year == 'Other' and not other_year:
+            self.add_error('other_year', 'Please specify the other year.')
+
 class AdminForm(forms.ModelForm):
     class Meta:
         model = AdminProfile
         fields = ['role_within_DASH']
+        error_messages = {
+            'role_within_DASH': {'required': ''},
+        }
 
-# Form for deactivating an admin
 class DeactivateAdminForm(forms.Form):
     admin_id = forms.IntegerField()
 
-# Form for reactivating an admin
+    admin_NUID = forms.IntegerField(error_messages={'required': ''})
+
 class ReactivateAdminForm(forms.Form):
     admin_id = forms.IntegerField()
 
@@ -70,4 +99,7 @@ class VisitReasonForm(forms.ModelForm):
         cleaned_data = super().clean()
         if not any(cleaned_data.get(field) for field in self.fields):
             raise forms.ValidationError(_('At least one reason for the visit must be selected.'))
+
+    admin_NUID = forms.IntegerField(error_messages={'required': ''})
+
 

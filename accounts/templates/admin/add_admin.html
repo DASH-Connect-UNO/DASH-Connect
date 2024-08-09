@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Administration</title>
+    <title>Add Administrator</title>
     <style>
         body {
-            background-color: #000; /* Black background for the entire page */
-            color: #fff; /* White text color for the entire page */
+            background-color: #000;
+            color: #fff;
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -16,12 +16,11 @@
 
         .container {
             padding: 20px;
-            background-color: #ccc; /* Light grey background for the container */
+            background-color: #333333;
             border-radius: 8px;
-            width: 95%; /* Make the width almost the whole page */
-            box-sizing: border-box; /* Include padding and border in the element's total width and height */
-            margin: 20px auto; /* Center the container with auto margins */
-            color: #000; /* Black text color for the container */
+            width: 95%;
+            box-sizing: border-box;
+            margin: 20px auto;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -39,11 +38,10 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #fff; /* White background for the logo-nav container */
+            background-color: #fff;
             padding: 10px;
             border-radius: 8px;
-            width: 100%; /* Make the logo-nav container reach 100% width */
-            margin: 0 auto; /* Center the logo-nav container */
+            width: 100%;
             color: #000;
         }
 
@@ -52,9 +50,10 @@
         }
 
         .nav-links a {
-            color: #000; /* Black text color for links */
+            color: #000;
             text-decoration: none;
             margin-left: 20px;
+            font-weight: bold;
         }
 
         .nav-links a:hover {
@@ -62,18 +61,18 @@
         }
 
         h1, h2 {
-            color: #000; /* Black text color for headings */
+            color: #fff;
         }
 
         .form-container {
-            background-color: #fff; /* White background for form sections */
+            background-color: #fff;
             padding: 50px;
             border-radius: 8px;
             border: 1px solid #ccc;
             margin: 20px auto;
             width: 100%;
             max-width: 600px;
-            color: #000; /* Black text color for form sections */
+            color: #000;
         }
 
         .form-container h2 {
@@ -81,6 +80,7 @@
         }
 
         .form-container input,
+        .form-container select,
         .form-container button {
             display: block;
             width: 100%;
@@ -89,17 +89,18 @@
             font-size: 16px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+            box-sizing: border-box;
         }
 
-            .form-container button {
+        .form-container button {
             background-color: crimson;
-            color: #fff; /* White text color for the button */
+            color: #fff;
             border: none;
             cursor: pointer;
+            font-weight: bold;
         }
 
-            .form-container button:hover {
+        .form-container button:hover {
             background-color: darkred;
         }
 
@@ -108,6 +109,12 @@
             width: 100%;
         }
 
+        .required-fields-message {
+            color: crimson;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
@@ -128,10 +135,12 @@
         </div>
         <h1>Add Administrator</h1>
         <div class="form-container">
+            <div class="required-fields-message">All fields are required.</div>
             <form method="post">
                 {% csrf_token %}
                 {{ user_form.as_p }}
                 {{ student_form.as_p }}
+                {{ admin_form.as_p }}
                 <div class="button-container">
                     <button type="submit">Add Administrator</button>
                 </div>
@@ -140,5 +149,8 @@
     </div>
 </body>
 </html>
+
+
+
 
 

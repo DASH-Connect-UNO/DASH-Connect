@@ -4,46 +4,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reactivate Administration</title>
+    <title>Reactivate Administrator</title>
     <style>
         body {
+            background-color: #000; 
+            color: #fff; 
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #d3d3d3;
         }
+
         .container {
             padding: 20px;
+            background-color: #333333; 
+            border-radius: 8px;
+            width: 95%; 
+            box-sizing: border-box; 
+            margin: 20px auto; 
+            color: #fff; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
+
         .header {
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            background-color: #ffffff;
-            padding: 10px 20px;
-            border-bottom: 1px solid #ccc;
+            align-items: center;
+            margin-bottom: 20px;
+            width: 100%;
         }
-        .logo img {
-            width: 100px;
-            height: auto;
-        }
-        .nav-links a {
-            margin: 0 10px;
-            text-decoration: none;
+
+        .logo-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff; 
+            padding: 10px;
+            border-radius: 8px;
+            width: 100%; 
+            margin: 0 auto; 
             color: #000;
         }
-        .form-container {
-            background-color: #ffffff;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            max-width: 600px;
-            margin: 20px auto;
+
+        .logo img {
+            max-height: 50px;
         }
-        .form-container h1 {
+
+        .nav-links a {
+            color: #000; 
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: bold;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        h1, h2 {
+            color: #000; 
+        }
+
+        .profile-container {
+            display: flex;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .sidebar {
+            width: 200px;
+            padding: 20px;
+            background-color: #fff; 
+            border-right: 1px solid #ccc;
+            border-radius: 8px;
+            color: #000; 
+            margin-right: 20px; 
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            color: #000; 
+        }
+
+        .sidebar button, .sidebar a {
+            display: block;
+            width: 90%; 
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            color: #fff; 
+            background-color: crimson; 
+            border: 2px solid #ccc;
+            border-radius: 10px;
+        }
+
+        .sidebar button:hover, .sidebar a:hover {
+            background-color: darkred; 
+        }
+
+        .form-container {
+            background-color: #fff; 
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            margin: 20px auto;
+            width: 100%;
+            max-width: 600px; 
+            color: #000; 
+        }
+
+        .form-container h2 {
             margin-top: 0;
         }
-        .form-container input, .form-container button {
+
+        .form-container input,
+        .form-container button {
             display: block;
             width: 100%;
             margin-bottom: 10px;
@@ -51,21 +133,29 @@
             font-size: 16px;
             border: 1px solid #ccc;
             border-radius: 5px;
+            box-sizing: border-box; /
         }
+
         .form-container button {
-            background-color: #007bff;
-            color: #fff;
+            background-color: crimson;
+            color: #fff; 
             border: none;
             cursor: pointer;
         }
+
         .form-container button:hover {
-            background-color: #0056b3;
+            background-color: darkred;
+        }
+        
+        .form-container label {
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
+<div class="container">
+    <div class="header">
+        <div class="logo-nav">
             <div class="logo">
                 <img src="{% static 'uno_logo.png' %}" alt="UNO logo">
             </div>
@@ -73,19 +163,30 @@
                 <a href="#">Student Data</a>
                 <a href="{% url 'student_information' %}">Student Information</a>
                 <a href="{% url 'pillars_home' %}">DASH Pillars</a>
-                <a href="{% url 'admin_profile' %}">Administration</a>
+                <a href="{% url 'admin_profile' %}">Administration Profile</a>
                 <a href="{% url 'logout' %}">Logout</a>
             </div>
         </div>
-        <div class="form-container">
-            <h1>Reactivate Administration</h1>
-            <form method="post">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit">Reactivate</button>
-            </form>
+    </div>
+    <div class="profile-container">
+        <div class="sidebar">
+            <a href="{% url 'add_admin' %}">Add Administrator</a>
+            <a href="{% url 'admin_list' %}">Administration List</a>
+        </div>
+        <div class="content">
+            <div class="form-container">
+                <h2>Reactivate Administrator</h2>
+                <form method="post">
+                    {% csrf_token %}
+                    <label for="NUID">Enter Administrator NUID:</label>
+                    <input type="text" id="NUID" name="admin_NUID" required>
+                    <button type="submit">Reactivate</button>
+                </form>
+            </div>
         </div>
     </div>
+</div>
 </body>
 </html>
+
 

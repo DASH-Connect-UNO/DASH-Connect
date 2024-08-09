@@ -7,73 +7,92 @@
     <title>Student Profile</title>
     <style>
         body {
+            background-color: #000; /* Dark background */
+            color: #fff; /* Light text */
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #d3d3d3;
+            font-weight: bold;
         }
         .container {
             padding: 20px;
+            background-color: #333333; /* Lighter black */
+            border-radius: 8px;
+            width: 95%;
+            box-sizing: border-box;
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         .header {
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            background-color: #ffffff;
-            padding: 10px 20px;
-            border-bottom: 1px solid #ccc;
+            align-items: center;
+            background-color: #fff; /* White background for the header */
+            padding: 10px;
+            border-radius: 8px;
+            width: 99%;
+            margin-bottom: 20px;
+            color: #000; /* Dark text */
         }
         .logo img {
-            width: 100px;
-            height: auto;
+            max-height: 50px;
         }
         .nav-links a {
-            margin: 0 10px;
+            color: #000; /* Dark text */
             text-decoration: none;
-            color: #000;
+            margin-left: 20px;
+            font-weight: bold;
+        }
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+        .profile-title {
+            text-align: center;
+            color: #fff; /* White text */
+            margin-bottom: 20px;
+            font-size: 32px; /* Larger font size for the title */
         }
         .profile-container {
             display: flex;
-            margin-top: 20px;
-        }
-        .sidebar {
-            width: 200px;
-            padding: 20px;
-            background-color: #ffffff;
-            border-right: 1px solid #ccc;
+            width: 75%;
         }
         .content {
             flex-grow: 1;
             padding: 20px;
-            background-color: #f9f9f9;
+            background-color: #f9f9f9; /* Light background for content */
+            border-radius: 8px;
+            color: #000; /* Dark text */
+            position: relative; /* Position relative for the button */
         }
-        .sidebar button, .sidebar a {
-            display: block;
-            width: 100%;
-            margin-bottom: 10px;
-            padding: 10px;
-            font-size: 16px;
-            cursor: pointer;
-            text-align: center;
-            text-decoration: none;
-            color: #000;
-            background-color: #f2f2f2;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .form-section {
+        .content h1 {
+            color: #000; /* Dark text */
+            font-size: 32px; /* Larger font size for the student's full name */
             margin-bottom: 20px;
         }
-        .form-section input {
-            display: block;
-            width: 100%;
-            margin-bottom: 10px;
-            padding: 8px;
+        .content p {
+            margin: 10px 0;
         }
-        .form-section button {
+        .content p strong {
+            color: #000; /* Dark text for strong elements */
+        }
+        .edit-button {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
             padding: 10px 20px;
             font-size: 16px;
+            color: #fff;
+            background-color: crimson;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
             cursor: pointer;
+        }
+        .edit-button:hover {
+            background-color: darkred;
         }
     </style>
 </head>
@@ -81,24 +100,23 @@
     <div class="container">
         <div class="header">
             <div class="logo">
-                <img src="{% static 'accounts/uno_logo.png' %}" alt="UNO logo">
+                <img src="{% static 'uno_logo.png' %}" alt="UNO logo">
             </div>
-             <div class="nav-links">
-                <a href="">Student Data</a>
+            <div class="nav-links">
+                <a href="#">Student Data</a>
                 <a href="{% url 'student_information' %}">Student Information</a>
                 <a href="{% url 'pillars_home' %}">DASH Pillars</a>
                 <a href="{% url 'admin_profile' %}">Administration</a>
                 <a href="{% url 'logout' %}">Logout</a>
-             </div>
-        </div>
-        <div class="profile-container">
-            <div class="sidebar">
-                <a href="{% url 'edit_student' student.user.NUID %}">Edit</a>
-                <a href="{% url 'remove_student' %}">Remove</a>
             </div>
-            <div class="content">
-                <h1>Student Profile</h1>
-                <p><strong>Full Name:</strong> {{ student.user.first_name }} {{ student.user.middle_name }} {{ student.user.last_name }}</p>
+        </div>
+
+        <!-- Centered Profile Title -->
+        <h1 class="profile-title">Student Profile</h1>
+
+        <div class="profile-container">
+            <div class="content" id="student-profile-content">
+                <h1>{{ student.user.first_name }} {{ student.user.middle_name }} {{ student.user.last_name }}</h1>
                 <p><strong>NUID:</strong> {{ student.user.NUID }}</p>
                 <p><strong>Email:</strong> {{ student.user.email }}</p>
                 <p><strong>Year:</strong> {{ student.year }}</p>
@@ -119,8 +137,16 @@
                     {% endfor %}
                 </p>
                 <p><strong>Date Added:</strong> {{ student.date_added }}</p>
+                <a href="{% url 'edit_student' student.user.NUID %}" class="edit-button">Edit</a>
             </div>
         </div>
     </div>
 </body>
 </html>
+
+
+
+
+
+
+

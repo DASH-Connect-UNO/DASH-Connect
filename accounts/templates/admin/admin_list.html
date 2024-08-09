@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administration List</title>
     <style>
+        /* The same CSS as before */
         body {
-            background-color: #000; /* Black background for the entire page */
-            color: #fff; /* White text color for the entire page */
+            background-color: #000; 
+            color: #fff; 
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -16,12 +17,11 @@
 
         .container {
             padding: 20px;
-            background-color: #ccc; /* Light grey background for the container */
+            background-color: #333333; 
             border-radius: 8px;
-            width: 95%; /* Make the width almost the whole page */
-            box-sizing: border-box; /* Include padding and border in the element's total width and height */
-            margin: 20px auto; /* Center the container with auto margins */
-            color: #000; /* Black text color for the container */
+            width: 95%; 
+            box-sizing: border-box; 
+            margin: 20px auto; 
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -39,11 +39,11 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #fff; /* White background for the logo-nav container */
+            background-color: #fff; 
             padding: 10px;
             border-radius: 8px;
-            width: 100%; /* Make the logo-nav container reach 100% width */
-            margin: 0 auto; /* Center the logo-nav container */
+            width: 100%; 
+            margin: 0 auto; 
             color: #000;
         }
 
@@ -52,17 +52,18 @@
         }
 
         .nav-links a {
-            color: #000; /* Black text color for links */
+            color: #000; 
             text-decoration: none;
             margin-left: 20px;
+            font-weight: bold;
         }
 
         .nav-links a:hover {
             text-decoration: underline;
         }
 
-        h1, h2 {
-            color: #000; /* Black text color for headings */
+        h1 {
+            color: #000; 
         }
 
         .profile-container {
@@ -74,11 +75,11 @@
         .sidebar {
             width: 200px;
             padding: 20px;
-            background-color: #fff; /* White background for sidebar */
+            background-color: #fff; 
             border-right: 1px solid #ccc;
             border-radius: 8px;
-            color: #000; /* Black text color for sidebar */
-            margin-right: 20px; /* Add some space between sidebar and content */
+            color: #000; 
+            margin-right: 20px; 
         }
 
         .content {
@@ -86,7 +87,7 @@
             padding: 20px;
             background-color: #f9f9f9;
             border-radius: 8px;
-            color: #000; /* Black text color for content */
+            color: #000; 
         }
 
         .sidebar button, .sidebar a {
@@ -98,19 +99,26 @@
             cursor: pointer;
             text-align: center;
             text-decoration: none;
-            color: #000;
-            background-color: #f2f2f2;
+            color: #fff;
+            background-color: crimson;
             border: 2px solid #ccc;
             border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .sidebar button:hover, .sidebar a:hover {
+            background-color: darkred;
         }
 
         .admin-item {
-            background-color: #fff; /* White background for admin items */
+            background-color: #fff; 
             border: 1px solid #ccc;
             border-radius: 5px;
             margin-bottom: 20px;
             padding: 15px;
-            color: #000; /* Black text color for admin items */
+            color: #000; 
+            position: relative;
+            transition: background-color 0.3s, opacity 0.3s;
         }
 
         .admin-item h2 {
@@ -121,10 +129,6 @@
             margin: 5px 0;
         }
 
-        .admin-item form {
-            display: inline;
-        }
-
         .admin-item button, .admin-item a {
             display: inline-block;
             margin-top: 10px;
@@ -133,11 +137,14 @@
             text-decoration: none;
             text-align: center;
             border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
         }
 
         .admin-item a {
             background-color: #007bff;
-            color: #fff; /* White text color for links */
+            font-weight: bold;
+            
         }
 
         .admin-item a:hover {
@@ -146,9 +153,9 @@
 
         .admin-item button {
             background-color: #ff4d4d;
-            color: #fff; /* White text color for buttons */
             border: none;
-            cursor: pointer;
+            font-weight: bold;
+            
         }
 
         .admin-item button:hover {
@@ -156,11 +163,35 @@
         }
 
         .admin-item .reactivate-button {
-            background-color: #28a745;
+            background-color: #ff4d4d; /* Same color as Deactivate button */
+            display: none; /* Initially hidden */
         }
 
         .admin-item .reactivate-button:hover {
-            background-color: #218838;
+            background-color: #cc0000; /* Same hover color as Deactivate button */
+        }
+
+        .admin-item.deactivated {
+            background-color: #ddd;
+            opacity: 0.5;
+        }
+
+        .admin-item.deactivated .reactivate-button {
+            display: inline-block;
+            background-color: #ff4d4d; 
+            font-weight: bold;
+        }
+
+        .admin-item.deactivated .reactivate-button:hover {
+            background-color: #cc0000;
+        }
+
+        .admin-item.deactivated button, .admin-item.deactivated a {
+            display: none;
+        }
+
+        .admin-item.deactivated .reactivate-button {
+            display: inline-block;
         }
     </style>
 </head>
@@ -188,30 +219,53 @@
         <div class="content">
             <h1>Administration List</h1>
             {% for admin in admins %}
-                <div class="admin-item">
+                <div class="admin-item" id="admin-{{ admin.user.NUID }}">
                     <h2>{{ admin.user.first_name }} {{ admin.user.middle_name }} {{ admin.user.last_name }}</h2>
                     <p>NUID: {{ admin.user.NUID }}</p>
                     <p>Email: {{ admin.user.email }}</p>
                     <p>Role within DASH: {{ admin.role_within_DASH }}</p>
-                    <p>Status: {{ admin.user.is_active|yesno:"Active,Deactivated" }}</p>
+                    <p>Status: <span id="status-{{ admin.user.NUID }}">{{ admin.user.is_active|yesno:"Active,Deactivated" }}</span></p>
                     <a href="{% url 'edit_admin' admin.user.NUID %}">Edit</a>
                     {% if admin.user.is_active %}
-                        <form method="post" action="{% url 'deactivate_admin' %}">
-                            {% csrf_token %}
-                            <input type="hidden" name="admin_id" value="{{ admin.user.NUID }}">
-                            <button type="submit">Deactivate</button>
-                        </form>
-                    {% else %}
-                        <form method="post" action="{% url 'reactivate_admin' %}">
-                            {% csrf_token %}
-                            <input type="hidden" name="admin_id" value="{{ admin.user.NUID }}">
-                            <button type="submit" class="reactivate-button">Reactivate</button>
-                        </form>
+                        <button type="button" onclick="deactivateAdmin('{{ admin.user.NUID }}')">Deactivate</button>
                     {% endif %}
+                    <button type="button" class="reactivate-button" onclick="reactivateAdmin('{{ admin.user.NUID }}')">Reactivate</button>
                 </div>
             {% endfor %}
         </div>
     </div>
 </div>
+
+<script>
+    function deactivateAdmin(adminId) {
+        if (confirm("Are you sure you want to deactivate this administrator?")) {
+            const adminItem = document.getElementById(`admin-${adminId}`);
+            const statusElement = document.getElementById(`status-${adminId}`);
+            adminItem.classList.add('deactivated');
+            statusElement.textContent = "Deactivated";
+
+            // Show the Reactivate button and hide the Deactivate button
+            adminItem.querySelector('.reactivate-button').style.display = 'inline-block';
+            adminItem.querySelector('button[onclick^="deactivateAdmin"]').style.display = 'none';
+            adminItem.querySelector('a[href^="edit_admin"]').style.display = 'none';
+        }
+    }
+
+    function reactivateAdmin(adminId) {
+        if (confirm("Are you sure you want to reactivate this administrator?")) {
+            const adminItem = document.getElementById(`admin-${adminId}`);
+            const statusElement = document.getElementById(`status-${adminId}`);
+            adminItem.classList.remove('deactivated');
+            statusElement.textContent = "Active";
+
+            // Show the Deactivate button and hide the Reactivate button
+            adminItem.querySelector('.reactivate-button').style.display = 'none';
+            adminItem.querySelector('button[onclick^="deactivateAdmin"]').style.display = 'inline-block';
+            adminItem.querySelector('a[href^="edit_admin"]').style.display = 'inline-block';
+        }
+    }
+</script>
 </body>
 </html>
+
+

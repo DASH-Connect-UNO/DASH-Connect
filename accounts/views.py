@@ -1,5 +1,4 @@
 import logging
-
 from django.contrib.auth import login, authenticate, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
@@ -20,7 +19,7 @@ def student_login_view(request):
             user = form.get_user()
             if user.user_type == 'student':
                 login(request, user)
-                return redirect('student_profile', id=user.id)
+                return redirect('student_profile', NUID=user.NUID)
             else:
                 form.add_error(None, "You are not authorized as a student.")
     else:
@@ -32,7 +31,7 @@ def admin_login_view(request):
     if request.method == 'POST':
         nuid = request.POST.get('nuid')
         password = request.POST.get('password')
-        user = authenticate(request, username=nuid, password=password)  # 'username' here maps to 'USERNAME_FIELD'
+        user = authenticate(request, username=nuid, password=password)
         if user is not None:
             if user.user_type == 'admin':
                 login(request, user)
@@ -211,3 +210,14 @@ def visit_reason(request):
         form = VisitReasonForm()
 
     return render(request, 'student/visit_reason.html', {'form': form})
+
+    students = StudentProfile.objects.all().order_by('user__last_name', 'user__first_name')
+
+    active_students = students.filter(user__is_active=True)
+    inactive_students = students.filter(user__is_active=False)
+
+    sorted_students = list(active_students) + list(inactive_students)
+
+    return render(request, 'student/student_information.html', {'students': sorted_students})
+
+

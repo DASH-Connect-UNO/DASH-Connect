@@ -7,146 +7,227 @@
     <title>Student Information</title>
     <style>
         body {
+            background-color: #000; /* Dark background */
+            color: #fff; /* Light text */
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #d3d3d3;
         }
-
         .container {
             padding: 20px;
+            background-color: #333333; /* Lighter black */
+            border-radius: 8px;
+            width: 95%;
+            box-sizing: border-box;
+            margin: 20px auto;
         }
-
         .header {
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            background-color: #ffffff;
-            padding: 10px 20px;
-            border-bottom: 1px solid #ccc;
+            align-items: center;
+            background-color: #fff; /* White background for the header */
+            padding: 10px;
+            border-radius: 8px;
+            width: 99%;
+            margin-bottom: 20px;
+            color: #000; /* Dark text */
         }
-
         .logo img {
-            width: 100px;
-            height: auto;
+            max-height: 50px;
         }
-
         .nav-links a {
-            margin: 0 10px;
+            color: #000; /* Dark text */
             text-decoration: none;
-            color: #000;
+            margin-left: 20px;
+            font-weight: bold;
         }
-
-        .content {
-            padding: 20px;
-            background-color: #f9f9f9;
+        .nav-links a:hover {
+            text-decoration: underline;
         }
-
-        .table-container {
-            margin-top: 20px;
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 40px 0; /* Adds space above and below */
         }
-
+        .content-header h1 {
+            margin: 0;
+            color: #fff; /* White text */
+            text-align: center; /* Centered title */
+            flex-grow: 1; /* Ensure the title takes up available space */
+        }
+        .add-student-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: crimson;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            margin-left: 20px; /* Adds some space between title and button */
+        }
+        .add-student-button:hover {
+            background-color: darkred;
+        }
         table {
             width: 100%;
             border-collapse: collapse;
-            background-color: #fff;
+            background-color: #fff; /* White background for table */
+            color: #000; /* Dark text for table */
+            margin-top: 20px;
+            border-radius: 8px;
+            overflow: hidden;
         }
-
-        table th, table td {
-            border: 1px solid #ccc;
+        th, td {
             padding: 10px;
             text-align: left;
+            border-bottom: 1px solid #ddd;
         }
-
-        table th {
-            background-color: #f2f2f2;
-        }
-
-        .add-student-btn {
-            display: block;
-            margin: 20px 0;
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #007bff;
+        th {
+            background-color: crimson; /* Crimson color for the table header */
             color: #fff;
+        }
+        td {
+            background-color: #f9f9f9;
+        }
+        .deactivated td {
+            opacity: 0.5; /* Faded effect */
+        }
+        .action-button {
+            padding: 8px 12px;
+            font-size: 14px;
             text-align: center;
             text-decoration: none;
+            color: #fff; /* Light text */
+            background-color: crimson;
+            border: 1px solid #ccc;
             border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
         }
-
-        .add-student-btn:hover {
-            background-color: #0056b3;
+        .action-button:hover {
+            background-color: darkred;
+        }
+        .student-link {
+            color: crimson; /* Crimson color for the link */
+            font-weight: bold; /* Bold text */
+            text-decoration: underline; /* Underlined text */
+            cursor: pointer;
+        }
+        .student-link:hover {
+            color: darkred; /* Darker red color on hover */
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="header">
-        <div class="logo">
-            <img src="{% static 'accounts/uno_logo.png' %}" alt="UNO logo">
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <img src="{% static 'uno_logo.png' %}" alt="UNO logo">
+            </div>
+            <div class="nav-links">
+                <a href="#">Student Data</a>
+                <a href="{% url 'student_information' %}">Student Information</a>
+                <a href="{% url 'pillars_home' %}">DASH Pillars</a>
+                <a href="{% url 'admin_profile' %}">Administration</a>
+                <a href="{% url 'logout' %}">Logout</a>
+            </div>
         </div>
-        <div class="nav-links">
-            <a href="#">Student Data</a>
-            <a href="{% url 'student_information' %}">Student Information</a>
-            <a href="{% url 'pillars_home' %}">DASH Pillars</a>
-            <a href="{% url 'admin_profile' %}">Administration</a>
-            <a href="{% url 'logout' %}">Logout</a>
-        </div>
-    </div>
-    <div class="content">
-        <h1>Student Information</h1>
-        <a href="{% url 'add_student' %}" class="add-student-btn">Add Student</a>
-        <div class="table-container">
+
+        <div class="content">
+            <div class="content-header">
+                <h1>Student Information</h1>
+                <a href="{% url 'add_student' %}" class="add-student-button">Add Student</a>
+            </div>
             <table>
                 <thead>
-                <tr>
-                    <th>Student Full Name</th>
-                    <th>NUID</th>
-                    <th>E-mail</th>
-                    <th>Year</th>
-                    <th>DASH Member</th>
-                    <th>Scholarship(s)</th>
-                    <th>Hardship(s)</th>
-                    <th>Basic Need Support(s)</th>
-                    <th>Date Added</th>
-                </tr>
+                    <tr>
+                        <th>Full Name</th>
+                        <th>NUID</th>
+                        <th>Email</th>
+                        <th>Year</th>
+                        <th>DASH Member</th>
+                        <th>Scholarships</th>
+                        <th>Hardships</th>
+                        <th>Basic Need Supports</th>
+                        <th>Date Added</th>
+                        <th>Action</th>
+                    </tr>
                 </thead>
                 <tbody>
-                {% for student in students %}
-                    <tr>
-                        <p><strong>Scholarships:</strong>
-                            <td>
-                                <a href="{% url 'student_profile' student.user.NUID %}">{{ student.user.first_name }} {{ student.user.middle_name }} {{ student.user.last_name }}</a>
-                            </td>
-                            <td>{{ student.user.NUID }}</td>
-                            <td>{{ student.user.email }}</td>
-                            <td>{{ student.user.year }}</td>
-                            <td>{{ student.is_dash_member|yesno:"Yes,No" }}</td>
-                           <td>
-                                {% for scholarship in student.scholarships.all %}
-                                    {{ scholarship.name }}{% if not forloop.last %}, {% endif %}
-                                {% endfor %}
-                            </td>
-                            <td>
-                                {% for hardship in student.hardships.all %}
-                                    {{ hardship.name }}{% if not forloop.last %}, {% endif %}
-                                {% endfor %}
-                            </td>
-                            <td>
-                                {% for support in student.basic_need_supports.all %}
-                                    {{ support.name }}{% if not forloop.last %}, {% endif %}
-                                {% endfor %}
-                            </td>
-                            <td>
-                            {{ student.date_added }}
-                            </td>
+                    {% for student in students %}
+                    <tr id="student-{{ student.user.NUID }}" class="{% if not student.user.is_active %}deactivated{% endif %}">
+                        <td>
+                            <a href="{% url 'student_profile' student.user.NUID %}" class="student-link">
+                                {{ student.user.first_name }} {{ student.user.middle_name }} {{ student.user.last_name }}
+                            </a>
+                        </td>
+                        <td>{{ student.user.NUID }}</td>
+                        <td>{{ student.user.email }}</td>
+                        <td>{{ student.year }}</td>
+                        <td>{{ student.is_dash_member|yesno:"Yes,No" }}</td>
+                        <td>
+                            {% for scholarship in student.scholarships.all %}
+                                {{ scholarship.name }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for hardship in student.hardships.all %}
+                                {{ hardship.name }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for basic_need in student.basic_need_supports.all %}
+                                {{ basic_need.name }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>{{ student.date_added }}</td>
+                        <td>
+                            <button type="button" class="action-button" id="toggleButton-{{ student.user.NUID }}" onclick="toggleStudentStatus('{{ student.user.NUID }}')">
+                                {% if student.user.is_active %}Deactivate{% else %}Reactivate{% endif %}
+                            </button>
+                        </td>
                     </tr>
-                {% endfor %}
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
-</div>
+
+    <script>
+        function toggleStudentStatus(studentId) {
+            const buttonElement = document.getElementById(`toggleButton-${studentId}`);
+            const rowElement = document.getElementById(`student-${studentId}`);
+
+            if (buttonElement.textContent.trim() === "Deactivate") {
+                if (confirm("Are you sure you want to deactivate this student?")) {
+                    rowElement.classList.add('deactivated');
+                    buttonElement.textContent = "Reactivate";
+                    // Add logic to update the student's status in the backend here
+                }
+            } else {
+                if (confirm("Are you sure you want to reactivate this student?")) {
+                    rowElement.classList.remove('deactivated');
+                    buttonElement.textContent = "Deactivate";
+                    // Add logic to update the student's status in the backend here
+                }
+            }
+        }
+    </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
 
