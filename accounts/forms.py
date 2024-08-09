@@ -34,6 +34,7 @@ class DeactivateAdminForm(forms.Form):
 # Form for reactivating an admin
 class ReactivateAdminForm(forms.Form):
     admin_id = forms.IntegerField()
+<<<<<<< Updated upstream
 
 class VisitReasonForm(forms.ModelForm):
     class Meta:
@@ -70,3 +71,4 @@ class VisitReasonForm(forms.ModelForm):
         cleaned_data = super().clean()
         if not any(cleaned_data.get(field) for field in self.fields):
             raise forms.ValidationError(_('At least one reason for the visit must be selected.'))
+
