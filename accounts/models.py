@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
+from django.core.exceptions import ValidationError
 
 
 class CustomUser(AbstractUser):
@@ -52,6 +54,30 @@ class StudentProfile(models.Model):
     basic_need_supports = models.ManyToManyField('DASH_pillars.BasicNeedSupport', blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
 
-
     def __str__(self):
         return f"{self.user.first_name} {self.user.last_name}"
+class VisitReason(models.Model):
+    # Visit Reasons
+    appointment = models.BooleanField(default=False)
+    printing = models.BooleanField(default=False)
+    study = models.BooleanField(default=False)
+    socialize = models.BooleanField(default=False)
+    event = models.BooleanField(default=False)
+
+    def clean(self):
+        super().clean()
+        if not (
+            self.appointment or
+            self.printing or
+            self.study or
+            self.socialize or
+            self.event
+        ):
+            raise ValidationError(_('At least one reason for the visit must be selected.'))
+
+    # Follow-up options
+    schedule_appointment = models.BooleanField(default=False)
+    hardship = models.BooleanField(default=False)
+    basic_needs_support = models.BooleanField(default=False)
+    financial_wellness = models.BooleanField(default=False)
+    volunteer_opportunities = models.BooleanField(default=False)

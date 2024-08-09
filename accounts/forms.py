@@ -1,10 +1,13 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
-from .models import StudentProfile, AdminProfile, CustomUser
+from .models import StudentProfile, AdminProfile, CustomUser, VisitReason
+from django.utils.translation import gettext_lazy as _
 
+# Get the user model
 User = get_user_model()
 
+# Custom user creation form for handling user creation
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = CustomUser
@@ -21,20 +24,13 @@ class CustomUserCreationForm(UserCreationForm):
         }
 
 class StudentForm(forms.ModelForm):
-    YEAR_CHOICES = [
-        ('First Year', 'First Year'),
-        ('Sophomore', 'Sophomore'),
-        ('Junior', 'Junior'),
-        ('Senior', 'Senior'),
-        ('Graduate Student', 'Graduate Student'),
-        ('Other', 'Other'),
-    ]
-
-    year = forms.ChoiceField(choices=YEAR_CHOICES, required=True)
-    other_year = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder': 'Please specify...'}))
-
     class Meta:
         model = StudentProfile
+
+        fields = [
+            'DASH_Member', 'year', 'scholarships', 'hardships', 'basic_need_supports'
+        ]
+        
         fields = ['DASH_Member', 'year', 'other_year', 'scholarships', 'hardships', 'basic_need_supports']
         error_messages = {
             'DASH_Member': {'required': ''},
@@ -61,8 +57,49 @@ class AdminForm(forms.ModelForm):
         }
 
 class DeactivateAdminForm(forms.Form):
+    admin_id = forms.IntegerField()
+
     admin_NUID = forms.IntegerField(error_messages={'required': ''})
 
 class ReactivateAdminForm(forms.Form):
+    admin_id = forms.IntegerField()
+
+class VisitReasonForm(forms.ModelForm):
+    class Meta:
+        model = VisitReason
+        fields = ['appointment', 'printing', 'study', 'socialize', 'event', 'schedule_appointment', 'hardship',
+                  'basic_needs_support', 'financial_wellness', 'volunteer_opportunities']
+        labels = {
+            'appointment': _('Appointment with DASH staff'),
+            'printing': _('Printing'),
+            'study': _('Study'),
+            'socialize': _('Socialize/Relax'),
+            'event': _('Event'),
+            'schedule_appointment': _('Schedule an appointment'),
+            'hardship': _('Hardship'),
+            'basic_needs_support': _('Basic Needs Support'),
+            'financial_wellness': _('Financial Wellness'),
+            'volunteer_opportunities': _('Volunteer Opportunities'),
+        }
+
+        widgets = {
+            'appointment': forms.CheckboxInput(),
+            'printing': forms.CheckboxInput(),
+            'study': forms.CheckboxInput(),
+            'socialize': forms.CheckboxInput(),
+            'event': forms.CheckboxInput(),
+            'schedule_appointment': forms.CheckboxInput(),
+            'hardship': forms.CheckboxInput(),
+            'basic_needs_support': forms.CheckboxInput(),
+            'financial_wellness': forms.CheckboxInput(),
+            'volunteer_opportunities': forms.CheckboxInput(),
+        }
+
+    def clean(self):
+        cleaned_data = super().clean()
+        if not any(cleaned_data.get(field) for field in self.fields):
+            raise forms.ValidationError(_('At least one reason for the visit must be selected.'))
+
     admin_NUID = forms.IntegerField(error_messages={'required': ''})
+
 
