@@ -5,7 +5,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, get_object_or_404, redirect
 
 from DASH_pillars.forms import ScholarshipForm, HardshipForm, BasicNeedSupportForm
-from .forms import StudentForm, AdminForm, DeactivateAdminForm, ReactivateAdminForm, CustomUserCreationForm, VisitReasonForm
+from .forms import StudentForm, AdminForm, CustomUserCreationForm, VisitReasonForm
 from .models import StudentProfile, AdminProfile
 
 logger = logging.getLogger(__name__)
@@ -114,35 +114,6 @@ def admin_list_view(request):
     return render(request, 'admin/admin_list.html', {'admins': admins})
 
 
-def deactivate_admin_view(request):
-    if request.method == 'POST':
-        form = DeactivateAdminForm(request.POST)
-        if form.is_valid():
-            admin_NUID = form.cleaned_data['admin_NUID']
-            admin = get_object_or_404(AdminProfile, pk=admin_NUID)
-            admin.user.is_active = False
-            admin.user.save()
-            return redirect('admin_list')
-    else:
-        form = DeactivateAdminForm()
-    return render(request, 'admin/deactivate_admin.html', {'form': form})
-
-
-@login_required
-def reactivate_admin_view(request):
-    if request.method == 'POST':
-        form = ReactivateAdminForm(request.POST)
-        if form.is_valid():
-            admin_NUID = form.cleaned_data['admin_NUID']
-            admin = get_object_or_404(AdminProfile, pk=admin_NUID)
-            admin.user.is_active = True
-            admin.user.save()
-            return redirect('admin_list')
-    else:
-        form = ReactivateAdminForm()
-    return render(request, 'admin/reactivate_admin.html', {'form': form})
-
-
 def student_profile(request, NUID):
     student = get_object_or_404(StudentProfile, user_id=NUID)
     return render(request, 'student/student_profile.html', {'student': student})
@@ -173,15 +144,6 @@ def add_student(request):
     return render(request, 'student/add_student.html',
                   {'user_form': user_form, 'student_form': student_form, 'scholarship_form': scholarship_form,
                    'hardship_form': hardship_form, 'basic_needs_support_form': basic_needs_support_form})
-
-
-def remove_student(request):
-    if request.method == 'POST':
-        NUID = request.POST.get('nuid')
-        student = get_object_or_404(StudentProfile, NUID=NUID)
-        student.delete()
-        return redirect('student_information')
-    return render(request, 'student/remove_student.html')
 
 
 def edit_student(request, NUID):

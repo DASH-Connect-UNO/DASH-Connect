@@ -101,13 +101,7 @@ class VisitReasonForm(forms.ModelForm):
 
     admin_NUID = forms.IntegerField(error_messages={'required': ''})
 
-class DeactivateAdminForm(forms.Form):
-    admin_id = forms.IntegerField()
 
-    admin_NUID = forms.IntegerField(error_messages={'required': ''})
-
-class ReactivateAdminForm(forms.Form):
-    admin_id = forms.IntegerField()
 
 
 
