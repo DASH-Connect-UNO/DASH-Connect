@@ -5,7 +5,7 @@ class NUIDAuthBackend(BaseBackend):
     def authenticate(self, request, username=None, password=None, **kwargs):
         User = get_user_model()
         try:
-            user = User.objects.get(NUID=username)  # Assuming `nuid` is the field name in your model
+            user = User.objects.get(NUID=username)  
             if user.check_password(password):
                 return user
         except User.DoesNotExist:
