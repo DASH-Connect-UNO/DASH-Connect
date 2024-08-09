@@ -19,7 +19,7 @@ def student_login_view(request):
             user = form.get_user()
             if user.user_type == 'student':
                 login(request, user)
-                return redirect('student_profile', id=user.id)
+                return redirect('student_profile', NUID=user.NUID)
             else:
                 form.add_error(None, "You are not authorized as a student.")
     else:

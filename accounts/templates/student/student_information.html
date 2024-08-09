@@ -44,30 +44,32 @@
         .nav-links a:hover {
             text-decoration: underline;
         }
-        .profile-container {
+        .content-header {
             display: flex;
-            width: 100%;
-            margin-top: 20px;
+            justify-content: space-between;
+            align-items: center;
+            margin: 40px 0; /* Adds space above and below */
         }
-        .sidebar {
-            width: 200px;
-            padding: 20px;
-            background-color: #fff; /* White background for the sidebar */
-            border-right: 1px solid #ccc;
-            border-radius: 8px;
-            color: #000; /* Dark text */
-            margin-right: 20px;
+        .content-header h1 {
+            margin: 0;
+            color: #fff; /* White text */
+            text-align: center; /* Centered title */
+            flex-grow: 1; /* Ensure the title takes up available space */
         }
-        .content {
-            flex-grow: 1;
-            padding: 20px;
-            background-color: #f9f9f9; /* Light background for content */
-            border-radius: 8px;
-            color: #000; /* Dark text */
+        .add-student-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: crimson;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            margin-left: 20px; /* Adds some space between title and button */
         }
-        .content h1 {
-            text-align: left;
-            color: #000;
+        .add-student-button:hover {
+            background-color: darkred;
         }
         table {
             width: 100%;
@@ -84,7 +86,7 @@
             border-bottom: 1px solid #ddd;
         }
         th {
-            background-color: #555;
+            background-color: crimson; /* Crimson color for the table header */
             color: #fff;
         }
         td {
@@ -108,23 +110,14 @@
         .action-button:hover {
             background-color: darkred;
         }
-        .sidebar a {
-            display: block;
-            width: 90%;
-            margin-bottom: 10px;
-            padding: 10px;
-            font-size: 16px;
-            text-align: center;
-            text-decoration: none;
-            color: #fff; /* Light text */
-            background-color: crimson;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-weight: bold;
+        .student-link {
+            color: crimson; /* Crimson color for the link */
+            font-weight: bold; /* Bold text */
+            text-decoration: underline; /* Underlined text */
             cursor: pointer;
         }
-        .sidebar a:hover {
-            background-color: darkred;
+        .student-link:hover {
+            color: darkred; /* Darker red color on hover */
         }
     </style>
 </head>
@@ -143,43 +136,63 @@
             </div>
         </div>
 
-        <div class="profile-container">
-            <div class="sidebar">
-                <a href="{% url 'add_student' %}">Add Student</a>
-            </div>
-            <div class="content">
+        <div class="content">
+            <div class="content-header">
                 <h1>Student Information</h1>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Full Name</th>
-                            <th>NUID</th>
-                            <th>Email</th>
-                            <th>Year</th>
-                            <th>DASH Member</th>
-                            <th>Date Added</th>
-                            <th>Action</th> <!-- New column for Deactivate/Reactivate button -->
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for student in students %}
-                        <tr id="student-{{ student.user.NUID }}" class="{% if not student.user.is_active %}deactivated{% endif %}">
-                            <td>{{ student.user.first_name }} {{ student.user.middle_name }} {{ student.user.last_name }}</td>
-                            <td>{{ student.user.NUID }}</td>
-                            <td>{{ student.user.email }}</td>
-                            <td>{{ student.year }}</td>
-                            <td>{{ student.is_dash_member|yesno:"Yes,No" }}</td>
-                            <td>{{ student.date_added }}</td>
-                            <td>
-                                <button type="button" class="action-button" id="toggleButton-{{ student.user.NUID }}" onclick="toggleStudentStatus('{{ student.user.NUID }}')">
-                                    {% if student.user.is_active %}Deactivate{% else %}Reactivate{% endif %}
-                                </button>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                <a href="{% url 'add_student' %}" class="add-student-button">Add Student</a>
             </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Full Name</th>
+                        <th>NUID</th>
+                        <th>Email</th>
+                        <th>Year</th>
+                        <th>DASH Member</th>
+                        <th>Scholarships</th>
+                        <th>Hardships</th>
+                        <th>Basic Need Supports</th>
+                        <th>Date Added</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                    <tr id="student-{{ student.user.NUID }}" class="{% if not student.user.is_active %}deactivated{% endif %}">
+                        <td>
+                            <a href="{% url 'student_profile' student.user.NUID %}" class="student-link">
+                                {{ student.user.first_name }} {{ student.user.middle_name }} {{ student.user.last_name }}
+                            </a>
+                        </td>
+                        <td>{{ student.user.NUID }}</td>
+                        <td>{{ student.user.email }}</td>
+                        <td>{{ student.year }}</td>
+                        <td>{{ student.is_dash_member|yesno:"Yes,No" }}</td>
+                        <td>
+                            {% for scholarship in student.scholarships.all %}
+                                {{ scholarship.name }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for hardship in student.hardships.all %}
+                                {{ hardship.name }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for basic_need in student.basic_need_supports.all %}
+                                {{ basic_need.name }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>{{ student.date_added }}</td>
+                        <td>
+                            <button type="button" class="action-button" id="toggleButton-{{ student.user.NUID }}" onclick="toggleStudentStatus('{{ student.user.NUID }}')">
+                                {% if student.user.is_active %}Deactivate{% else %}Reactivate{% endif %}
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 
@@ -205,6 +218,15 @@
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
 
 
 

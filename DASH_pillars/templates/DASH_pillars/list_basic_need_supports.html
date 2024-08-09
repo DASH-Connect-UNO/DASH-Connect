@@ -118,6 +118,10 @@
             align-items: center;
             border-bottom: 1px solid #ccc;
             padding: 10px 0;
+            transition: opacity 0.3s ease;
+        }
+        .basic-need-support-item.deactivated {
+            opacity: 0.5;
         }
         .basic-need-support-item .buttons {
             display: flex;
@@ -131,10 +135,47 @@
             text-decoration: none;
             cursor: pointer;
         }
+        .basic-need-support-item .buttons a.deactivate {
+            background-color: crimson;
+        }
+        .basic-need-support-item .buttons a.reactivate {
+            background-color: green;
+        }
+        .basic-need-support-item .buttons a.edit {
+            background-color: #0066cc;
+        }
+        .basic-need-support-item .buttons a.edit:hover {
+            background-color: #005bb5;
+        }
         .basic-need-support-item .buttons a:hover {
             background-color: darkred;
         }
     </style>
+    <script>
+        function toggleBasicNeedSupportStatus(button) {
+            const listItem = button.closest('.basic-need-support-item');
+            const isDeactivated = listItem.classList.toggle('deactivated');
+
+            if (isDeactivated) {
+                button.textContent = 'Reactivate';
+                button.classList.remove('deactivate');
+                button.classList.add('reactivate');
+            } else {
+                button.textContent = 'Deactivate';
+                button.classList.remove('reactivate');
+                button.classList.add('deactivate');
+            }
+
+            // Optionally, here you could add AJAX requests to perform the backend toggle as well.
+            // Example (replace with actual AJAX logic):
+            // const basicNeedSupportId = button.dataset.basicNeedSupportId;
+            // fetch(`/basic-need-support/toggle/${basicNeedSupportId}`, { method: 'POST' })
+            //     .then(response => response.json())
+            //     .then(data => {
+            //         // handle response
+            //     });
+        }
+    </script>
 </head>
 <body>
     <div class="container">
@@ -173,11 +214,15 @@
                     <a href="{% url 'add_basic_need_support' %}" class="add-button">Add Basic Need Support</a>
                     <ul>
                         {% for basic_need_support in basic_need_supports %}
-                        <li class="basic-need-support-item">
+                        <li class="basic-need-support-item {% if basic_need_support.is_deactivated %}deactivated{% endif %}">
                             <span>{{ basic_need_support.name }}</span>
                             <div class="buttons">
-                                <a href="{% url 'edit_basic_need_support' basic_need_support.id %}">Edit</a>
-                                <a href="{% url 'remove_basic_need_support' basic_need_support.id %}">Remove</a>
+                                <a href="{% url 'edit_basic_need_support' basic_need_support.id %}" class="edit">Edit</a>
+                                <a href="javascript:void(0);"
+                                   class="deactivate {% if basic_need_support.is_deactivated %}reactivate{% endif %}"
+                                   onclick="toggleBasicNeedSupportStatus(this)">
+                                    {% if basic_need_support.is_deactivated %}Reactivate{% else %}Deactivate{% endif %}
+                                </a>
                             </div>
                         </li>
                         {% endfor %}
@@ -188,3 +233,4 @@
     </div>
 </body>
 </html>
+

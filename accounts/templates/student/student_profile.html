@@ -32,7 +32,7 @@
             background-color: #fff; /* White background for the header */
             padding: 10px;
             border-radius: 8px;
-            width: 100%;
+            width: 99%;
             margin-bottom: 20px;
             color: #000; /* Dark text */
         }
@@ -48,36 +48,15 @@
         .nav-links a:hover {
             text-decoration: underline;
         }
+        .profile-title {
+            text-align: center;
+            color: #fff; /* White text */
+            margin-bottom: 20px;
+            font-size: 32px; /* Larger font size for the title */
+        }
         .profile-container {
             display: flex;
-            width: 100%;
-        }
-        .sidebar {
-            width: 200px;
-            padding: 20px;
-            background-color: #fff; /* White background for the sidebar */
-            border-right: 1px solid #ccc;
-            border-radius: 8px;
-            color: #000; /* Dark text */
-            margin-right: 20px;
-        }
-        .sidebar a {
-            display: block;
-            width: 90%;
-            margin-bottom: 10px;
-            padding: 10px;
-            font-size: 16px;
-            text-align: center;
-            text-decoration: none;
-            color: #fff; /* Light text */
-            background-color: crimson;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .sidebar a:hover {
-            background-color: darkred;
+            width: 75%;
         }
         .content {
             flex-grow: 1;
@@ -85,16 +64,35 @@
             background-color: #f9f9f9; /* Light background for content */
             border-radius: 8px;
             color: #000; /* Dark text */
+            position: relative; /* Position relative for the button */
         }
         .content h1 {
-            text-align: left;
-            color: #000;
+            color: #000; /* Dark text */
+            font-size: 32px; /* Larger font size for the student's full name */
+            margin-bottom: 20px;
         }
         .content p {
             margin: 10px 0;
         }
         .content p strong {
             color: #000; /* Dark text for strong elements */
+        }
+        .edit-button {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: crimson;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .edit-button:hover {
+            background-color: darkred;
         }
     </style>
 </head>
@@ -112,13 +110,13 @@
                 <a href="{% url 'logout' %}">Logout</a>
             </div>
         </div>
+
+        <!-- Centered Profile Title -->
+        <h1 class="profile-title">Student Profile</h1>
+
         <div class="profile-container">
-            <div class="sidebar">
-                <a href="{% url 'edit_student' student.user.NUID %}">Edit</a>
-            </div>
             <div class="content" id="student-profile-content">
-                <h1>Student Profile</h1>
-                <p><strong>Full Name:</strong> {{ student.user.first_name }} {{ student.user.middle_name }} {{ student.user.last_name }}</p>
+                <h1>{{ student.user.first_name }} {{ student.user.middle_name }} {{ student.user.last_name }}</h1>
                 <p><strong>NUID:</strong> {{ student.user.NUID }}</p>
                 <p><strong>Email:</strong> {{ student.user.email }}</p>
                 <p><strong>Year:</strong> {{ student.year }}</p>
@@ -139,11 +137,14 @@
                     {% endfor %}
                 </p>
                 <p><strong>Date Added:</strong> {{ student.date_added }}</p>
+                <a href="{% url 'edit_student' student.user.NUID %}" class="edit-button">Edit</a>
             </div>
         </div>
     </div>
 </body>
 </html>
+
+
 
 
 

@@ -118,6 +118,10 @@
             align-items: center;
             border-bottom: 1px solid #ccc;
             padding: 10px 0;
+            transition: opacity 0.3s ease;
+        }
+        .scholarship-item.deactivated {
+            opacity: 0.5;
         }
         .scholarship-item .buttons {
             display: flex;
@@ -131,10 +135,47 @@
             text-decoration: none;
             cursor: pointer;
         }
+        .scholarship-item .buttons a.deactivate {
+            background-color: crimson;
+        }
+        .scholarship-item .buttons a.reactivate {
+            background-color: green;
+        }
         .scholarship-item .buttons a:hover {
             background-color: darkred;
         }
+        .scholarship-item .buttons a.edit {
+            background-color: #0066cc;
+        }
+        .scholarship-item .buttons a.edit:hover {
+            background-color: #005bb5;
+        }
     </style>
+    <script>
+        function toggleScholarshipStatus(button) {
+            const listItem = button.closest('.scholarship-item');
+            const isDeactivated = listItem.classList.toggle('deactivated');
+
+            if (isDeactivated) {
+                button.textContent = 'Reactivate';
+                button.classList.remove('deactivate');
+                button.classList.add('reactivate');
+            } else {
+                button.textContent = 'Deactivate';
+                button.classList.remove('reactivate');
+                button.classList.add('deactivate');
+            }
+
+            // Optionally, here you could add AJAX requests to perform the backend toggle as well.
+            // Example (replace with actual AJAX logic):
+            // const scholarshipId = button.dataset.scholarshipId;
+            // fetch(`/scholarship/toggle/${scholarshipId}`, { method: 'POST' })
+            //     .then(response => response.json())
+            //     .then(data => {
+            //         // handle response
+            //     });
+        }
+    </script>
 </head>
 <body>
     <div class="container">
@@ -173,11 +214,15 @@
                     <a href="{% url 'add_scholarship' %}" class="add-button">Add Scholarship</a>
                     <ul>
                         {% for scholarship in scholarships %}
-                        <li class="scholarship-item">
+                        <li class="scholarship-item {% if scholarship.is_deactivated %}deactivated{% endif %}">
                             <span>{{ scholarship.name }}</span>
                             <div class="buttons">
-                                <a href="{% url 'edit_scholarship' scholarship.id %}">Edit</a>
-                                <a href="{% url 'remove_scholarship' scholarship.id %}">Remove</a>
+                                <a href="{% url 'edit_scholarship' scholarship.id %}" class="edit">Edit</a>
+                                <a href="javascript:void(0);"
+                                   class="deactivate {% if scholarship.is_deactivated %}reactivate{% endif %}"
+                                   onclick="toggleScholarshipStatus(this)">
+                                    {% if scholarship.is_deactivated %}Reactivate{% else %}Deactivate{% endif %}
+                                </a>
                             </div>
                         </li>
                         {% endfor %}
@@ -188,6 +233,7 @@
     </div>
 </body>
 </html>
+
 
 
 

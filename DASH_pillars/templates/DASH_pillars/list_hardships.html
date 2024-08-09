@@ -118,6 +118,10 @@
             align-items: center;
             border-bottom: 1px solid #ccc;
             padding: 10px 0;
+            transition: opacity 0.3s ease;
+        }
+        .hardship-item.deactivated {
+            opacity: 0.5;
         }
         .hardship-item .buttons {
             display: flex;
@@ -131,10 +135,47 @@
             text-decoration: none;
             cursor: pointer;
         }
+        .hardship-item .buttons a.deactivate {
+            background-color: crimson;
+        }
+        .hardship-item .buttons a.reactivate {
+            background-color: green;
+        }
+        .hardship-item .buttons a.edit {
+            background-color: #0066cc;
+        }
+        .hardship-item .buttons a.edit:hover {
+            background-color: #005bb5;
+        }
         .hardship-item .buttons a:hover {
             background-color: darkred;
         }
     </style>
+    <script>
+        function toggleHardshipStatus(button) {
+            const listItem = button.closest('.hardship-item');
+            const isDeactivated = listItem.classList.toggle('deactivated');
+
+            if (isDeactivated) {
+                button.textContent = 'Reactivate';
+                button.classList.remove('deactivate');
+                button.classList.add('reactivate');
+            } else {
+                button.textContent = 'Deactivate';
+                button.classList.remove('reactivate');
+                button.classList.add('deactivate');
+            }
+
+            // Optionally, here you could add AJAX requests to perform the backend toggle as well.
+            // Example (replace with actual AJAX logic):
+            // const hardshipId = button.dataset.hardshipId;
+            // fetch(`/hardship/toggle/${hardshipId}`, { method: 'POST' })
+            //     .then(response => response.json())
+            //     .then(data => {
+            //         // handle response
+            //     });
+        }
+    </script>
 </head>
 <body>
     <div class="container">
@@ -173,11 +214,15 @@
                     <a href="{% url 'add_hardship' %}" class="add-button">Add Hardship</a>
                     <ul>
                         {% for hardship in hardships %}
-                        <li class="hardship-item">
+                        <li class="hardship-item {% if hardship.is_deactivated %}deactivated{% endif %}">
                             <span>{{ hardship.name }}</span>
                             <div class="buttons">
-                                <a href="{% url 'edit_hardship' hardship.id %}">Edit</a>
-                                <a href="{% url 'remove_hardship' hardship.id %}">Remove</a>
+                                <a href="{% url 'edit_hardship' hardship.id %}" class="edit">Edit</a>
+                                <a href="javascript:void(0);"
+                                   class="deactivate {% if hardship.is_deactivated %}reactivate{% endif %}"
+                                   onclick="toggleHardshipStatus(this)">
+                                    {% if hardship.is_deactivated %}Reactivate{% else %}Deactivate{% endif %}
+                                </a>
                             </div>
                         </li>
                         {% endfor %}
