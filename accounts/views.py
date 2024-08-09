@@ -217,4 +217,7 @@ def visit_reason(request):
 
     return render(request, 'student/student_information.html', {'students': sorted_students})
 
+def end_page(request):
+    return render(request, 'student/end_page.html')
+
 
