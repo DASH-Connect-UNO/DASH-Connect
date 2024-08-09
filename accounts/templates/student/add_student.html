@@ -82,7 +82,8 @@
 
         form div input,
         form div select,
-        form div textarea {
+        form div textarea,
+        .form-container button {
             background-color: #fff;
             color: #000;
             padding: 10px;
@@ -90,6 +91,7 @@
             border-radius: 5px;
             width: 100%;
             box-sizing: border-box;
+            font-size: 16px; /* Matching the font size */
         }
 
         form div label {
@@ -102,17 +104,18 @@
             width: 100%;
         }
 
-        button {
+        .button-container button {
             background-color: crimson;
             color: #fff;
             border: none;
-            padding: 10px 20px;
+            padding: 10px;
             border-radius: 5px;
             cursor: pointer;
             font-weight: bold;
+            width: 100%; /* Ensure full width */
         }
 
-        button:hover {
+        .button-container button:hover {
             background-color: darkred;
         }
 
@@ -189,9 +192,9 @@
                     {% endfor %}
                 </select>
             </div>
-        </div>
-        <div class="button-container">
-            <button type="submit">Add Student</button>
+            <div class="button-container">
+                <button type="submit">Add Student</button>
+            </div>
         </div>
     </form>
 </div>
