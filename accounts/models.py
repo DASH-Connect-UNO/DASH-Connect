@@ -7,8 +7,8 @@ from django.core.exceptions import ValidationError
 
 class CustomUser(AbstractUser):
     USER_TYPE_CHOICES = (
-        ('admin', 'Admin'),
         ('student', 'Student'),
+        ('admin', 'Admin'),
     )
     user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES, default='student')
     NUID = models.CharField(max_length=8, unique=True, primary_key=True)
@@ -56,6 +56,8 @@ class StudentProfile(models.Model):
 
     def __str__(self):
         return f"{self.user.first_name} {self.user.last_name}"
+
+
 class VisitReason(models.Model):
     # Visit Reasons
     appointment = models.BooleanField(default=False)
@@ -81,3 +83,7 @@ class VisitReason(models.Model):
     basic_needs_support = models.BooleanField(default=False)
     financial_wellness = models.BooleanField(default=False)
     volunteer_opportunities = models.BooleanField(default=False)
+
+    def __str__(self):
+        return "Visit Reason ID: {}".format(self.id)
+

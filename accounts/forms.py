@@ -24,13 +24,20 @@ class CustomUserCreationForm(UserCreationForm):
         }
 
 class StudentForm(forms.ModelForm):
+    YEAR_CHOICES = [
+        ('First Year', 'First Year'),
+        ('Sophomore', 'Sophomore'),
+        ('Junior', 'Junior'),
+        ('Senior', 'Senior'),
+        ('Graduate Student', 'Graduate Student'),
+        ('Other', 'Other'),
+    ]
+
+    year = forms.ChoiceField(choices=YEAR_CHOICES, required=True)
+    other_year = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder': 'Please specify...'}))
+
     class Meta:
         model = StudentProfile
-
-        fields = [
-            'DASH_Member', 'year', 'scholarships', 'hardships', 'basic_need_supports'
-        ]
-        
         fields = ['DASH_Member', 'year', 'other_year', 'scholarships', 'hardships', 'basic_need_supports']
         error_messages = {
             'DASH_Member': {'required': ''},
@@ -55,14 +62,6 @@ class AdminForm(forms.ModelForm):
         error_messages = {
             'role_within_DASH': {'required': ''},
         }
-
-class DeactivateAdminForm(forms.Form):
-    admin_id = forms.IntegerField()
-
-    admin_NUID = forms.IntegerField(error_messages={'required': ''})
-
-class ReactivateAdminForm(forms.Form):
-    admin_id = forms.IntegerField()
 
 class VisitReasonForm(forms.ModelForm):
     class Meta:
@@ -101,5 +100,14 @@ class VisitReasonForm(forms.ModelForm):
             raise forms.ValidationError(_('At least one reason for the visit must be selected.'))
 
     admin_NUID = forms.IntegerField(error_messages={'required': ''})
+
+class DeactivateAdminForm(forms.Form):
+    admin_id = forms.IntegerField()
+
+    admin_NUID = forms.IntegerField(error_messages={'required': ''})
+
+class ReactivateAdminForm(forms.Form):
+    admin_id = forms.IntegerField()
+
 
 
