@@ -197,5 +197,12 @@ def edit_student(request, NUID):
 
 
 def student_information(request):
-    students = StudentProfile.objects.all()
-    return render(request, 'student/student_information.html', {'students': students})
+    students = StudentProfile.objects.all().order_by('user__last_name', 'user__first_name')
+
+    active_students = students.filter(user__is_active=True)
+    inactive_students = students.filter(user__is_active=False)
+
+    sorted_students = list(active_students) + list(inactive_students)
+
+    return render(request, 'student/student_information.html', {'students': sorted_students})
+

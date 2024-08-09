@@ -74,6 +74,7 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             font-weight: bold;
+            cursor: pointer;
         }
         .sidebar a:hover {
             background-color: darkred;
@@ -114,9 +115,8 @@
         <div class="profile-container">
             <div class="sidebar">
                 <a href="{% url 'edit_student' student.user.NUID %}">Edit</a>
-                <a href="{% url 'remove_student' %}">Remove</a>
             </div>
-            <div class="content">
+            <div class="content" id="student-profile-content">
                 <h1>Student Profile</h1>
                 <p><strong>Full Name:</strong> {{ student.user.first_name }} {{ student.user.middle_name }} {{ student.user.last_name }}</p>
                 <p><strong>NUID:</strong> {{ student.user.NUID }}</p>
@@ -144,5 +144,8 @@
     </div>
 </body>
 </html>
+
+
+
 
 
