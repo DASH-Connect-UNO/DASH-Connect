@@ -5,146 +5,104 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-
     <title>Reason for Visit</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <style>
         body {
             font-family: Arial, sans-serif;
-            text-align: center;
             margin: 0;
             padding: 0;
-            background-color: #000; 
-            color: #fff; 
+            background-color: #000;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
         }
         .container {
-            background-color: #fff; 
-            border-radius: 8px;
-            border: 2px solid #000; 
-            width: 35%;
-            max-width: 1200px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
             padding: 20px;
-            box-sizing: border-box;
-            color: #000; 
-            text-align: left;
+            text-align: center;
         }
-        .header {
-            display: flex;
-            align-items: center;
+        .header img {
+            max-width: 200px;
+            height: auto;
+            display: block;
+            margin: 0 auto 10px;
+        }
+        h1 {
+            font-size: 24px;
             margin-bottom: 20px;
-        }
-        .logo {
-            margin-right: auto; 
-        }
-        .logo img {
-            max-height: 200px; 
-            max-width: 300px; 
+            font-weight: bold;
         }
         .form-container {
-            padding: 20px;
-            border-radius: 5px;
-            border: 2px solid #000; 
-            max-width: 400px;
-            width: 100%; 
-            margin-bottom: 20px;
-            color: #000; 
-            text-align: center; 
-        }
-        .form-container h2 {
-            color: #000; 
-            margin-top: 0;
-        }
-        .input-container {
-            margin-bottom: 20px;
             text-align: left;
+            margin: 0 auto;
+            max-width: 500px;
         }
-        input[type="checkbox"] {
+        .form-container label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-container input[type="checkbox"] {
             margin-right: 10px;
+            vertical-align: middle;
         }
-        button {
-            font-size: 24px;
-            padding: 10px 20px;
-            background-color: crimson; 
-            color: #fff; 
+        .form-container button {
+            background-color: #dc3545;
+            color: #fff;
+            padding: 10px;
             border: none;
-            cursor: pointer;
             border-radius: 5px;
-            margin: 0 auto; 
-            display: block; 
-        }
-        button:hover {
-            background-color: darkred; 
-        }
-        .error-message {
-            color: #ff0000;
+            cursor: pointer;
+            width: 100%;
             font-size: 18px;
+            font-weight: bold;
             margin-top: 20px;
+        }
+        .form-container button:hover {
+            background-color: #c82333;
+        }
+        .fieldset-container {
+            margin-bottom: 20px;
         }
     </style>
 </head>
-
 <body>
     <div class="container">
         <div class="header">
-            <div class="logo">
-                <img src="{% static 'uno_logo.png' %}" alt="UNO logo">
-                <h1>Reason for visit today</h1>
-            </div>
+            <img src="{% static 'uno_logo.png' %}" alt="UNO logo">
         </div>
+        <h1>Reason for visit today</h1>
         <div class="form-container">
-            <h2>Please select as many as needed:</h2>
             <form method="post">
                 {% csrf_token %}
-                {{ form.non_field_errors }}
-                {{ form.appointment.errors }}
-                {{ form.printing.errors }}
-                {{ form.study.errors }}
-                {{ form.socialize.errors }}
-                {{ form.event.errors }}
-                {{ form.schedule_appointment.errors }}
-                {{ form.hardship.errors }}
-                {{ form.basic_needs_support.errors }}
-                {{ form.financial_wellness.errors }}
-                {{ form.volunteer_opportunities.errors }}
-                
-                <div class="input-container">
-                    {{ form.appointment.label_tag }} {{ form.appointment }}
+
+                <div class="fieldset-container">
+                    <fieldset>
+                        <legend><strong>Please select as many as needed:</strong></legend>
+                        {{ form.appointment.label_tag }} {{ form.appointment }}<br>
+                        {{ form.printing.label_tag }} {{ form.printing }}<br>
+                        {{ form.study.label_tag }} {{ form.study }}<br>
+                        {{ form.socialize.label_tag }} {{ form.socialize }}<br>
+                        {{ form.event.label_tag }} {{ form.event }}
+                    </fieldset>
                 </div>
-                <div class="input-container">
-                    {{ form.printing.label_tag }} {{ form.printing }}
+
+                <div class="fieldset-container">
+                    <fieldset>
+                        <legend><strong>Would you like DASH to follow up via email on the following(s)?</strong></legend>
+                        {{ form.schedule_appointment.label_tag }} {{ form.schedule_appointment }}<br>
+                        {{ form.hardship.label_tag }} {{ form.hardship }}<br>
+                        {{ form.basic_needs_support.label_tag }} {{ form.basic_needs_support }}<br>
+                        {{ form.financial_wellness.label_tag }} {{ form.financial_wellness }}<br>
+                        {{ form.volunteer_opportunities.label_tag }} {{ form.volunteer_opportunities }}
+                    </fieldset>
                 </div>
-                <div class="input-container">
-                    {{ form.study.label_tag }} {{ form.study }}
-                </div>
-                <div class="input-container">
-                    {{ form.socialize.label_tag }} {{ form.socialize }}
-                </div>
-                <div class="input-container">
-                    {{ form.event.label_tag }} {{ form.event }}
-                </div>
-                
-                <h2>Would you like DASH to follow up via email on the following (s)?</h2>
-                
-                <div class="input-container">
-                    {{ form.schedule_appointment.label_tag }} {{ form.schedule_appointment }}
-                </div>
-                <div class="input-container">
-                    {{ form.hardship.label_tag }} {{ form.hardship }}
-                </div>
-                <div class="input-container">
-                    {{ form.basic_needs_support.label_tag }} {{ form.basic_needs_support }}
-                </div>
-                <div class="input-container">
-                    {{ form.financial_wellness.label_tag }} {{ form.financial_wellness }}
-                </div>
-                <div class="input-container">
-                    {{ form.volunteer_opportunities.label_tag }} {{ form.volunteer_opportunities }}
-                </div>
-                
+
                 <button type="submit">Submit</button>
             </form>
         </div>

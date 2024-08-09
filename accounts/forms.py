@@ -34,7 +34,6 @@ class DeactivateAdminForm(forms.Form):
 # Form for reactivating an admin
 class ReactivateAdminForm(forms.Form):
     admin_id = forms.IntegerField()
-<<<<<<< Updated upstream
 
 class VisitReasonForm(forms.ModelForm):
     class Meta:
