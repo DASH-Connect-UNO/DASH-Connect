@@ -211,7 +211,7 @@ def visit_reason(request):
     return render(request, 'student/visit_reason.html', {'form': form})
 
 def student_data(request):
-    students = StudentProfile.objects.all().select_related('user').prefetch_related('scholarships', 'hardships', 'basic_need_supports', 'visitreason_set')
+    students = StudentProfile.objects.all().select_related('user').prefetch_related('scholarships', 'hardships', 'basic_need_supports', 'visitreason_set').order_by('user__first_name')
     return render(request, 'student/student_data.html', {'students': students})
 
 def end_page(request):

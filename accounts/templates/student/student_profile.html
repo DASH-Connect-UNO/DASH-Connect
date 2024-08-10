@@ -48,14 +48,15 @@
         .nav-links a:hover {
             text-decoration: underline;
         }
-        .profile-title {
+        .profile-title, .visit-title {
             text-align: center;
             color: #fff; /* White text */
             margin-bottom: 20px;
-            font-size: 32px; /* Larger font size for the title */
+            font-size: 32px; /* Larger font size for the titles */
         }
         .profile-container {
             display: flex;
+            flex-direction: column;
             width: 75%;
         }
         .content {
@@ -65,6 +66,7 @@
             border-radius: 8px;
             color: #000; /* Dark text */
             position: relative; /* Position relative for the button */
+            margin-bottom: 20px;
         }
         .content h1 {
             color: #000; /* Dark text */
@@ -77,10 +79,6 @@
         }
         .content p strong {
             font-weight: bold; /* Bold text for field labels */
-        }
-        .deactivated-item {
-            color: gray;
-            opacity: 0.5;
         }
         .edit-button {
             position: absolute;
@@ -99,6 +97,33 @@
         .edit-button:hover {
             background-color: darkred;
         }
+        table {
+            width: 130%; /* Increase width to extend beyond the container */
+            border-collapse: collapse;
+            margin-top: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #fff; /* White background for table */
+            color: #000; /* Dark text for table */
+            margin-left: -200px; /* Shift the table to the left */
+            margin-right: -100px; /* Shift the table to the right */
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: crimson; /* Crimson color for the table header */
+            color: #fff;
+            text-transform: uppercase; /* Uppercase for headers */
+            font-size: 14px; /* Slightly smaller font for headers */
+        }
+        td {
+            background-color: #f9f9f9; /* Light gray background for table cells */
+            color: #000;
+        }
     </style>
 </head>
 <body>
@@ -108,7 +133,7 @@
                 <img src="{% static 'uno_logo.png' %}" alt="UNO logo">
             </div>
             <div class="nav-links">
-                <a href="#">Student Data</a>
+                <a href="{% url 'student_data' %}">Student Data</a>
                 <a href="{% url 'student_information' %}">Student Information</a>
                 <a href="{% url 'pillars_home' %}">DASH Pillars</a>
                 <a href="{% url 'admin_profile' %}">Administration</a>
@@ -150,15 +175,45 @@
                 <p><strong>Date Added:</strong> {{ student.date_added }}</p>
                 <a href="{% url 'edit_student' student.user.NUID %}" class="edit-button">Edit</a>
             </div>
+
+            <!-- DASH Visits and Follow-up Requests Section -->
+            <h1 class="visit-title">DASH Visits and Follow-up Requests</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date Visited</th>
+                        <th>Appointment with DASH Staff</th>
+                        <th>Printing</th>
+                        <th>Study</th>
+                        <th>Socialize/Relax</th>
+                        <th>Event</th>
+                        <th>Schedule an Appointment</th>
+                        <th>Hardship Follow-up</th>
+                        <th>Basic Needs Support Follow-up</th>
+                        <th>Financial Wellness</th>
+                        <th>Volunteer Opportunities</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for visit in student.visitreason_set.all %}
+                    <tr>
+                        <td>{{ visit.date_visited|date:"M d, Y" }}</td>
+                        <td>{{ visit.appointment|yesno:"Yes,No" }}</td>
+                        <td>{{ visit.printing|yesno:"Yes,No" }}</td>
+                        <td>{{ visit.study|yesno:"Yes,No" }}</td>
+                        <td>{{ visit.socialize|yesno:"Yes,No" }}</td>
+                        <td>{{ visit.event|yesno:"Yes,No" }}</td>
+                        <td>{{ visit.schedule_appointment|yesno:"Yes,No" }}</td>
+                        <td>{{ visit.hardship|yesno:"Yes,No" }}</td>
+                        <td>{{ visit.basic_needs_support|yesno:"Yes,No" }}</td>
+                        <td>{{ visit.financial_wellness|yesno:"Yes,No" }}</td>
+                        <td>{{ visit.volunteer_opportunities|yesno:"Yes,No" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 </body>
 </html>
-
-
-
-
-
-
-
 
