@@ -89,7 +89,8 @@ class VisitReasonForm(forms.ModelForm):
             'hardship',
             'basic_needs_support',
             'financial_wellness',
-            'volunteer_opportunities'
+            'volunteer_opportunities',
+            'date_time',  # Make sure this is added correctly
         ]
         labels = {
             'appointment': _('Appointment with DASH staff'),
@@ -102,6 +103,7 @@ class VisitReasonForm(forms.ModelForm):
             'basic_needs_support': _('Basic Needs Support'),
             'financial_wellness': _('Financial Wellness'),
             'volunteer_opportunities': _('Volunteer Opportunities'),
+            'date_time': _('Date and Time')  # Make sure this is labeled correctly
         }
         widgets = {
             'appointment': forms.CheckboxInput(),
@@ -114,11 +116,12 @@ class VisitReasonForm(forms.ModelForm):
             'basic_needs_support': forms.CheckboxInput(),
             'financial_wellness': forms.CheckboxInput(),
             'volunteer_opportunities': forms.CheckboxInput(),
+            'date_time': forms.HiddenInput(),  # Optional: Hide this field from the form
         }
 
     def clean(self):
         cleaned_data = super().clean()
-        if not any(cleaned_data.get(field) for field in self.fields):
+        if not any(cleaned_data.get(field) for field in self.fields if field != 'date_time'):
             raise forms.ValidationError(_('At least one reason for the visit must be selected.'))
 
 

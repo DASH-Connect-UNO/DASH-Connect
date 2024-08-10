@@ -62,6 +62,8 @@ class VisitReason(models.Model):
     financial_wellness = models.BooleanField(default=False)
     volunteer_opportunities = models.BooleanField(default=False)
 
+    date_time = models.DateTimeField(default=timezone.now)
+
     def clean(self):
         super().clean()
         if not (

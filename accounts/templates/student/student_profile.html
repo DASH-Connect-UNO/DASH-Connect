@@ -197,7 +197,7 @@
                 <tbody>
                     {% for visit in student.visitreason_set.all %}
                     <tr>
-                        <td>{{ visit.date_visited|date:"M d, Y" }}</td>
+                        <td>{{ visit.date_time|date:"M d, Y H:i" }}</td>
                         <td>{{ visit.appointment|yesno:"Yes,No" }}</td>
                         <td>{{ visit.printing|yesno:"Yes,No" }}</td>
                         <td>{{ visit.study|yesno:"Yes,No" }}</td>
@@ -216,4 +216,5 @@
     </div>
 </body>
 </html>
+
 

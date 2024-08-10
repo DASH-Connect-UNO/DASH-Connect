@@ -158,7 +158,7 @@
                         <td>{{ student.DASH_Member|yesno:"Yes,No" }}</td>
                         <td>
                             {% for visit in student.visitreason_set.all %}
-                                {{ visit.date_visited|date:"M d, Y" }}<br>
+                                {{ visit.date_time|date:"M d, Y H:i" }}<br>
                             {% endfor %}
                         </td>
                         <td>
