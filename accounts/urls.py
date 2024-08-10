@@ -2,7 +2,7 @@ from django.urls import path
 from django.contrib.auth.views import LogoutView
 from .views import (student_login_view, admin_login_view, admin_profile_view, student_profile, add_admin, edit_admin,
                     edit_student, admin_list_view, register_admin, add_student, student_information, visit_reason, toggle_student_status,
-                    deactivate_admin, reactivate_admin, end_page)
+                    deactivate_admin, reactivate_admin, student_data, end_page)
 
 urlpatterns = [
     path('student_login/', student_login_view, name='student_login'),
@@ -18,6 +18,7 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(next_page='admin_login'), name='logout'),
     path('register_admin/', register_admin, name='register_admin'),
     path('visit_reason/', visit_reason, name='visit_reason'),
+    path('student_data/', student_data, name='student_data'),
     path('toggle-status/<str:NUID>/', toggle_student_status, name='toggle_student_status'),
     path('deactivate-admin/<str:NUID>/', deactivate_admin, name='deactivate_admin'),
     path('reactivate-admin/<str:NUID>/', reactivate_admin, name='reactivate_admin'),

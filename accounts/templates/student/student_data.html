@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <h1>Student Data</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Full Name</th>
+                <th>Year</th>
+                <th>DASH Member</th>
+                <th>Scholarships</th>
+                <th>Hardships</th>
+                <th>Basic Need Supports</th>
+                <th>Date Added</th>
+                <th>Days Visited DASH</th>
+                <th>Appointment with DASH Staff</th>
+                <th>Printing</th>
+                <th>Study</th>
+                <th>Socialize/Relax</th>
+                <th>Event</th>
+                <th>Schedule an Appointment</th>
+                <th>Hardship Follow-up</th>
+                <th>Basic Needs Support Follow-up</th>
+                <th>Financial Wellness</th>
+                <th>Volunteer Opportunities</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+            <tr>
+                <td>{{ student.user.first_name }} {{ student.user.last_name }}</td>
+                <td>{{ student.year }}</td>
+                <td>{{ student.DASH_Member|yesno:"Yes,No" }}</td>
+                <td>
+                    {% for scholarship in student.scholarships.all %}
+                        {{ scholarship.name }}<br>
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for hardship in student.hardships.all %}
+                        {{ hardship.name }}<br>
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for support in student.basic_need_supports.all %}
+                        {{ support.name }}<br>
+                    {% endfor %}
+                </td>
+                <td>{{ student.date_added|date:"M d, Y" }}</td>
+
+                <!-- Assuming VisitReason is linked to StudentProfile -->
+                <td>
+                    {% for visit in student.visitreason_set.all %}
+                        {{ visit.date_visited|date:"M d, Y" }}<br>
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for visit in student.visitreason_set.all %}
+                        {{ visit.appointment|yesno:"Yes,No" }}<br>
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for visit in student.visitreason_set.all %}
+                        {{ visit.printing|yesno:"Yes,No" }}<br>
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for visit in student.visitreason_set.all %}
+                        {{ visit.study|yesno:"Yes,No" }}<br>
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for visit in student.visitreason_set.all %}
+                        {{ visit.socialize|yesno:"Yes,No" }}<br>
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for visit in student.visitreason_set.all %}
+                        {{ visit.event|yesno:"Yes,No" }}<br>
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for visit in student.visitreason_set.all %}
+                        {{ visit.schedule_appointment|yesno:"Yes,No" }}<br>
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for visit in student.visitreason_set.all %}
+                        {{ visit.hardship|yesno:"Yes,No" }}<br>
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for visit in student.visitreason_set.all %}
+                        {{ visit.basic_needs_support|yesno:"Yes,No" }}<br>
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for visit in student.visitreason_set.all %}
+                        {{ visit.financial_wellness|yesno:"Yes,No" }}<br>
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for visit in student.visitreason_set.all %}
+                        {{ visit.volunteer_opportunities|yesno:"Yes,No" }}<br>
+                    {% endfor %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

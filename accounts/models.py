@@ -49,22 +49,18 @@ class StudentProfile(models.Model):
 
 
 class VisitReason(models.Model):
-    # Visit Reasons
+    student = models.ForeignKey('StudentProfile', on_delete=models.CASCADE)
     appointment = models.BooleanField(default=False)
     printing = models.BooleanField(default=False)
     study = models.BooleanField(default=False)
     socialize = models.BooleanField(default=False)
     event = models.BooleanField(default=False)
 
-    # Follow-up options
     schedule_appointment = models.BooleanField(default=False)
     hardship = models.BooleanField(default=False)
     basic_needs_support = models.BooleanField(default=False)
     financial_wellness = models.BooleanField(default=False)
     volunteer_opportunities = models.BooleanField(default=False)
-
-    # Link to student profile
-    student = models.ForeignKey('StudentProfile', on_delete=models.CASCADE)
 
     def clean(self):
         super().clean()

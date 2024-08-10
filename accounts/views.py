@@ -201,21 +201,18 @@ def visit_reason(request):
     if request.method == 'POST':
         form = VisitReasonForm(request.POST)
         if form.is_valid():
-            # Associate the visit reason with the logged-in student
-            student_profile = request.user.studentprofile
             visit_reason = form.save(commit=False)
-            visit_reason.student = student_profile  # Assuming you have a field to link to student
+            visit_reason.student = request.user.studentprofile  # Assuming the student is logged in
             visit_reason.save()
-
-            # Log out the user after form submission
-            logout(request)
-
-            # Redirect to the end page
             return redirect('end_page')
     else:
         form = VisitReasonForm()
 
     return render(request, 'student/visit_reason.html', {'form': form})
+
+def student_data(request):
+    students = StudentProfile.objects.all().select_related('user').prefetch_related('scholarships', 'hardships', 'basic_need_supports', 'visitreason_set')
+    return render(request, 'student/student_data.html', {'students': students})
 
 def end_page(request):
     return render(request, 'student/end_page.html')

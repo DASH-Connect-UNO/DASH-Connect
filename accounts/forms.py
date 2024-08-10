@@ -75,11 +75,22 @@ class AdminForm(forms.ModelForm):
             'role_within_DASH': {'required': ''},
         }
 
+
 class VisitReasonForm(forms.ModelForm):
     class Meta:
         model = VisitReason
-        fields = ['appointment', 'printing', 'study', 'socialize', 'event', 'schedule_appointment', 'hardship',
-                  'basic_needs_support', 'financial_wellness', 'volunteer_opportunities']
+        fields = [
+            'appointment',
+            'printing',
+            'study',
+            'socialize',
+            'event',
+            'schedule_appointment',
+            'hardship',
+            'basic_needs_support',
+            'financial_wellness',
+            'volunteer_opportunities'
+        ]
         labels = {
             'appointment': _('Appointment with DASH staff'),
             'printing': _('Printing'),
@@ -92,7 +103,6 @@ class VisitReasonForm(forms.ModelForm):
             'financial_wellness': _('Financial Wellness'),
             'volunteer_opportunities': _('Volunteer Opportunities'),
         }
-
         widgets = {
             'appointment': forms.CheckboxInput(),
             'printing': forms.CheckboxInput(),
@@ -110,8 +120,6 @@ class VisitReasonForm(forms.ModelForm):
         cleaned_data = super().clean()
         if not any(cleaned_data.get(field) for field in self.fields):
             raise forms.ValidationError(_('At least one reason for the visit must be selected.'))
-
-    admin_NUID = forms.IntegerField(error_messages={'required': ''})
 
 
 
