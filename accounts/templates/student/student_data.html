@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Data</title>
     <style>
+    /* Existing styles */
     body {
         background-color: #000; 
         color: #fff; 
@@ -46,11 +47,14 @@
     }
     .content-header {
         margin: 40px 0; 
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
     .content-header h1 {
         margin: 0;
         color: #fff; 
-        text-align: center; 
+        text-align: left; /* Changed to align the text to the left */
         flex-grow: 1; 
     }
     table {
@@ -116,6 +120,15 @@
     .student-link:hover {
         text-decoration: underline; /* Keeps the underline on hover */
     }
+    /* New styles for the search bar */
+    .search-bar {
+        padding: 10px;
+        font-size: 16px;
+        width: 300px;
+        margin-right: 20px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
 </style>
 </head>
 <body>
@@ -136,8 +149,9 @@
         <div class="content">
             <div class="content-header">
                 <h1>Student Data</h1>
+                <input type="text" id="searchBar" class="search-bar" placeholder="Search by student name...">
             </div>
-            <table>
+            <table id="studentTable">
                 <thead>
                     <tr>
                         <th>Full Name</th>
@@ -215,6 +229,34 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.getElementById('searchBar').addEventListener('keyup', function() {
+            var input = this.value.toLowerCase();
+            var rows = document.querySelectorAll('#studentTable tbody tr:not(.visit-row)');
+
+            rows.forEach(function(row) {
+                var fullName = row.querySelector('td:first-child').textContent.toLowerCase();
+                if (fullName.includes(input)) {
+                    row.style.display = '';
+                    // Show corresponding visit rows
+                    var nextRow = row.nextElementSibling;
+                    while (nextRow && nextRow.classList.contains('visit-row')) {
+                        nextRow.style.display = '';
+                        nextRow = nextRow.nextElementSibling;
+                    }
+                } else {
+                    row.style.display = 'none';
+                    // Hide corresponding visit rows
+                    var nextRow = row.nextElementSibling;
+                    while (nextRow && nextRow.classList.contains('visit-row')) {
+                        nextRow.style.display = 'none';
+                        nextRow = nextRow.nextElementSibling;
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>
 
