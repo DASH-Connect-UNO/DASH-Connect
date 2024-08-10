@@ -6,7 +6,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
 
 from DASH_pillars.forms import ScholarshipForm, HardshipForm, BasicNeedSupportForm
-from .forms import StudentForm, AdminForm, CustomUserCreationForm, VisitReasonForm
+from .forms import StudentForm, AdminForm, CustomUserCreationForm, VisitReasonForm, EditStudentForm
 from .models import StudentProfile, AdminProfile
 
 logger = logging.getLogger(__name__)
@@ -167,7 +167,7 @@ def edit_student(request, NUID):
     user = student.user
 
     if request.method == 'POST':
-        user_form = CustomUserCreationForm(request.POST, instance=user)
+        user_form = EditStudentForm(request.POST, instance=user)
         student_form = StudentForm(request.POST, instance=student)
 
         if user_form.is_valid() and student_form.is_valid():
@@ -175,7 +175,7 @@ def edit_student(request, NUID):
             student_form.save()
             return redirect('student_profile', NUID=student.user.NUID)
     else:
-        user_form = CustomUserCreationForm(instance=user)
+        user_form = EditStudentForm(instance=user)
         student_form = StudentForm(instance=student)
 
     return render(request, 'student/edit_student.html', {

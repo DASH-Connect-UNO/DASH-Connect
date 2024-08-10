@@ -64,6 +64,17 @@ class StudentForm(forms.ModelForm):
             self.add_error('other_year', 'Please specify the other year.')
 
 
+class EditStudentForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'middle_name', 'last_name', 'email']  # Exclude password fields
+        error_messages = {
+            'first_name': {'required': 'This field is required.'},
+            'middle_name': {'required': 'This field is required.'},
+            'last_name': {'required': 'This field is required.'},
+            'email': {'required': 'This field is required.'},
+        }
+
 
 class AdminForm(forms.ModelForm):
     class Meta:
