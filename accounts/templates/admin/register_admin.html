@@ -49,16 +49,6 @@
             max-height: 50px;
         }
 
-        .nav-links a {
-            color: #000;
-            text-decoration: none;
-            margin-left: 20px;
-        }
-
-        .nav-links a:hover {
-            text-decoration: underline;
-        }
-
         h1, h2 {
             color: #fff;
         }
@@ -102,6 +92,26 @@
             background-color: darkred;
         }
 
+        .go-back-button {
+            background-color: #555;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 10px;
+            padding: 10px 0;
+            width: 100%;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .go-back-button:hover {
+            background-color: #777;
+        }
+
         .page-title {
             text-align: center;
             font-size: 28px;
@@ -136,8 +146,6 @@
             <div class="required-fields-message">All fields are required</div>
             <form method="post">
                 {% csrf_token %}
-                
-                <!-- Custom rendering of user_form fields -->
                 {% for field in user_form %}
                     <div class="form-group">
                         <label for="{{ field.id_for_label }}">{{ field.label }}</label>
@@ -149,8 +157,6 @@
                         {% endif %}
                     </div>
                 {% endfor %}
-                
-                <!-- Custom rendering of admin_form fields -->
                 {% for field in admin_form %}
                     <div class="form-group">
                         <label for="{{ field.id_for_label }}">{{ field.label }}</label>
@@ -160,11 +166,12 @@
                         {% endif %}
                     </div>
                 {% endfor %}
-                
                 <button type="submit">Register</button>
             </form>
+            <a href="{% url 'admin_login' %}" class="go-back-button">Go Back</a> <!-- Go Back Button -->
         </div>
     </div>
 </body>
 </html>
+
 

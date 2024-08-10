@@ -7,15 +7,15 @@
     <title>Student Data</title>
     <style>
         body {
-            background-color: #000; /* Dark background */
-            color: #fff; /* Light text */
+            background-color: #000; 
+            color: #fff; 
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
         }
         .container {
             padding: 20px;
-            background-color: #333333; /* Lighter black */
+            background-color: #333333; 
             border-radius: 8px;
             width: 95%;
             box-sizing: border-box;
@@ -25,18 +25,18 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #fff; /* White background for the header */
+            background-color: #fff; 
             padding: 10px;
             border-radius: 8px;
             width: 99%;
             margin-bottom: 20px;
-            color: #000; /* Dark text */
+            color: #000; 
         }
         .logo img {
             max-height: 50px;
         }
         .nav-links a {
-            color: #000; /* Dark text */
+            color: #000; 
             text-decoration: none;
             margin-left: 20px;
             font-weight: bold;
@@ -45,19 +45,19 @@
             text-decoration: underline;
         }
         .content-header {
-            margin: 40px 0; /* Adds space above and below */
+            margin: 40px 0; 
         }
         .content-header h1 {
             margin: 0;
-            color: #fff; /* White text */
-            text-align: center; /* Centered title */
-            flex-grow: 1; /* Ensure the title takes up available space */
+            color: #fff; 
+            text-align: center; 
+            flex-grow: 1; 
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            background-color: #fff; /* White background for table */
-            color: #000; /* Dark text for table */
+            background-color: #fff; 
+            color: #000; 
             margin-top: 20px;
             border-radius: 8px;
             overflow: hidden;
@@ -68,43 +68,44 @@
             border-bottom: 1px solid #ddd;
         }
         th {
-            background-color: crimson; /* Crimson color for the table header */
+            background-color: crimson; 
             color: #fff;
         }
         td {
             background-color: #f9f9f9;
         }
         .deactivated td {
-            color: gray; /* Faded text */
-            background-color: #e0e0e0; /* Lighter background */
+            color: gray; 
+            background-color: #e0e0e0; 
         }
-        .deactivated-item {
-            color: gray;
-            opacity: 0.5;
+        .pagination {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px 0;
         }
-        .action-button {
-            padding: 8px 12px;
-            font-size: 14px;
-            text-align: center;
-            text-decoration: none;
-            color: #fff; /* Light text */
+        .pagination .page-info {
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #fff; 
+        }
+        .pagination a {
+            color: #fff;
             background-color: crimson;
-            border: 1px solid #ccc;
+            padding: 8px 16px;
+            margin: 0 5px;
+            text-decoration: none;
             border-radius: 5px;
             font-weight: bold;
-            cursor: pointer;
         }
-        .action-button:hover {
+        .pagination a:hover {
             background-color: darkred;
         }
-        .student-link {
-            color: crimson; /* Crimson color for the link */
-            font-weight: bold; /* Bold text */
-            text-decoration: underline; /* Underlined text */
-            cursor: pointer;
-        }
-        .student-link:hover {
-            color: darkred; /* Darker red color on hover */
+        .pagination .current {
+            color: crimson; 
+            font-weight: bold; 
+            pointer-events: none; 
+            background-color: transparent; 
         }
     </style>
 </head>
@@ -133,7 +134,7 @@
                         <th>Full Name</th>
                         <th>Year</th>
                         <th>DASH Member</th>
-                        <th>Days Visited DASH</th>
+                        <th>Date of Visit</th>
                         <th>Appointment with DASH Staff</th>
                         <th>Printing</th>
                         <th>Study</th>
@@ -147,77 +148,67 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for student in students %}
-                    <tr id="student-{{ student.user.NUID }}" class="{% if not student.user.is_active %}deactivated{% endif %}">
-                        <td>
-                            <a href="{% url 'student_profile' student.user.NUID %}" class="student-link">
-                                {{ student.user.first_name }} {{ student.user.last_name }}
-                            </a>
-                        </td>
-                        <td>{{ student.year }}</td>
-                        <td>{{ student.DASH_Member|yesno:"Yes,No" }}</td>
-                        <td>
-                            {% for visit in student.visitreason_set.all %}
-                                {{ visit.date_time|date:"M d, Y H:i" }}<br>
-                            {% endfor %}
-                        </td>
-                        <td>
-                            {% for visit in student.visitreason_set.all %}
-                                {{ visit.appointment|yesno:"Yes,No" }}<br>
-                            {% endfor %}
-                        </td>
-                        <td>
-                            {% for visit in student.visitreason_set.all %}
-                                {{ visit.printing|yesno:"Yes,No" }}<br>
-                            {% endfor %}
-                        </td>
-                        <td>
-                            {% for visit in student.visitreason_set.all %}
-                                {{ visit.study|yesno:"Yes,No" }}<br>
-                            {% endfor %}
-                        </td>
-                        <td>
-                            {% for visit in student.visitreason_set.all %}
-                                {{ visit.socialize|yesno:"Yes,No" }}<br>
-                            {% endfor %}
-                        </td>
-                        <td>
-                            {% for visit in student.visitreason_set.all %}
-                                {{ visit.event|yesno:"Yes,No" }}<br>
-                            {% endfor %}
-                        </td>
-                        <td>
-                            {% for visit in student.visitreason_set.all %}
-                                {{ visit.schedule_appointment|yesno:"Yes,No" }}<br>
-                            {% endfor %}
-                        </td>
-                        <td>
-                            {% for visit in student.visitreason_set.all %}
-                                {{ visit.hardship|yesno:"Yes,No" }}<br>
-                            {% endfor %}
-                        </td>
-                        <td>
-                            {% for visit in student.visitreason_set.all %}
-                                {{ visit.basic_needs_support|yesno:"Yes,No" }}<br>
-                            {% endfor %}
-                        </td>
-                        <td>
-                            {% for visit in student.visitreason_set.all %}
-                                {{ visit.financial_wellness|yesno:"Yes,No" }}<br>
-                            {% endfor %}
-                        </td>
-                        <td>
-                            {% for visit in student.visitreason_set.all %}
-                                {{ visit.volunteer_opportunities|yesno:"Yes,No" }}<br>
-                            {% endfor %}
-                        </td>
+                    {% if page_obj %}
+                        {% for student in page_obj %}
+                        <tr class="{% if not student.user.is_active %}deactivated{% endif %}">
+                            <td>
+                                <a href="{% url 'student_profile' student.user.NUID %}" class="student-link">
+                                    {{ student.user.first_name }} {{ student.user.last_name }}
+                                </a>
+                            </td>
+                            <td>{{ student.year }}</td>
+                            <td>{{ student.DASH_Member|yesno:"Yes,No" }}</td>
+                            <td colspan="11"></td>
+                        </tr>
+                        {% for visit in student.visitreason_set.all %}
+                        <tr class="visit-row">
+                            <td colspan="3"></td>
+                            <td>{{ visit.date_time|date:"M d, Y H:i" }}</td>
+                            <td>{{ visit.appointment|yesno:"Yes,No" }}</td>
+                            <td>{{ visit.printing|yesno:"Yes,No" }}</td>
+                            <td>{{ visit.study|yesno:"Yes,No" }}</td>
+                            <td>{{ visit.socialize|yesno:"Yes,No" }}</td>
+                            <td>{{ visit.event|yesno:"Yes,No" }}</td>
+                            <td>{{ visit.schedule_appointment|yesno:"Yes,No" }}</td>
+                            <td>{{ visit.hardship|yesno:"Yes,No" }}</td>
+                            <td>{{ visit.basic_needs_support|yesno:"Yes,No" }}</td>
+                            <td>{{ visit.financial_wellness|yesno:"Yes,No" }}</td>
+                            <td>{{ visit.volunteer_opportunities|yesno:"Yes,No" }}</td>
+                        </tr>
+                        {% endfor %}
+                        {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan="14">No students found.</td>
                     </tr>
-                    {% endfor %}
+                    {% endif %}
                 </tbody>
             </table>
+            <div class="pagination">
+                <div class="page-info">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                </div>
+                <div class="pagination-links">
+                    <a href="?page=1">&laquo; First</a>
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                    {% else %}
+                        <a href="#" class="disabled">Previous</a>
+                    {% endif %}
+
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}">Next</a>
+                    {% else %}
+                        <a href="#" class="disabled">Next</a>
+                    {% endif %}
+                    <a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+                </div>
+            </div>
         </div>
     </div>
 </body>
 </html>
+
+
 
 

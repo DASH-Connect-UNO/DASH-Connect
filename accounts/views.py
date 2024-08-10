@@ -3,6 +3,7 @@ from django.contrib.auth import login, authenticate, get_user_model, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, get_object_or_404, redirect
+from django.core.paginator import Paginator
 
 from DASH_pillars.forms import ScholarshipForm, HardshipForm, BasicNeedSupportForm
 from .forms import StudentForm, AdminForm, CustomUserCreationForm, VisitReasonForm
@@ -185,7 +186,11 @@ def edit_student(request, NUID):
 
 def student_information(request):
     students = StudentProfile.objects.order_by('-user__is_active', 'user__first_name')
-    return render(request, 'student/student_information.html', {'students': students})
+    paginator = Paginator(students, 20)  # Show 20 students per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'student/student_information.html', {'page_obj': page_obj})
 
 
 def toggle_student_status(request, NUID):
@@ -210,10 +215,18 @@ def visit_reason(request):
     return render(request, 'student/visit_reason.html', {'form': form})
 
 def student_data(request):
-    students = StudentProfile.objects.all().select_related('user').prefetch_related('scholarships', 'hardships', 'basic_need_supports', 'visitreason_set').order_by('user__first_name')
-    return render(request, 'student/student_data.html', {'students': students})
+    # Fetch all student profiles with related data for optimized queries
+    students = StudentProfile.objects.all().select_related('user').prefetch_related(
+        'scholarships', 'hardships', 'basic_need_supports', 'visitreason_set'
+    ).order_by('user__first_name')
+
+    # Paginate the students, 10 per page
+    paginator = Paginator(students, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'student/student_data.html', {'page_obj': page_obj})
 
 def end_page(request):
     return render(request, 'student/end_page.html')
-
 
