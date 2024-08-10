@@ -6,6 +6,9 @@ from django.core.exceptions import ValidationError
 
 
 class CustomUser(AbstractUser):
+    # Explicitly remove the username field
+    username = None
+
     USER_TYPE_CHOICES = (
         ('student', 'Student'),
         ('admin', 'Admin'),

@@ -161,7 +161,6 @@
             <form method="post">
                 {% csrf_token %}
                 {{ user_form.as_p }}
-                {{ student_form.as_p }}
                 {{ admin_form.as_p }}
                 <div class="button-container">
                     <button type="submit">Add Administrator</button>

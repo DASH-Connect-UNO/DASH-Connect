@@ -6,7 +6,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
 
 from DASH_pillars.forms import ScholarshipForm, HardshipForm, BasicNeedSupportForm
-from .forms import StudentForm, AdminForm, CustomUserCreationForm, VisitReasonForm, EditStudentForm
+from .forms import StudentForm, AdminForm, CustomUserCreationForm, VisitReasonForm, EditUserForm
 from .models import StudentProfile, AdminProfile
 
 logger = logging.getLogger(__name__)
@@ -47,6 +47,32 @@ def register_admin(request):
         user_form = CustomUserCreationForm()
         admin_form = AdminForm()
     return render(request, 'admin/register_admin.html', {'user_form': user_form, 'admin_form': admin_form})
+
+
+def register_student(request):
+    if request.method == 'POST':
+        user_form = CustomUserCreationForm(request.POST)
+        student_form = StudentForm(request.POST)
+        if user_form.is_valid() and student_form.is_valid():
+            user = user_form.save(commit=False)
+            user.user_type = 'student'
+            user.set_password(user_form.cleaned_data['password1'])
+            user.save()
+            student = student_form.save(commit=False)
+            student.user = user
+            student.save()
+
+            # Redirect to the 'next' URL after successful registration
+            next_url = request.GET.get('next', 'student_login')
+            return redirect(next_url)
+    else:
+        user_form = CustomUserCreationForm()
+        student_form = StudentForm()
+
+    return render(request, 'student/register_student.html', {
+        'user_form': user_form,
+        'student_form': student_form,
+    })
 
 
 def admin_profile_view(request):
@@ -167,19 +193,19 @@ def edit_student(request, NUID):
     user = student.user
 
     if request.method == 'POST':
-        user_form = EditStudentForm(request.POST, instance=user)
+        edit_user_form = EditUserForm(request.POST, instance=user)
         student_form = StudentForm(request.POST, instance=student)
 
-        if user_form.is_valid() and student_form.is_valid():
-            user_form.save()
+        if edit_user_form.is_valid() and student_form.is_valid():
+            edit_user_form.save()
             student_form.save()
             return redirect('student_profile', NUID=student.user.NUID)
     else:
-        user_form = EditStudentForm(instance=user)
+        edit_user_form = EditUserForm(instance=user)
         student_form = StudentForm(instance=student)
 
     return render(request, 'student/edit_student.html', {
-        'user_form': user_form,
+        'user_form': edit_user_form,
         'student_form': student_form
     })
 

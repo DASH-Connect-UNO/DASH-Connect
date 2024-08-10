@@ -1,11 +1,10 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
+from django.utils.translation import gettext_lazy as _
 
 from DASH_pillars.models import Hardship, BasicNeedSupport, Scholarship
 from .models import StudentProfile, AdminProfile, CustomUser, VisitReason
-from django.utils.translation import gettext_lazy as _
-
 
 User = get_user_model()
 
@@ -25,6 +24,7 @@ class CustomUserCreationForm(UserCreationForm):
             'email': {'required': ''},
         }
 
+
 class StudentForm(forms.ModelForm):
     YEAR_CHOICES = [
         ('First Year', 'First Year'),
@@ -35,6 +35,12 @@ class StudentForm(forms.ModelForm):
         ('Other', 'Other'),
     ]
 
+    DASH_MEMBER_CHOICES = [
+        (True, 'Yes'),
+        (False, 'No'),
+    ]
+
+    DASH_Member = forms.ChoiceField(choices=DASH_MEMBER_CHOICES)
     year = forms.ChoiceField(choices=YEAR_CHOICES, required=True)
     other_year = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder': 'Please specify...'}))
 
@@ -64,7 +70,7 @@ class StudentForm(forms.ModelForm):
             self.add_error('other_year', 'Please specify the other year.')
 
 
-class EditStudentForm(forms.ModelForm):
+class EditUserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['first_name', 'middle_name', 'last_name', 'email']  # Exclude password fields
@@ -132,8 +138,3 @@ class VisitReasonForm(forms.ModelForm):
         cleaned_data = super().clean()
         if not any(cleaned_data.get(field) for field in self.fields if field != 'date_time'):
             raise forms.ValidationError(_('At least one reason for the visit must be selected.'))
-
-
-
-
-

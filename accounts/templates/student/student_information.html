@@ -200,7 +200,7 @@
                         <td>{{ student.user.NUID }}</td>
                         <td>{{ student.user.email }}</td>
                         <td>{{ student.year }}</td>
-                        <td>{{ student.is_dash_member|yesno:"Yes,No" }}</td>
+                        <td>{{ student.DASH_Member|yesno:"Yes,No" }}</td>
                         <td>
                             {% for scholarship in student.scholarships.all %}
                                 <span class="{% if scholarship.is_deactivated %}deactivated-item{% endif %}">
