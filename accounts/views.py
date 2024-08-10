@@ -1,5 +1,5 @@
 import logging
-from django.contrib.auth import login, authenticate, get_user_model
+from django.contrib.auth import login, authenticate, get_user_model, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, get_object_or_404, redirect
@@ -154,7 +154,7 @@ def student_login_view(request):
             user = form.get_user()
             if user.user_type == 'student':
                 login(request, user)
-                return redirect('student_profile', NUID=user.NUID)
+                return redirect('visit_reason')  # Redirect to visit_reason page
             else:
                 form.add_error(None, "You are not authorized as a student.")
     else:
@@ -201,21 +201,21 @@ def visit_reason(request):
     if request.method == 'POST':
         form = VisitReasonForm(request.POST)
         if form.is_valid():
-            # If valid print form
-            print(form.cleaned_data)
+            # Associate the visit reason with the logged-in student
+            student_profile = request.user.studentprofile
+            visit_reason = form.save(commit=False)
+            visit_reason.student = student_profile  # Assuming you have a field to link to student
+            visit_reason.save()
+
+            # Log out the user after form submission
+            logout(request)
+
+            # Redirect to the end page
+            return redirect('end_page')
     else:
         form = VisitReasonForm()
 
     return render(request, 'student/visit_reason.html', {'form': form})
-
-    students = StudentProfile.objects.all().order_by('user__last_name', 'user__first_name')
-
-    active_students = students.filter(user__is_active=True)
-    inactive_students = students.filter(user__is_active=False)
-
-    sorted_students = list(active_students) + list(inactive_students)
-
-    return render(request, 'student/student_information.html', {'students': sorted_students})
 
 def end_page(request):
     return render(request, 'student/end_page.html')

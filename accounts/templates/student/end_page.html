@@ -29,7 +29,7 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-                align-items: center;
+            align-items: center;
         }
         .header img {
             max-width: 300px;
@@ -70,7 +70,8 @@
         </div>
         <h1>All set!</h1>
         <p>Thanks for visiting DASH!</p>
-        <button class="close-button" onclick="window.close()">Close</button>
+        <button class="close-button" onclick="window.location.href='{% url 'student_login' %}'" aria-label="Close and return to login page">Close</button>
     </div>
 </body>
 </html>
+
