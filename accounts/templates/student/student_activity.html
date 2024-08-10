@@ -1,0 +1,283 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Activity</title>
+    <style>
+        /* Existing styles */
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            padding: 20px;
+            background-color: #333333;
+            border-radius: 8px;
+            width: 95%;
+            box-sizing: border-box;
+            margin: 20px auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            width: 99%;
+            margin-bottom: 20px;
+            color: #000;
+        }
+
+        .logo img {
+            max-height: 50px;
+        }
+
+        .nav-links a {
+            color: #000;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: bold;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        .content-header {
+            margin: 40px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .content-header h1 {
+            margin: 0;
+            color: #fff;
+            text-align: left; /* Changed to align the text to the left */
+            flex-grow: 1;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            color: #000;
+            margin-top: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: crimson;
+            color: #fff;
+        }
+
+        td {
+            background-color: #f9f9f9;
+        }
+
+        .deactivated td {
+            color: gray;
+            background-color: #e0e0e0;
+        }
+
+        .pagination {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .pagination .page-info {
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .pagination a {
+            color: #fff;
+            background-color: crimson;
+            padding: 8px 16px;
+            margin: 0 5px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .pagination a:hover {
+            background-color: darkred;
+        }
+
+        .pagination .current {
+            color: crimson;
+            font-weight: bold;
+            pointer-events: none;
+            background-color: transparent;
+        }
+
+        /* Added CSS for student-link */
+        .student-link {
+            color: crimson;
+            font-weight: bold;
+            text-decoration: underline; /* This adds the underline */
+        }
+
+        .student-link:hover {
+            text-decoration: underline; /* Keeps the underline on hover */
+        }
+
+        /* New styles for the search bar */
+        .search-bar {
+            padding: 10px;
+            font-size: 16px;
+            width: 300px;
+            margin-right: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="logo">
+            <img src="{% static 'uno_logo.png' %}" alt="UNO logo">
+        </div>
+        <div class="nav-links">
+            <a href="{% url 'student_activity' %}">Student Activity</a>
+            <a href="{% url 'student_information' %}">Student Information</a>
+            <a href="{% url 'pillars_home' %}">DASH Pillars</a>
+            <a href="{% url 'admin_profile' %}">Administration</a>
+            <a href="{% url 'logout' %}">Logout</a>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="content-header">
+            <h1>Student Activity</h1>
+            <input type="text" id="searchBar" class="search-bar" placeholder="Search by student name...">
+            <input type="date" id="dateFilter" class="search-bar">
+        </div>
+        <table id="studentTable">
+            <thead>
+            <tr>
+                <th>Full Name</th>
+                <th>Year</th>
+                <th>DASH Member</th>
+                <th>Date of Visit</th>
+                <th>Appointment with DASH Staff</th>
+                <th>Printing</th>
+                <th>Study</th>
+                <th>Socialize/Relax</th>
+                <th>Event</th>
+                <th>Schedule an Appointment</th>
+                <th>Hardship Follow-up</th>
+                <th>Basic Needs Support Follow-up</th>
+                <th>Financial Wellness</th>
+                <th>Volunteer Opportunities</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if page_obj %}
+                {% for visit in page_obj %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'student_profile' visit.student.user.NUID %}" class="student-link">
+                                {{ visit.student.user.first_name }} {{ visit.student.user.middle_name }} {{ visit.student.user.last_name }}
+                            </a>
+                        </td>
+                        <td>{{ visit.student.year }}</td>
+                        <td>{{ visit.student.DASH_Member|yesno:"Yes,No" }}</td>
+                        <td>{{ visit.date_time|date:"M d, Y H:i" }}</td>
+                        <td>{{ visit.appointment|yesno:"Yes,No" }}</td>
+                        <td>{{ visit.printing|yesno:"Yes,No" }}</td>
+                        <td>{{ visit.study|yesno:"Yes,No" }}</td>
+                        <td>{{ visit.socialize|yesno:"Yes,No" }}</td>
+                        <td>{{ visit.event|yesno:"Yes,No" }}</td>
+                        <td>{{ visit.schedule_appointment|yesno:"Yes,No" }}</td>
+                        <td>{{ visit.hardship|yesno:"Yes,No" }}</td>
+                        <td>{{ visit.basic_needs_support|yesno:"Yes,No" }}</td>
+                        <td>{{ visit.financial_wellness|yesno:"Yes,No" }}</td>
+                        <td>{{ visit.volunteer_opportunities|yesno:"Yes,No" }}</td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="14">No activities found.</td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
+        <div class="pagination">
+            <div class="page-info">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </div>
+            <div class="pagination-links">
+                <a href="?page=1">&laquo; First</a>
+                {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                {% else %}
+                    <a href="#" class="disabled">Previous</a>
+                {% endif %}
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">Next</a>
+                {% else %}
+                    <a href="#" class="disabled">Next</a>
+                {% endif %}
+                <a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('dateFilter').addEventListener('change', filterTable);
+    document.getElementById('searchBar').addEventListener('keyup', filterTable);
+
+    function filterTable() {
+        var input = document.getElementById('searchBar').value.toLowerCase();
+        var dateInput = document.getElementById('dateFilter').value; // Format: yyyy-mm-dd
+        var rows = document.querySelectorAll('#studentTable tbody tr');
+
+        rows.forEach(function (row) {
+            var fullName = row.querySelector('td:first-child a').textContent.toLowerCase();
+            var visitDate = row.querySelector('td:nth-child(4)').textContent.trim();
+
+            // Convert visit date to yyyy-mm-dd format
+            var visitDateObj = new Date(visitDate);
+            var visitDateISO = visitDateObj.toISOString().split('T')[0];
+
+            var matchesName = fullName.includes(input);
+            var matchesDate = dateInput === "" || visitDateISO === dateInput;
+
+            // Show or hide the row based on the filters
+            if (matchesName && matchesDate) {
+                row.style.display = '';  // Show row if it matches the filters
+            } else {
+                row.style.display = 'none';  // Hide row if it doesn't match the filters
+            }
+        });
+    }
+
+</script>
+</body>
+</html>
+
+
+
+

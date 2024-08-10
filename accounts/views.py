@@ -7,7 +7,7 @@ from django.core.paginator import Paginator
 
 from DASH_pillars.forms import ScholarshipForm, HardshipForm, BasicNeedSupportForm
 from .forms import StudentForm, AdminForm, CustomUserCreationForm, VisitReasonForm, EditUserForm
-from .models import StudentProfile, AdminProfile
+from .models import StudentProfile, AdminProfile, VisitReason
 
 logger = logging.getLogger(__name__)
 User = get_user_model()
@@ -240,18 +240,16 @@ def visit_reason(request):
 
     return render(request, 'student/visit_reason.html', {'form': form})
 
-def student_data(request):
-    # Fetch all student profiles with related data for optimized queries
-    students = StudentProfile.objects.all().select_related('user').prefetch_related(
-        'scholarships', 'hardships', 'basic_need_supports', 'visitreason_set'
-    ).order_by('user__first_name')
+def student_activity(request):
+    # Fetch all visit reasons and order them by date, with related student data
+    visits = VisitReason.objects.select_related('student__user').order_by('-date_time')
 
-    # Paginate the students, 10 per page
-    paginator = Paginator(students, 10)
+    # Paginate the visits, 10 per page
+    paginator = Paginator(visits, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    return render(request, 'student/student_data.html', {'page_obj': page_obj})
+    return render(request, 'student/student_activity.html', {'page_obj': page_obj})
 
 def end_page(request):
     return render(request, 'student/end_page.html')
