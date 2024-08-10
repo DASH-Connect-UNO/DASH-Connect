@@ -90,7 +90,7 @@ class VisitReasonForm(forms.ModelForm):
             'basic_needs_support',
             'financial_wellness',
             'volunteer_opportunities',
-            'date_time',  # Make sure this is added correctly
+            # 'date_time',  # Make sure this is added correctly
         ]
         labels = {
             'appointment': _('Appointment with DASH staff'),

@@ -48,7 +48,6 @@ def register_admin(request):
     return render(request, 'admin/register_admin.html', {'user_form': user_form, 'admin_form': admin_form})
 
 
-@login_required(login_url='admin_login')
 def admin_profile_view(request):
     try:
         admin_profile = request.user.adminprofile
