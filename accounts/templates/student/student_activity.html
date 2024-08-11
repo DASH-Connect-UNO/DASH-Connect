@@ -172,6 +172,11 @@
             <input type="text" id="searchBar" class="search-bar" placeholder="Search by student name...">
             <input type="date" id="dateFilter" class="search-bar">
         </div>
+
+        <div id="studentCount" style="margin-bottom: 10px;">
+            Showing <span id="count">0</span> students for the selected date.
+        </div>
+
         <table id="studentTable">
             <thead>
             <tr>
@@ -248,31 +253,88 @@
 <script>
     document.getElementById('dateFilter').addEventListener('change', filterTable);
     document.getElementById('searchBar').addEventListener('keyup', filterTable);
+    document.addEventListener('DOMContentLoaded', filterTable);
 
     function filterTable() {
-        var input = document.getElementById('searchBar').value.toLowerCase();
-        var dateInput = document.getElementById('dateFilter').value; // Format: yyyy-mm-dd
-        var rows = document.querySelectorAll('#studentTable tbody tr');
+        var input = getSearchInput();
+        var dateInput = getDateInput();
+        var rows = getTableRows();
+        var visibleRowCount = filterAndCountVisibleRows(rows, input, dateInput);
+        updateCounter(visibleRowCount, dateInput);
+    }
+
+    function getSearchInput() {
+        return document.getElementById('searchBar').value.toLowerCase();
+    }
+
+    function getDateInput() {
+        return document.getElementById('dateFilter').value; // Format: yyyy-mm-dd
+    }
+
+    function getTableRows() {
+        return document.querySelectorAll('#studentTable tbody tr');
+    }
+
+    function formatVisitDate(visitDate) {
+        var visitDateParts = visitDate.split(' '); // Splitting by space
+        var visitMonthDayYear = visitDateParts.slice(0, 3).join(' '); // Get "MMM DD, YYYY"
+        var visitDateObj = new Date(visitMonthDayYear); // Convert to Date object
+        return visitDateObj.toISOString().split('T')[0];
+    }
+
+    function isRowVisible(row, input, dateInput) {
+        var fullName = row.querySelector('td:first-child a').textContent.toLowerCase();
+        var visitDate = row.querySelector('td:nth-child(4)').textContent.trim();
+        var visitDateISO = formatVisitDate(visitDate);
+
+        var matchesName = fullName.includes(input);
+        var matchesDate = dateInput === "" || visitDateISO === dateInput;
+
+        return matchesName && matchesDate;
+    }
+
+    function filterAndCountVisibleRows(rows, input, dateInput) {
+        var visibleRowCount = 0;
 
         rows.forEach(function (row) {
-            var fullName = row.querySelector('td:first-child a').textContent.toLowerCase();
-            var visitDate = row.querySelector('td:nth-child(4)').textContent.trim();
-
-            // Convert visit date to yyyy-mm-dd format
-            var visitDateObj = new Date(visitDate);
-            var visitDateISO = visitDateObj.toISOString().split('T')[0];
-
-            var matchesName = fullName.includes(input);
-            var matchesDate = dateInput === "" || visitDateISO === dateInput;
-
-            // Show or hide the row based on the filters
-            if (matchesName && matchesDate) {
-                row.style.display = '';  // Show row if it matches the filters
+            if (isRowVisible(row, input, dateInput)) {
+                showRow(row);
+                visibleRowCount++;
             } else {
-                row.style.display = 'none';  // Hide row if it doesn't match the filters
+                hideRow(row);
             }
         });
+
+        return visibleRowCount;
     }
+
+    function showRow(row) {
+        row.style.display = '';
+    }
+
+    function hideRow(row) {
+        row.style.display = 'none';
+    }
+
+    function updateCounter(visibleRowCount, dateInput) {
+        var counterDiv = document.getElementById('studentCount');
+
+        if (dateInput === "") {
+            hideCounter(counterDiv);
+        } else {
+            showCounter(counterDiv, visibleRowCount);
+        }
+    }
+
+    function hideCounter(counterDiv) {
+        counterDiv.style.display = 'none';
+    }
+
+    function showCounter(counterDiv, visibleRowCount) {
+        document.getElementById('count').textContent = visibleRowCount;
+        counterDiv.style.display = 'block';
+    }
+
 
 </script>
 </body>
