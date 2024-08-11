@@ -105,7 +105,7 @@ class VisitReasonForm(forms.ModelForm):
             'basic_needs_support',
             'financial_wellness',
             'volunteer_opportunities',
-            # 'date_time',  # Make sure this is added correctly
+
         ]
         labels = {
             'appointment': _('Appointment with DASH staff'),
@@ -118,7 +118,7 @@ class VisitReasonForm(forms.ModelForm):
             'basic_needs_support': _('Basic Needs Support'),
             'financial_wellness': _('Financial Wellness'),
             'volunteer_opportunities': _('Volunteer Opportunities'),
-            'date_time': _('Date and Time')  # Make sure this is labeled correctly
+            'date_time': _('Date and Time')
         }
         widgets = {
             'appointment': forms.CheckboxInput(),
@@ -131,7 +131,7 @@ class VisitReasonForm(forms.ModelForm):
             'basic_needs_support': forms.CheckboxInput(),
             'financial_wellness': forms.CheckboxInput(),
             'volunteer_opportunities': forms.CheckboxInput(),
-            'date_time': forms.HiddenInput(),  # Optional: Hide this field from the form
+            'date_time': forms.HiddenInput(),
         }
 
     def clean(self):

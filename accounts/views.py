@@ -62,7 +62,6 @@ def register_student(request):
             student.user = user
             student.save()
 
-            # Redirect to the 'next' URL after successful registration
             next_url = request.GET.get('next', 'student_login')
             return redirect(next_url)
     else:
@@ -180,7 +179,7 @@ def student_login_view(request):
             user = form.get_user()
             if user.user_type == 'student':
                 login(request, user)
-                return redirect('visit_reason')  # Redirect to visit_reason page
+                return redirect('visit_reason')
             else:
                 form.add_error(None, "You are not authorized as a student.")
     else:
@@ -224,7 +223,7 @@ def toggle_student_status(request, NUID):
         student = get_object_or_404(User, NUID=NUID)
         student.is_active = not student.is_active
         student.save()
-    return redirect('student_information')  # Replace with your actual redirect URL
+    return redirect('student_information')
 
 
 def visit_reason(request):
@@ -232,7 +231,7 @@ def visit_reason(request):
         form = VisitReasonForm(request.POST)
         if form.is_valid():
             visit_reason = form.save(commit=False)
-            visit_reason.student = request.user.studentprofile  # Assuming the student is logged in
+            visit_reason.student = request.user.studentprofile
             visit_reason.save()
             return redirect('end_page')
     else:
@@ -240,8 +239,8 @@ def visit_reason(request):
 
     return render(request, 'student/visit_reason.html', {'form': form})
 
+
 def student_activity(request):
-    # Fetch all visit reasons and order them by date, with related student data
     visits = VisitReason.objects.select_related('student__user').order_by('-date_time')
 
     # Paginate the visits, 10 per page
@@ -250,6 +249,7 @@ def student_activity(request):
     page_obj = paginator.get_page(page_number)
 
     return render(request, 'student/student_activity.html', {'page_obj': page_obj})
+
 
 def end_page(request):
     return render(request, 'student/end_page.html')

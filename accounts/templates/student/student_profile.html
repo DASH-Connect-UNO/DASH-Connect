@@ -7,8 +7,8 @@
     <title>Student Profile</title>
     <style>
         body {
-            background-color: #000; /* Dark background */
-            color: #fff; /* Light text */
+            background-color: #000; 
+            color: #fff; 
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -16,7 +16,7 @@
         }
         .container {
             padding: 20px;
-            background-color: #333333; /* Lighter black */
+            background-color: #333333; 
             border-radius: 8px;
             width: 95%;
             box-sizing: border-box;
@@ -29,18 +29,18 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #fff; /* White background for the header */
+            background-color: #fff; 
             padding: 10px;
             border-radius: 8px;
             width: 99%;
             margin-bottom: 20px;
-            color: #000; /* Dark text */
+            color: #000; 
         }
         .logo img {
             max-height: 50px;
         }
         .nav-links a {
-            color: #000; /* Dark text */
+            color: #000; 
             text-decoration: none;
             margin-left: 20px;
             font-weight: bold;
@@ -50,9 +50,9 @@
         }
         .profile-title, .visit-title {
             text-align: center;
-            color: #fff; /* White text */
+            color: #fff; 
             margin-bottom: 20px;
-            font-size: 32px; /* Larger font size for the titles */
+            font-size: 32px; 
         }
         .profile-container {
             display: flex;
@@ -62,23 +62,23 @@
         .content {
             flex-grow: 1;
             padding: 20px;
-            background-color: #f9f9f9; /* Light background for content */
+            background-color: #f9f9f9; 
             border-radius: 8px;
-            color: #000; /* Dark text */
-            position: relative; /* Position relative for the button */
+            color: #000; 
+            position: relative; 
             margin-bottom: 20px;
         }
         .content h1 {
-            color: #000; /* Dark text */
-            font-size: 32px; /* Larger font size for the student's full name */
+            color: #000; 
+            font-size: 32px; 
             margin-bottom: 20px;
         }
         .content p {
             margin: 10px 0;
-            font-weight: normal; /* Set the font-weight to normal for the content */
+            font-weight: normal; 
         }
         .content p strong {
-            font-weight: bold; /* Bold text for field labels */
+            font-weight: bold; 
         }
         .edit-button {
             position: absolute;
@@ -98,15 +98,15 @@
             background-color: darkred;
         }
         table {
-            width: 130%; /* Increase width to extend beyond the container */
+            width: 130%; 
             border-collapse: collapse;
             margin-top: 20px;
             border-radius: 8px;
             overflow: hidden;
-            background-color: #fff; /* White background for table */
-            color: #000; /* Dark text for table */
-            margin-left: -200px; /* Shift the table to the left */
-            margin-right: -100px; /* Shift the table to the right */
+            background-color: #fff; 
+            color: #000; 
+            margin-left: -200px; 
+            margin-right: -100px; 
         }
 
         th, td {
@@ -140,8 +140,7 @@
                 <a href="{% url 'logout' %}">Logout</a>
             </div>
         </div>
-
-        <!-- Centered Profile Title -->
+    
         <h1 class="profile-title">Student Profile</h1>
 
         <div class="profile-container">
@@ -175,8 +174,7 @@
                 <p><strong>Date Added:</strong> {{ student.date_added }}</p>
                 <a href="{% url 'edit_student' student.user.NUID %}" class="edit-button">Edit</a>
             </div>
-
-            <!-- DASH Visits and Follow-up Requests Section -->
+        
             <h1 class="visit-title">DASH Visits and Follow-up Requests</h1>
             <table>
                 <thead>

@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Activity</title>
     <style>
-        /* Existing styles */
         body {
             background-color: #000;
             color: #fff;
@@ -61,7 +60,7 @@
         .content-header h1 {
             margin: 0;
             color: #fff;
-            text-align: left; /* Changed to align the text to the left */
+            text-align: left; 
             flex-grow: 1;
         }
 
@@ -128,19 +127,17 @@
             pointer-events: none;
             background-color: transparent;
         }
-
-        /* Added CSS for student-link */
+        
         .student-link {
             color: crimson;
             font-weight: bold;
-            text-decoration: underline; /* This adds the underline */
+            text-decoration: underline; 
         }
 
         .student-link:hover {
-            text-decoration: underline; /* Keeps the underline on hover */
+            text-decoration: underline; 
         }
-
-        /* New styles for the search bar */
+        
         .search-bar {
             padding: 10px;
             font-size: 16px;
@@ -268,7 +265,7 @@
     }
 
     function getDateInput() {
-        return document.getElementById('dateFilter').value; // Format: yyyy-mm-dd
+        return document.getElementById('dateFilter').value; 
     }
 
     function getTableRows() {
@@ -276,9 +273,9 @@
     }
 
     function formatVisitDate(visitDate) {
-        var visitDateParts = visitDate.split(' '); // Splitting by space
-        var visitMonthDayYear = visitDateParts.slice(0, 3).join(' '); // Get "MMM DD, YYYY"
-        var visitDateObj = new Date(visitMonthDayYear); // Convert to Date object
+        var visitDateParts = visitDate.split(' '); 
+        var visitMonthDayYear = visitDateParts.slice(0, 3).join(' '); 
+        var visitDateObj = new Date(visitMonthDayYear); 
         return visitDateObj.toISOString().split('T')[0];
     }
 
