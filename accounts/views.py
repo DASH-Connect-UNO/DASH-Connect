@@ -1,9 +1,9 @@
 import logging
-from django.contrib.auth import login, authenticate, get_user_model, logout
-from django.contrib.auth.decorators import login_required
+
+from django.contrib.auth import login, authenticate, get_user_model
 from django.contrib.auth.forms import AuthenticationForm
-from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
+from django.shortcuts import render, get_object_or_404, redirect
 
 from DASH_pillars.forms import ScholarshipForm, HardshipForm, BasicNeedSupportForm
 from .forms import StudentForm, AdminForm, CustomUserCreationForm, VisitReasonForm, EditUserForm
@@ -56,22 +56,20 @@ def register_student(request):
         if user_form.is_valid() and student_form.is_valid():
             user = user_form.save(commit=False)
             user.user_type = 'student'
+            user.username = user.NUID
             user.set_password(user_form.cleaned_data['password1'])
             user.save()
             student = student_form.save(commit=False)
             student.user = user
             student.save()
-
+            student_form.save_m2m()
             next_url = request.GET.get('next', 'student_login')
             return redirect(next_url)
     else:
         user_form = CustomUserCreationForm()
         student_form = StudentForm()
-
-    return render(request, 'student/register_student.html', {
-        'user_form': user_form,
-        'student_form': student_form,
-    })
+    return render(request, 'student/register_student.html',
+                  {'user_form': user_form, 'student_form': student_form})
 
 
 def admin_profile_view(request):
@@ -149,27 +147,21 @@ def add_student(request):
     if request.method == 'POST':
         user_form = CustomUserCreationForm(request.POST)
         student_form = StudentForm(request.POST)
-        scholarship_form = ScholarshipForm(request.POST)
-        hardship_form = HardshipForm(request.POST)
-        basic_needs_support_form = BasicNeedSupportForm(request.POST)
         if user_form.is_valid() and student_form.is_valid():
             user = user_form.save(commit=False)
             user.user_type = 'student'
-            user.username = user.NUID  # Ensure the username is set to NUID
+            user.username = user.NUID
             user.save()
             student = student_form.save(commit=False)
             student.user = user
             student.save()
+            student_form.save_m2m()
             return redirect('student_information')
     else:
         user_form = CustomUserCreationForm()
         student_form = StudentForm()
-        scholarship_form = ScholarshipForm()
-        hardship_form = HardshipForm()
-        basic_needs_support_form = BasicNeedSupportForm()
     return render(request, 'student/add_student.html',
-                  {'user_form': user_form, 'student_form': student_form, 'scholarship_form': scholarship_form,
-                   'hardship_form': hardship_form, 'basic_needs_support_form': basic_needs_support_form})
+                  {'user_form': user_form, 'student_form': student_form})
 
 
 def student_login_view(request):
@@ -242,7 +234,7 @@ def visit_reason(request):
 
 def student_activity(request):
     visits = VisitReason.objects.select_related('student__user').order_by('-date_time')
-    paginator = Paginator(visits, 20) # Show 20 students per page
+    paginator = Paginator(visits, 20)  # Show 20 students per page
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
@@ -251,4 +243,3 @@ def student_activity(request):
 
 def end_page(request):
     return render(request, 'student/end_page.html')
-

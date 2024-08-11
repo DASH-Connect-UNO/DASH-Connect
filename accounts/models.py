@@ -41,6 +41,7 @@ class AdminProfile(models.Model):
 class StudentProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True, db_column='nuid')
     year = models.CharField(max_length=50)
+    other_year = models.CharField(max_length=100, blank=True, null=True)
     DASH_Member = models.BooleanField(default=False)
     scholarships = models.ManyToManyField('DASH_pillars.Scholarship', blank=True)
     hardships = models.ManyToManyField('DASH_pillars.Hardship', blank=True)
