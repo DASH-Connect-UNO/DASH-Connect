@@ -24,4 +24,5 @@ urlpatterns = [
     path('deactivate-admin/<str:NUID>/', deactivate_admin, name='deactivate_admin'),
     path('reactivate-admin/<str:NUID>/', reactivate_admin, name='reactivate_admin'),
     path('end_page/', end_page, name='end_page'),
+
 ]
