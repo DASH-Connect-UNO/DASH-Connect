@@ -5,7 +5,6 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect
 
-from DASH_pillars.forms import ScholarshipForm, HardshipForm, BasicNeedSupportForm
 from .forms import StudentForm, AdminForm, CustomUserCreationForm, VisitReasonForm, EditUserForm
 from .models import StudentProfile, AdminProfile, VisitReason
 
@@ -20,10 +19,13 @@ def admin_login_view(request):
         user = authenticate(request, username=nuid, password=password)
         if user is not None:
             if user.user_type == 'admin':
-                login(request, user)
-                return redirect('admin_profile')
+                if user.is_active:  # Check if the admin is active
+                    login(request, user)
+                    return redirect('admin_profile')
+                else:
+                    return render(request, 'admin/admin_login.html', {'error': 'This admin account is deactivated'})
             else:
-                return render(request, 'admin/admin_login.html', {'error': 'You are not authorized as an admin.'})
+                return render(request, 'admin/admin_login.html', {'error': 'You are not authorized as an admin'})
         else:
             return render(request, 'admin/admin_login.html', {'error': 'Invalid NUID or password'})
     else:
