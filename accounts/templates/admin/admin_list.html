@@ -216,11 +216,9 @@
             {% for admin in admins %}
                 <div class="admin-item {% if not admin.user.is_active %}deactivated{% endif %}" id="admin-{{ admin.user.NUID }}">
                     <h2>{{ admin.user.first_name }} {{ admin.user.middle_name }} {{ admin.user.last_name }}</h2>
-                    <p>NUID: {{ admin.user.NUID }}</p>
                     <p>Email: {{ admin.user.email }}</p>
                     <p>Role within DASH: {{ admin.role_within_DASH }}</p>
                     <p>Status: <span id="status-{{ admin.user.NUID }}">{{ admin.user.is_active|yesno:"Active,Deactivated" }}</span></p>
-                    <a href="{% url 'edit_admin' admin.user.NUID %}">Edit</a>
                     
                     {% if admin.user.is_active %}
                         <form method="post" action="{% url 'deactivate_admin' admin.user.NUID %}" style="display:inline;">
@@ -240,6 +238,7 @@
 </div>
 </body>
 </html>
+
 
 
 
