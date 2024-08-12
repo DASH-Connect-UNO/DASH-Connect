@@ -265,7 +265,7 @@
     }
 
     function getDateInput() {
-        return document.getElementById('dateFilter').value; 
+        return document.getElementById('dateFilter').value;
     }
 
     function getTableRows() {
@@ -273,9 +273,9 @@
     }
 
     function formatVisitDate(visitDate) {
-        var visitDateParts = visitDate.split(' '); 
-        var visitMonthDayYear = visitDateParts.slice(0, 3).join(' '); 
-        var visitDateObj = new Date(visitMonthDayYear); 
+        var visitDateParts = visitDate.split(' ');
+        var visitMonthDayYear = visitDateParts.slice(0, 3).join(' ');
+        var visitDateObj = new Date(visitMonthDayYear);
         return visitDateObj.toISOString().split('T')[0];
     }
 

@@ -7,6 +7,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 from .forms import StudentForm, AdminForm, CustomUserCreationForm, VisitReasonForm, EditUserForm
 from .models import StudentProfile, AdminProfile, VisitReason
+from django.db.models import F, Value
+from django.db.models.functions import Concat
 
 logger = logging.getLogger(__name__)
 User = get_user_model()
@@ -235,7 +237,10 @@ def visit_reason(request):
 
 
 def student_activity(request):
-    visits = VisitReason.objects.select_related('student__user').order_by('-date_time')
+    visits = VisitReason.objects.select_related('student__user').order_by(
+        'student__user__first_name', 'student__user__last_name'
+    )  # Sort by last name and then by first name
+
     paginator = Paginator(visits, 20)  # Show 20 students per page
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
