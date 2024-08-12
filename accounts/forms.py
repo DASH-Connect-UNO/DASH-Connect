@@ -44,6 +44,42 @@ class StudentForm(forms.ModelForm):
     year = forms.ChoiceField(choices=YEAR_CHOICES, required=True)
     other_year = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder': 'Please specify...'}))
 
+    # Updated fields with checkboxes for multiple selections
+    scholarships = forms.ModelMultipleChoiceField(
+        queryset=Scholarship.objects.filter(is_deactivated=False),
+        widget=forms.CheckboxSelectMultiple,
+        required=False
+    )
+    hardships = forms.ModelMultipleChoiceField(
+        queryset=Hardship.objects.filter(is_deactivated=False),
+        widget=forms.CheckboxSelectMultiple,
+        required=False
+    )
+    basic_need_supports = forms.ModelMultipleChoiceField(
+        queryset=BasicNeedSupport.objects.filter(is_deactivated=False),
+        widget=forms.CheckboxSelectMultiple,
+        required=False
+    )
+
+    class Meta:
+        model = StudentProfile
+        fields = ['DASH_Member', 'year', 'other_year', 'scholarships', 'hardships', 'basic_need_supports']
+        error_messages = {
+            'DASH_Member': {'required': 'This field is required.'},
+            'year': {'required': 'This field is required.'},
+            'scholarships': {'required': 'This field is required.'},
+            'hardships': {'required': 'This field is required.'},
+            'basic_need_supports': {'required': 'This field is required.'},
+        }
+
+    def clean(self):
+        cleaned_data = super().clean()
+        year = cleaned_data.get('year')
+        other_year = cleaned_data.get('other_year')
+
+        if year == 'Other' and not other_year:
+            self.add_error('other_year', 'Please specify the other year.')
+
     class Meta:
         model = StudentProfile
         fields = ['DASH_Member', 'year', 'other_year', 'scholarships', 'hardships', 'basic_need_supports']
