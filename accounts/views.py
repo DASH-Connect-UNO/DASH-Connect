@@ -7,8 +7,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 from .forms import StudentForm, AdminForm, CustomUserCreationForm, VisitReasonForm, EditUserForm
 from .models import StudentProfile, AdminProfile, VisitReason
-from django.db.models import F, Value
-from django.db.models.functions import Concat
+from django.utils.dateparse import parse_date
+
 
 logger = logging.getLogger(__name__)
 User = get_user_model()
@@ -144,7 +144,19 @@ def reactivate_admin(request, NUID):
 
 def student_profile(request, NUID):
     student = get_object_or_404(StudentProfile, user_id=NUID)
-    return render(request, 'student/student_profile.html', {'student': student})
+
+    # Get all visits for the student, ordered by most recent first
+    visit_list = student.visitreason_set.all().order_by('-date_time')
+
+    # Paginate the visit list, 20 visits per page
+    paginator = Paginator(visit_list, 20)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'student/student_profile.html', {
+        'student': student,
+        'page_obj': page_obj,
+    })
 
 
 def add_student(request):
@@ -237,11 +249,12 @@ def visit_reason(request):
 
 
 def student_activity(request):
+    # Order by date of visit (most recent first), then by student's first name and last name
     visits = VisitReason.objects.select_related('student__user').order_by(
-        'student__user__first_name', 'student__user__last_name'
-    )  # Sort by last name and then by first name
+        '-date_time', 'student__user__first_name', 'student__user__last_name'
+    )
 
-    paginator = Paginator(visits, 20)  # Show 20 students per page
+    paginator = Paginator(visits, 20)  # Show 20 visits per page
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 

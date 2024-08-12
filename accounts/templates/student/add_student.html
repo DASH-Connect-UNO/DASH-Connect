@@ -72,9 +72,8 @@
             padding: 20px;
             border-radius: 8px;
             margin-bottom: 20px;
-            width: 275%;
+            width: 100%;
             color: #000;
-            margin-left: -310px;
         }
 
         form div {
@@ -103,9 +102,10 @@
         .button-container {
             text-align: center;
             width: 100%;
+            margin-top: 20px;
         }
 
-        .button-container button {
+        .button-container .register-button {
             background-color: crimson;
             color: #fff;
             border: none;
@@ -114,18 +114,86 @@
             cursor: pointer;
             font-weight: bold;
             width: 100%;
+            font-size: 16px;
         }
 
-        .button-container button:hover {
+        .button-container .register-button:hover {
             background-color: darkred;
+        }
+
+        .button-container .go-back-button {
+            background-color: #555;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 10px;
+            padding: 10px 0;
+            width: 100%;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-weight: bold;
+        }
+
+        .button-container .go-back-button:hover {
+            background-color: #777;
         }
 
         .form-section h2 {
             color: #000;
         }
 
+        .checkbox-group {
+            padding-left: 20px;
+        }
+
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .checkbox-group input {
+            margin-right: 10px;
+            width: auto;
+        }
+
         .hidden {
             display: none;
+        }
+
+        .required-fields-message {
+            color: crimson;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .error {
+            color: crimson;
+            font-weight: bold;
+        }
+
+        .sub-section {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .sub-section h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 18px;
+        }
+
+        .sub-section .checkbox-group {
+            padding-left: 20px;
         }
     </style>
 </head>
@@ -159,13 +227,41 @@
                 <div id="other-year-container" class="hidden">
                     {{ student_form.other_year.label_tag }} {{ student_form.other_year }}
                 </div>
-                {{ student_form.DASH_Member.label_tag }} {{ student_form.DASH_Member }}
-                {{ student_form.scholarships.label_tag }} {{ student_form.scholarships }}
-                {{ student_form.hardships.label_tag }} {{ student_form.hardships }}
-                {{ student_form.basic_need_supports.label_tag }} {{ student_form.basic_need_supports }}
             </div>
+
+            <div>
+                {{ student_form.DASH_Member.label_tag }} {{ student_form.DASH_Member }}
+            </div>
+
+            <div class="sub-section">
+                <h3>Scholarships</h3>
+                <div class="checkbox-group">
+                    {% for checkbox in student_form.scholarships %}
+                        <label>{{ checkbox }} {{ checkbox.label }}</label>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="sub-section">
+                <h3>Hardships</h3>
+                <div class="checkbox-group">
+                    {% for checkbox in student_form.hardships %}
+                        <label>{{ checkbox }} {{ checkbox.label }}</label>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="sub-section">
+                <h3>Basic Need Supports</h3>
+                <div class="checkbox-group">
+                    {% for checkbox in student_form.basic_need_supports %}
+                        <label>{{ checkbox }} {{ checkbox.label }}</label>
+                    {% endfor %}
+                </div>
+            </div>
+
             <div class="button-container">
-                <button type="submit">Add Student</button>
+                <button type="submit" class="register-button">Add Student</button>
             </div>
         </div>
     </form>

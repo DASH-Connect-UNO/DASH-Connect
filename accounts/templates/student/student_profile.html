@@ -12,7 +12,6 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            font-weight: bold;
         }
 
         .container {
@@ -22,9 +21,6 @@
             width: 95%;
             box-sizing: border-box;
             margin: 20px auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
         }
 
         .header {
@@ -64,7 +60,7 @@
         .profile-container {
             display: flex;
             flex-direction: column;
-            width: 75%;
+            width: 99%;
         }
 
         .content {
@@ -112,15 +108,13 @@
         }
 
         table {
-            width: 130%;
+            width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
             border-radius: 8px;
             overflow: hidden;
             background-color: #fff;
             color: #000;
-            margin-left: -200px;
-            margin-right: -100px;
         }
 
         th, td {
@@ -139,6 +133,47 @@
         td {
             background-color: #f9f9f9;
             color: #000;
+        }
+
+        .pagination {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .pagination .page-info {
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .pagination a {
+            color: #fff;
+            background-color: crimson;
+            padding: 8px 16px;
+            margin: 0 5px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .pagination a:hover {
+            background-color: darkred;
+        }
+
+        .pagination .current {
+            color: crimson;
+            font-weight: bold;
+            pointer-events: none;
+            background-color: transparent;
+        }
+        
+        .visit-count {
+            margin-bottom: 20px;
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -198,7 +233,12 @@
         </div>
 
         <h1 class="visit-title">DASH Visits and Follow-up Requests</h1>
-        <table>
+
+        <div class="visit-count">
+            <p><strong>Total Visits:</strong> {{ student.visitreason_set.count }}</p>
+        </div>
+
+        <table id="studentTable">
             <thead>
             <tr>
                 <th>Date Visited</th>
@@ -215,26 +255,55 @@
             </tr>
             </thead>
             <tbody>
-            {% for visit in student.visitreason_set.all %}
+            {% if page_obj %}
+                {% for visit in page_obj %}
+                    <tr>
+                        <td>{{ visit.date_time|date:"M d, Y H:i" }}</td>
+                        <td>{{ visit.appointment|yesno:"Yes,No" }}</td>
+                        <td>{{ visit.printing|yesno:"Yes,No" }}</td>
+                        <td>{{ visit.study|yesno:"Yes,No" }}</td>
+                        <td>{{ visit.socialize|yesno:"Yes,No" }}</td>
+                        <td>{{ visit.event|yesno:"Yes,No" }}</td>
+                        <td>{{ visit.schedule_appointment|yesno:"Yes,No" }}</td>
+                        <td>{{ visit.hardship|yesno:"Yes,No" }}</td>
+                        <td>{{ visit.basic_needs_support|yesno:"Yes,No" }}</td>
+                        <td>{{ visit.financial_wellness|yesno:"Yes,No" }}</td>
+                        <td>{{ visit.volunteer_opportunities|yesno:"Yes,No" }}</td>
+                    </tr>
+                {% endfor %}
+            {% else %}
                 <tr>
-                    <td>{{ visit.date_time|date:"M d, Y H:i" }}</td>
-                    <td>{{ visit.appointment|yesno:"Yes,No" }}</td>
-                    <td>{{ visit.printing|yesno:"Yes,No" }}</td>
-                    <td>{{ visit.study|yesno:"Yes,No" }}</td>
-                    <td>{{ visit.socialize|yesno:"Yes,No" }}</td>
-                    <td>{{ visit.event|yesno:"Yes,No" }}</td>
-                    <td>{{ visit.schedule_appointment|yesno:"Yes,No" }}</td>
-                    <td>{{ visit.hardship|yesno:"Yes,No" }}</td>
-                    <td>{{ visit.basic_needs_support|yesno:"Yes,No" }}</td>
-                    <td>{{ visit.financial_wellness|yesno:"Yes,No" }}</td>
-                    <td>{{ visit.volunteer_opportunities|yesno:"Yes,No" }}</td>
+                    <td colspan="11">No visits found.</td>
                 </tr>
-            {% endfor %}
+            {% endif %}
             </tbody>
         </table>
+
+        <div class="pagination">
+            <div class="page-info">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </div>
+            <div class="pagination-links">
+                <a href="?page=1">&laquo; First</a>
+                {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                {% else %}
+                    <a href="#" class="disabled">Previous</a>
+                {% endif %}
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">Next</a>
+                {% else %}
+                    <a href="#" class="disabled">Next</a>
+                {% endif %}
+                <a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+            </div>
+        </div>
     </div>
 </div>
+
 </body>
 </html>
+
 
 
