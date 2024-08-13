@@ -168,7 +168,7 @@
             pointer-events: none;
             background-color: transparent;
         }
-        
+
         .visit-count {
             margin-bottom: 20px;
             color: #fff;
@@ -321,7 +321,7 @@
 
         rows.forEach(function (row) {
             var matchesDate = matchDate(row, dateInput);
-            
+
             if (matchesDate) {
                 row.style.display = '';
             } else {
@@ -337,7 +337,7 @@
     function getTableRows() {
         return document.querySelectorAll('#studentTable tbody tr');
     }
-    
+
 
     function matchDate(row, dateInput) {
         if (dateInput === "") {
