@@ -144,7 +144,7 @@
         <h1 class="page-title">Register Administrator</h1>
         <div class="form-container">
             <div class="required-fields-message">All fields are required</div>
-            <form method="post">
+            <form method="post" action="{% url 'register_admin' %}">
                 {% csrf_token %}
                 {% for field in user_form %}
                     <div class="form-group">
@@ -168,10 +168,11 @@
                 {% endfor %}
                 <button type="submit">Register</button>
             </form>
-            <a href="{% url 'admin_profile' %}" class="go-back-button">Go Back</a> <!-- Go Back Button -->
+            <a href="{% url 'admin_login' %}" class="go-back-button">Go Back</a> <!-- Go Back Button -->
         </div>
     </div>
 </body>
 </html>
+
 
 

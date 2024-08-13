@@ -7,7 +7,6 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 from .forms import StudentForm, AdminForm, CustomUserCreationForm, VisitReasonForm, EditUserForm
 from .models import StudentProfile, AdminProfile, VisitReason
-from django.utils.dateparse import parse_date
 
 
 logger = logging.getLogger(__name__)
@@ -46,7 +45,7 @@ def register_admin(request):
             admin = admin_form.save(commit=False)
             admin.user = user
             admin.save()
-            return redirect('admin_list')
+            return redirect('admin_login')  # Redirect to admin login page
     else:
         user_form = CustomUserCreationForm()
         admin_form = AdminForm()
