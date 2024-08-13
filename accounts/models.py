@@ -58,14 +58,14 @@ class VisitReason(models.Model):
     printing = models.BooleanField(default=False)
     study = models.BooleanField(default=False)
     socialize = models.BooleanField(default=False)
+    student_affinity_group = models.BooleanField(default=False)
     event = models.BooleanField(default=False)
-
     schedule_appointment = models.BooleanField(default=False)
     hardship = models.BooleanField(default=False)
     basic_needs_support = models.BooleanField(default=False)
     financial_wellness = models.BooleanField(default=False)
     volunteer_opportunities = models.BooleanField(default=False)
-
+    other = models.BooleanField(default=False)
     date_time = models.DateTimeField(default=timezone.now)
 
     def clean(self):
@@ -75,7 +75,14 @@ class VisitReason(models.Model):
             self.printing or
             self.study or
             self.socialize or
-            self.event
+            self.student_affinity_group or
+            self.event or
+            self.schedule_appointment or
+            self.hardship or
+            self.basic_needs_support or
+            self.financial_wellness or
+            self.volunteer_opportunities or
+            self.other
         ):
             raise ValidationError(_('At least one reason for the visit must be selected.'))
 

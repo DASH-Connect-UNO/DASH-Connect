@@ -109,6 +109,9 @@
                         {{ form.socialize.label_tag }} {{ form.socialize }}
                     </div>
                     <div class="checkbox-container">
+                        {{ form.student_affinity_group.label_tag }} {{ form.student_affinity_group }} <!-- New Field -->
+                    </div>
+                    <div class="checkbox-container">
                         {{ form.event.label_tag }} {{ form.event }}
                     </div>
                 </div>
@@ -130,6 +133,9 @@
                     <div class="checkbox-container">
                         {{ form.volunteer_opportunities.label_tag }} {{ form.volunteer_opportunities }}
                     </div>
+                    <div class="checkbox-container">
+                        {{ form.other.label_tag }} {{ form.other }} <!-- New Field -->
+                    </div>
                 </div>
 
                 <button type="submit">Submit</button>
@@ -138,4 +144,5 @@
     </div>
 </body>
 </html>
+
 

@@ -44,7 +44,6 @@ class StudentForm(forms.ModelForm):
     year = forms.ChoiceField(choices=YEAR_CHOICES, required=True)
     other_year = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder': 'Please specify...'}))
 
-    # Updated fields with checkboxes for multiple selections
     scholarships = forms.ModelMultipleChoiceField(
         queryset=Scholarship.objects.filter(is_deactivated=False),
         widget=forms.CheckboxSelectMultiple,
@@ -109,7 +108,7 @@ class StudentForm(forms.ModelForm):
 class EditUserForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['first_name', 'middle_name', 'last_name', 'email']  # Exclude password fields
+        fields = ['first_name', 'middle_name', 'last_name', 'email']
         error_messages = {
             'first_name': {'required': 'This field is required.'},
             'middle_name': {'required': 'This field is required.'},
@@ -135,38 +134,43 @@ class VisitReasonForm(forms.ModelForm):
             'printing',
             'study',
             'socialize',
+            'student_affinity_group',
             'event',
             'schedule_appointment',
             'hardship',
             'basic_needs_support',
             'financial_wellness',
             'volunteer_opportunities',
-
+            'other',
         ]
         labels = {
             'appointment': _('Appointment with DASH staff'),
             'printing': _('Printing'),
             'study': _('Study'),
             'socialize': _('Socialize/Relax'),
+            'student_affinity_group': _('Student Affinity Group'),
             'event': _('Event'),
             'schedule_appointment': _('Schedule an appointment'),
             'hardship': _('Hardship'),
             'basic_needs_support': _('Basic Needs Support'),
             'financial_wellness': _('Financial Wellness'),
             'volunteer_opportunities': _('Volunteer Opportunities'),
-            'date_time': _('Date and Time')
+            'other': _('Other'),
+            'date_time': _('Date and Time'),
         }
         widgets = {
             'appointment': forms.CheckboxInput(),
             'printing': forms.CheckboxInput(),
             'study': forms.CheckboxInput(),
             'socialize': forms.CheckboxInput(),
+            'student_affinity_group': forms.CheckboxInput(),
             'event': forms.CheckboxInput(),
             'schedule_appointment': forms.CheckboxInput(),
             'hardship': forms.CheckboxInput(),
             'basic_needs_support': forms.CheckboxInput(),
             'financial_wellness': forms.CheckboxInput(),
             'volunteer_opportunities': forms.CheckboxInput(),
+            'other': forms.CheckboxInput(),
             'date_time': forms.HiddenInput(),
         }
 
@@ -174,3 +178,4 @@ class VisitReasonForm(forms.ModelForm):
         cleaned_data = super().clean()
         if not any(cleaned_data.get(field) for field in self.fields if field != 'date_time'):
             raise forms.ValidationError(_('At least one reason for the visit must be selected.'))
+

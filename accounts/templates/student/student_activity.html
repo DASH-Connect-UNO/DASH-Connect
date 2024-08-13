@@ -7,161 +7,167 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Activity</title>
     <style>
+        /* Existing styles */
         body {
-            background-color: #000;
-            color: #fff;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            padding: 20px;
-            background-color: #333333;
-            border-radius: 8px;
-            width: 95%;
-            box-sizing: border-box;
-            margin: 20px auto;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #fff;
-            padding: 10px;
-            border-radius: 8px;
-            width: 99%;
-            margin-bottom: 20px;
-            color: #000;
-        }
-
-        .logo img {
-            max-height: 50px;
-        }
-
-        .nav-links a {
-            color: #000;
-            text-decoration: none;
-            margin-left: 20px;
-            font-weight: bold;
-        }
-
-        .nav-links a:hover {
-            text-decoration: underline;
-        }
-
-        .content-header {
-            margin: 40px 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .content-header h1 {
-            margin: 0;
-            color: #fff;
-            text-align: left;
-            flex-grow: 1;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: #fff;
-            color: #000;
-            margin-top: 20px;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        th,
-        td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        th {
-            background-color: crimson;
-            color: #fff;
-            cursor: pointer;
-        }
-
-        td {
-            background-color: #f9f9f9;
-        }
-
-        .deactivated td {
-            color: gray;
-            background-color: #e0e0e0;
-        }
-
-        .crimson-column {
-            background-color: crimson;
-            width: 5px;
-            padding: 0;
-            border: none;
-        }
-
-        .pagination {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 20px 0;
-        }
-
-        .pagination .page-info {
-            margin-bottom: 20px;
-            font-weight: bold;
-            color: #fff;
-        }
-
-        .pagination a {
-            color: #fff;
-            background-color: crimson;
-            padding: 8px 16px;
-            margin: 0 5px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-        }
-
-        .pagination a:hover {
-            background-color: darkred;
-        }
-
-        .pagination .current {
-            color: crimson;
-            font-weight: bold;
-            pointer-events: none;
-            background-color: transparent;
-        }
-
-        .student-link {
-            color: crimson;
-            font-weight: bold;
-            text-decoration: underline;
-        }
-
-        .student-link:hover {
-            text-decoration: underline;
-        }
-
-        .search-bar {
-            padding: 10px;
-            font-size: 16px;
-            width: 300px;
-            margin-right: 5px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-
-        .yes-counts {
-            margin-top: 10px;
-            font-weight: bold;
-            color: #fff;
-        }
+                background-color: #000;
+                color: #fff;
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+            }
+            
+            .container {
+                padding: 20px;
+                background-color: #333333;
+                border-radius: 8px;
+                width: 95%;
+                box-sizing: border-box;
+                margin: 20px auto;
+            }
+            
+            .header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background-color: #fff;
+                padding: 10px;
+                border-radius: 8px;
+                width: 99%;
+                margin-bottom: 20px;
+                color: #000;
+            }
+            
+            .logo img {
+                max-height: 50px;
+            }
+            
+            .nav-links a {
+                color: #000;
+                text-decoration: none;
+                margin-left: 20px;
+                font-weight: bold;
+            }
+            
+            .nav-links a:hover {
+                text-decoration: underline;
+            }
+            
+            .content-header {
+                margin: 40px 0;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .content-header h1 {
+                margin: 0;
+                color: #fff;
+                text-align: left;
+                flex-grow: 1;
+            }
+            
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                background-color: #fff;
+                color: #000;
+                margin-top: 20px;
+                border-radius: 8px;
+                overflow: hidden;
+            }
+            
+            th,
+            td {
+                padding: 10px;
+                text-align: left;
+                border-bottom: 1px solid #ddd;
+                border-right: 3px solid crimson; 
+            }
+            
+            th:last-child,
+            td:last-child {
+                border-right: none; 
+            }
+            
+            th {
+                background-color: crimson;
+                color: #fff;
+                cursor: pointer;
+            }
+            
+            td {
+                background-color: #f9f9f9;
+            }
+            
+            .deactivated td {
+                color: gray;
+                background-color: #e0e0e0;
+            }
+            
+            .pagination {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin: 20px 0;
+            }
+            
+            .pagination .page-info {
+                margin-bottom: 20px;
+                font-weight: bold;
+                color: #fff;
+            }
+            
+            .pagination a {
+                color: #fff;
+                background-color: crimson;
+                padding: 8px 16px;
+                margin: 0 5px;
+                text-decoration: none;
+                border-radius: 5px;
+                font-weight: bold;
+            }
+            
+            .pagination a:hover {
+                background-color: darkred;
+            }
+            
+            .pagination .current {
+                color: crimson;
+                font-weight: bold;
+                pointer-events: none;
+                background-color: transparent;
+            }
+            
+            .student-link {
+                color: crimson;
+                font-weight: bold;
+                text-decoration: underline;
+            }
+            
+            .student-link:hover {
+                text-decoration: underline;
+            }
+            
+            .search-bar {
+                padding: 10px;
+                font-size: 16px;
+                width: 300px;
+                margin-right: 5px;
+                border-radius: 5px;
+                border: 1px solid #ccc;
+            }
+            
+            .yes-counts {
+                margin-top: 10px;
+                font-weight: bold;
+                color: #fff;
+            }
+            .crimson-column {
+                        background-color: crimson;
+                        width: 10px;
+                        padding: 5px;
+                        border: none;
+            }
     </style>
 </head>
 
@@ -204,13 +210,15 @@
                         <th onclick="sortTableBoolean(5)">Printing</th>
                         <th onclick="sortTableBoolean(6)">Study</th>
                         <th onclick="sortTableBoolean(7)">Socialize/Relax</th>
-                        <th onclick="sortTableBoolean(8)">Event</th>
+                        <th onclick="sortTableBoolean(8)">Student Affinity Group</th> 
+                        <th onclick="sortTableBoolean(9)">Event</th>
                         <th class="crimson-column"></th>
-                        <th onclick="sortTableBoolean(9)">Schedule an Appointment</th>
-                        <th onclick="sortTableBoolean(10)">Hardship Follow-up</th>
-                        <th onclick="sortTableBoolean(11)">Basic Needs Support Follow-up</th>
-                        <th onclick="sortTableBoolean(12)">Financial Wellness</th>
-                        <th onclick="sortTableBoolean(13)">Volunteer Opportunities</th>
+                        <th onclick="sortTableBoolean(10)">Schedule an Appointment</th>
+                        <th onclick="sortTableBoolean(11)">Hardship Follow-up</th>
+                        <th onclick="sortTableBoolean(12)">Basic Needs Support Follow-up</th>
+                        <th onclick="sortTableBoolean(13)">Financial Wellness</th>
+                        <th onclick="sortTableBoolean(14)">Volunteer Opportunities</th>
+                        <th onclick="sortTableBoolean(15)">Other</th> 
                     </tr>
                 </thead>
                 <tbody>
@@ -231,6 +239,7 @@
                         <td>{{ visit.printing|yesno:"Yes,No" }}</td>
                         <td>{{ visit.study|yesno:"Yes,No" }}</td>
                         <td>{{ visit.socialize|yesno:"Yes,No" }}</td>
+                        <td>{{ visit.student_affinity_group|yesno:"Yes,No" }}</td> 
                         <td>{{ visit.event|yesno:"Yes,No" }}</td>
                         <td class="crimson-column"></td>
                         <td>{{ visit.schedule_appointment|yesno:"Yes,No" }}</td>
@@ -238,11 +247,12 @@
                         <td>{{ visit.basic_needs_support|yesno:"Yes,No" }}</td>
                         <td>{{ visit.financial_wellness|yesno:"Yes,No" }}</td>
                         <td>{{ visit.volunteer_opportunities|yesno:"Yes,No" }}</td>
+                        <td>{{ visit.other|yesno:"Yes,No" }}</td> 
                     </tr>
                     {% endfor %}
                     {% else %}
                     <tr>
-                        <td colspan="16">No activities found.</td>
+                        <td colspan="18">No activities found</td>
                     </tr>
                     {% endif %}
                 </tbody>
@@ -384,12 +394,14 @@
                 printing: 0,
                 study: 0,
                 socialize: 0,
+                affinity: 0,
                 event: 0,
                 schedule: 0,
                 hardship: 0,
                 basicNeeds: 0,
                 financial: 0,
                 volunteer: 0,
+                other: 0,
             };
 
             rows.forEach(function(row) {
@@ -398,12 +410,14 @@
                     yesCounts.printing += row.getElementsByTagName("TD")[6].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
                     yesCounts.study += row.getElementsByTagName("TD")[7].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
                     yesCounts.socialize += row.getElementsByTagName("TD")[8].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
-                    yesCounts.event += row.getElementsByTagName("TD")[9].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
-                    yesCounts.schedule += row.getElementsByTagName("TD")[11].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
-                    yesCounts.hardship += row.getElementsByTagName("TD")[12].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
-                    yesCounts.basicNeeds += row.getElementsByTagName("TD")[13].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
-                    yesCounts.financial += row.getElementsByTagName("TD")[14].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
-                    yesCounts.volunteer += row.getElementsByTagName("TD")[15].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
+                    yesCounts.affinity += row.getElementsByTagName("TD")[9].textContent.trim().toLowerCase() === 'yes' ? 1 : 0; // New Field
+                    yesCounts.event += row.getElementsByTagName("TD")[10].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
+                    yesCounts.schedule += row.getElementsByTagName("TD")[12].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
+                    yesCounts.hardship += row.getElementsByTagName("TD")[13].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
+                    yesCounts.basicNeeds += row.getElementsByTagName("TD")[14].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
+                    yesCounts.financial += row.getElementsByTagName("TD")[15].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
+                    yesCounts.volunteer += row.getElementsByTagName("TD")[16].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
+                    yesCounts.other += row.getElementsByTagName("TD")[17].textContent.trim().toLowerCase() === 'yes' ? 1 : 0; // New Field
                 }
             });
 
@@ -417,12 +431,14 @@
                             <th>Printing</th>
                             <th>Study</th>
                             <th>Socialize/Relax</th>
+                            <th>Student Affinity Group</th> <!-- New Field -->
                             <th>Event</th>
                             <th>Schedule an Appointment</th>
                             <th>Hardship Follow-up</th>
                             <th>Basic Needs Support Follow-up</th>
                             <th>Financial Wellness</th>
                             <th>Volunteer Opportunities</th>
+                            <th>Other</th> <!-- New Field -->
                         </tr>
                     </thead>
                     <tbody>
@@ -431,12 +447,14 @@
                             <td>${yesCounts.printing}</td>
                             <td>${yesCounts.study}</td>
                             <td>${yesCounts.socialize}</td>
+                            <td>${yesCounts.affinity}</td> <!-- New Field -->
                             <td>${yesCounts.event}</td>
                             <td>${yesCounts.schedule}</td>
                             <td>${yesCounts.hardship}</td>
                             <td>${yesCounts.basicNeeds}</td>
                             <td>${yesCounts.financial}</td>
                             <td>${yesCounts.volunteer}</td>
+                            <td>${yesCounts.other}</td> <!-- New Field -->
                         </tr>
                     </tbody>
                 </table>
@@ -500,6 +518,3 @@
 </body>
 
 </html>
-
-
-

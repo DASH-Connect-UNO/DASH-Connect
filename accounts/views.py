@@ -20,7 +20,7 @@ def admin_login_view(request):
         user = authenticate(request, username=nuid, password=password)
         if user is not None:
             if user.user_type == 'admin':
-                if user.is_active:  # Check if the admin is active
+                if user.is_active:
                     login(request, user)
                     return redirect('admin_profile')
                 else:
@@ -45,7 +45,7 @@ def register_admin(request):
             admin = admin_form.save(commit=False)
             admin.user = user
             admin.save()
-            return redirect('admin_login')  # Redirect to admin login page
+            return redirect('admin_login')
     else:
         user_form = CustomUserCreationForm()
         admin_form = AdminForm()
@@ -56,23 +56,30 @@ def register_student(request):
     if request.method == 'POST':
         user_form = CustomUserCreationForm(request.POST)
         student_form = StudentForm(request.POST)
+
         if user_form.is_valid() and student_form.is_valid():
             user = user_form.save(commit=False)
-            user.user_type = 'student'
-            user.username = user.NUID
+            user.user_type = 'student'  # user_type is set to 'student'
+            user.username = user.NUID  # username to NUID
             user.set_password(user_form.cleaned_data['password1'])
             user.save()
+
             student = student_form.save(commit=False)
             student.user = user
             student.save()
             student_form.save_m2m()
+
             next_url = request.GET.get('next', 'student_login')
             return redirect(next_url)
+
     else:
         user_form = CustomUserCreationForm()
         student_form = StudentForm()
-    return render(request, 'student/register_student.html',
-                  {'user_form': user_form, 'student_form': student_form})
+
+    return render(request, 'student/register_student.html', {
+        'user_form': user_form,
+        'student_form': student_form,
+    })
 
 
 def admin_profile_view(request):
@@ -144,10 +151,8 @@ def reactivate_admin(request, NUID):
 def student_profile(request, NUID):
     student = get_object_or_404(StudentProfile, user_id=NUID)
 
-    # Get all visits for the student, ordered by most recent first
     visit_list = student.visitreason_set.all().order_by('-date_time')
 
-    # Paginate the visit list, 20 visits per page
     paginator = Paginator(visit_list, 20)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
