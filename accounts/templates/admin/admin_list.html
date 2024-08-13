@@ -6,188 +6,192 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administration List</title>
     <style>
-        body {
-            background-color: #000; 
-            color: #fff; 
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
+    body {
+        background-color: #000;
+        color: #fff;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
 
-        .container {
-            padding: 20px;
-            background-color: #333333; 
-            border-radius: 8px;
-            width: 95%; 
-            box-sizing: border-box; 
-            margin: 20px auto; 
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+    .container {
+        padding: 20px;
+        background-color: #333333;
+        border-radius: 8px;
+        width: 95%;
+        box-sizing: border-box;
+        margin: 20px auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            width: 100%;
-        }
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        width: 100%;
+    }
 
-        .logo-nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #fff; 
-            padding: 10px;
-            border-radius: 8px;
-            width: 100%; 
-            margin: 0 auto; 
-            color: #000;
-        }
+    .logo-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #fff;
+        padding: 10px;
+        border-radius: 8px;
+        width: 100%;
+        margin: 0 auto;
+        color: #000;
+    }
 
-        .logo img {
-            max-height: 50px;
-        }
+    .logo img {
+        max-height: 50px;
+    }
 
-        .nav-links a {
-            color: #000; 
-            text-decoration: none;
-            margin-left: 20px;
-            font-weight: bold;
-        }
+    .nav-links a {
+        color: #000;
+        text-decoration: none;
+        margin-left: 20px;
+        font-weight: bold;
+    }
 
-        .nav-links a:hover {
-            text-decoration: underline;
-        }
+    .nav-links a:hover {
+        text-decoration: underline;
+    }
 
-        h1 {
-            color: #000; 
-        }
+    h1 {
+        color: #000;
+    }
 
-        .profile-container {
-            display: flex;
-            width: 100%;
-            margin-top: 20px;
-        }
+    .profile-container {
+        display: flex;
+        width: 100%;
+        margin-top: 20px;
+    }
 
-        .sidebar {
-            width: 200px;
-            padding: 20px;
-            background-color: #fff; 
-            border-right: 1px solid #ccc;
-            border-radius: 8px;
-            color: #000; 
-            margin-right: 20px; 
-        }
+    .sidebar {
+        width: 200px;
+        padding: 20px;
+        background-color: #fff;
+        border-right: 1px solid #ccc;
+        border-radius: 8px;
+        color: #000;
+        margin-right: 20px;
+    }
 
-        .content {
-            flex-grow: 1;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            color: #000; 
-        }
+    .content {
+        flex-grow: 1;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        color: #000;
+    }
 
-        .sidebar button, .sidebar a {
-            display: block;
-            width: 90%;
-            margin-bottom: 10px;
-            padding: 10px;
-            font-size: 16px;
-            cursor: pointer;
-            text-align: center;
-            text-decoration: none;
-            color: #fff;
-            background-color: crimson;
-            border: 2px solid #ccc;
-            border-radius: 10px;
-            font-weight: bold;
-        }
+    .sidebar button, .sidebar a {
+        display: block;
+        width: 90%;
+        margin-bottom: 10px;
+        padding: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        color: #fff;
+        background-color: crimson;
+        border: 2px solid #ccc;
+        border-radius: 10px;
+        font-weight: bold;
+    }
 
-        .sidebar button:hover, .sidebar a:hover {
-            background-color: darkred;
-        }
+    .sidebar button:hover, .sidebar a:hover {
+        background-color: darkred;
+    }
 
-        .admin-item {
-            background-color: #fff; 
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            padding: 15px;
-            color: #000; 
-            position: relative;
-            transition: background-color 0.3s, opacity 0.3s;
-        }
+    .admin-item {
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        padding: 15px;
+        color: #000;
+        position: relative;
+        transition: background-color 0.3s, opacity 0.3s;
+    }
 
-        .admin-item h2 {
-            margin: 0 0 10px 0;
-        }
+    .admin-item h2 {
+        margin: 0 0 10px 0;
+    }
 
-        .admin-item p {
-            margin: 5px 0;
-            font-weight: bold;
-        }
+    .admin-item p {
+        margin: 5px 0;
+        font-weight: bold;
+    }
 
-        .admin-item button, .admin-item a {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 10px;
-            font-size: 16px;
-            text-decoration: none;
-            text-align: center;
-            border-radius: 5px;
-            color: #fff;
-            cursor: pointer;
-        }
+    .admin-item button, .admin-item a {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 10px;
+        font-size: 16px;
+        text-decoration: none;
+        text-align: center;
+        border-radius: 5px;
+        color: #fff;
+        cursor: pointer;
+    }
 
-        .admin-item a {
-            background-color: #007bff;
-            font-weight: bold;
-        }
+    .admin-item a {
+        background-color: #007bff;
+        font-weight: bold;
+    }
 
-        .admin-item a:hover {
-            background-color: #0056b3;
-        }
+    .admin-item a:hover {
+        background-color: #0056b3;
+    }
 
-        .admin-item button {
-            background-color: #ff4d4d;
-            border: none;
-            font-weight: bold;
-        }
+    .admin-item button {
+        background-color: #ff4d4d;
+        border: none;
+        font-weight: bold;
+    }
 
-        .admin-item button:hover {
-            background-color: #cc0000;
-        }
+    .admin-item button:hover {
+        background-color: #cc0000;
+    }
 
-        .admin-item .reactivate-button {
-            background-color: #ff4d4d; 
-            display: none; 
-        }
+    .admin-item .reactivate-button {
+        background-color: #ff4d4d;
+        display: none;
+    }
 
-        .admin-item .reactivate-button:hover {
-            background-color: #cc0000; 
-        }
+    .admin-item .reactivate-button:hover {
+        background-color: #cc0000;
+    }
 
-        .admin-item.deactivated .reactivate-button {
-            display: inline-block;
-            background-color: #ff4d4d; 
-            font-weight: bold;
-        }
+    .admin-item.deactivated .reactivate-button {
+        display: inline-block;
+        background-color: #ff4d4d;
+        font-weight: bold;
+    }
 
-        .admin-item.deactivated .reactivate-button:hover {
-            background-color: #cc0000;
-        }
+    .admin-item.deactivated .reactivate-button:hover {
+        background-color: #cc0000;
+    }
 
-        .admin-item.deactivated button, .admin-item.deactivated a {
-            display: none;
-            opacity: 0.5;
-        }
+    .admin-item.deactivated button, .admin-item.deactivated a {
+        display: none;
+    }
 
-        .admin-item.deactivated .reactivate-button {
-            display: inline-block;
-        }
-    </style>
+    .admin-item.deactivated .reactivate-button {
+        display: inline-block;
+    }
+
+    .admin-item.deactivated {
+        opacity: 0.5;
+    }
+</style>
+
 </head>
 <body>
 <div class="container">
