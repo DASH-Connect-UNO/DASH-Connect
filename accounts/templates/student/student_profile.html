@@ -175,6 +175,15 @@
             font-size: 18px;
             font-weight: bold;
         }
+        .search-bar {
+            padding: 10px;
+            font-size: 16px;
+            width: 150px;
+            margin-right: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            float: right;
+        }
     </style>
 </head>
 <body>
@@ -235,9 +244,8 @@
         <h1 class="visit-title">DASH Visits and Follow-up Requests</h1>
 
         <div class="visit-count">
-            <p><strong>Total Visits:</strong> {{ student.visitreason_set.count }}</p>
+            <p><strong>Total Visits:</strong> {{ student.visitreason_set.count }} <input type="date" id="dateFilter" class="search-bar" </p>
         </div>
-
         <table id="studentTable">
             <thead>
             <tr>
@@ -302,8 +310,50 @@
     </div>
 </div>
 
+<script>
+    document.getElementById('dateFilter').addEventListener('change', filterTable);
+    document.getElementById('searchBar').addEventListener('keyup', filterTable);
+    document.addEventListener('DOMContentLoaded', filterTable);
+
+    function filterTable() {
+        var dateInput = getDateInput();
+        var rows = getTableRows();
+
+        rows.forEach(function (row) {
+            var matchesDate = matchDate(row, dateInput);
+            
+            if (matchesDate) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+
+    function getDateInput() {
+        return document.getElementById('dateFilter').value;
+    }
+
+    function getTableRows() {
+        return document.querySelectorAll('#studentTable tbody tr');
+    }
+    
+
+    function matchDate(row, dateInput) {
+        if (dateInput === "") {
+            return true;
+        }
+
+        var visitDate = row.querySelector('td:first-child').textContent.trim();
+        var visitDateISO = new Date(visitDate).toISOString().split('T')[0];
+
+        return visitDateISO === dateInput;
+    }
+</script>
+
 </body>
 </html>
+
 
 
 
