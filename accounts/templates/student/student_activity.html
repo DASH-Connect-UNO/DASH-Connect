@@ -99,7 +99,7 @@
 
         .crimson-column {
             background-color: crimson;
-            width: 10px;
+            width: 5px;
             padding: 0;
             border: none;
         }
@@ -283,9 +283,27 @@
             var input = getSearchInput();
             var dateInput = getDateInput();
             var rows = getTableRows();
+            
+            // Count total students who match the date filter
+            var totalMatchingStudents = countTotalMatchingStudents(rows, dateInput);
+            
+            // Filter rows based on both the search and date inputs
             var visibleRowCount = filterAndCountVisibleRows(rows, input, dateInput);
-            updateCounter(visibleRowCount, dateInput);
+
+            updateCounter(totalMatchingStudents, dateInput);
             updateYesCounts(rows);
+        }
+
+        function countTotalMatchingStudents(rows, dateInput) {
+            var total = 0;
+            rows.forEach(function(row) {
+                var visitDate = row.querySelector('td:nth-child(4)').textContent.trim();
+                var visitDateISO = formatVisitDate(visitDate);
+                if (visitDateISO === dateInput) {
+                    total++;
+                }
+            });
+            return total;
         }
 
         function getSearchInput() {
@@ -341,13 +359,13 @@
             row.style.display = 'none';
         }
 
-        function updateCounter(visibleRowCount, dateInput) {
+        function updateCounter(totalMatchingStudents, dateInput) {
             var counterDiv = document.getElementById('studentCount');
 
             if (dateInput === "") {
                 hideCounter(counterDiv);
             } else {
-                showCounter(counterDiv, visibleRowCount);
+                showCounter(counterDiv, totalMatchingStudents);
             }
         }
 
@@ -355,8 +373,8 @@
             counterDiv.style.display = 'none';
         }
 
-        function showCounter(counterDiv, visibleRowCount) {
-            document.getElementById('count').textContent = visibleRowCount;
+        function showCounter(counterDiv, totalMatchingStudents) {
+            document.getElementById('count').textContent = totalMatchingStudents;
             counterDiv.style.display = 'block';
         }
 
@@ -482,5 +500,6 @@
 </body>
 
 </html>
+
 
 
