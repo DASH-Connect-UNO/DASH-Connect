@@ -223,7 +223,7 @@ def edit_student(request, NUID):
 
 def student_information(request):
     students = StudentProfile.objects.order_by('-user__is_active', 'user__first_name')
-    paginator = Paginator(students, 20)  # Show 20 students per page
+    paginator = Paginator(students, 50)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
@@ -257,7 +257,7 @@ def student_activity(request):
         '-date_time', 'student__user__first_name', 'student__user__last_name'
     )
 
-    paginator = Paginator(visits, 10)  # Show 20 visits per page
+    paginator = Paginator(visits, 50)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 

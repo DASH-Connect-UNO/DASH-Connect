@@ -133,6 +133,15 @@
         td {
             background-color: #f9f9f9;
             color: #000;
+            border-right: 3px solid dimgrey;
+        }
+
+        td:last-child {
+            border-right: none;
+        }
+
+        th:last-child {
+            border-right: none;
         }
 
         .pagination {
@@ -175,6 +184,7 @@
             font-size: 18px;
             font-weight: bold;
         }
+
         .search-bar {
             padding: 10px;
             font-size: 16px;
@@ -183,6 +193,12 @@
             border-radius: 5px;
             border: 1px solid #ccc;
             float: right;
+        }
+
+        .yes-counts {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #fff;
         }
     </style>
 </head>
@@ -216,35 +232,16 @@
                 {% endif %}
             </p>
             <p><strong>DASH Member:</strong> {{ student.DASH_Member|yesno:"Yes,No" }}</p>
-            <p><strong>Scholarships:</strong>
-                {% for scholarship in student.scholarships.all %}
-                    <span class="{% if scholarship.is_deactivated %}deactivated-item{% endif %}">
-                            {{ scholarship.name }}
-                        </span>{% if not forloop.last %}, {% endif %}
-                {% endfor %}
-            </p>
-            <p><strong>Hardships:</strong>
-                {% for hardship in student.hardships.all %}
-                    <span class="{% if hardship.is_deactivated %}deactivated-item{% endif %}">
-                            {{ hardship.name }}
-                        </span>{% if not forloop.last %}, {% endif %}
-                {% endfor %}
-            </p>
-            <p><strong>Basic Need Supports:</strong>
-                {% for support in student.basic_need_supports.all %}
-                    <span class="{% if support.is_deactivated %}deactivated-item{% endif %}">
-                            {{ support.name }}
-                        </span>{% if not forloop.last %}, {% endif %}
-                {% endfor %}
-            </p>
-            <p><strong>Date Added:</strong> {{ student.date_added }}</p>
+            
             <a href="{% url 'edit_student' student.user.NUID %}" class="edit-button">Edit</a>
         </div>
 
         <h1 class="visit-title">DASH Visits and Follow-up Requests</h1>
 
         <div class="visit-count">
-            <p><strong>Total Visits:</strong> {{ student.visitreason_set.count }} <input type="date" id="dateFilter" class="search-bar" </p>
+            <p><strong>Total Visits:</strong> {{ student.visitreason_set.count }}</p>
+            <input type="date" id="dateFilter" class="search-bar">
+        <div id="yesCounts" class="yes-counts"></div>
         </div>
         <table id="studentTable">
             <thead>
@@ -254,12 +251,13 @@
                 <th>Printing</th>
                 <th>Study</th>
                 <th>Socialize/Relax</th>
+                <th>Student Affinity Group</th>
                 <th>Event</th>
                 <th>Schedule an Appointment</th>
                 <th>Hardship Follow-up</th>
                 <th>Basic Needs Support Follow-up</th>
-                <th>Financial Wellness</th>
-                <th>Volunteer Opportunities</th>
+                <th>Student Affinity Group</th>
+                <th>Other</th> 
             </tr>
             </thead>
             <tbody>
@@ -275,8 +273,8 @@
                         <td>{{ visit.schedule_appointment|yesno:"Yes,No" }}</td>
                         <td>{{ visit.hardship|yesno:"Yes,No" }}</td>
                         <td>{{ visit.basic_needs_support|yesno:"Yes,No" }}</td>
-                        <td>{{ visit.financial_wellness|yesno:"Yes,No" }}</td>
-                        <td>{{ visit.volunteer_opportunities|yesno:"Yes,No" }}</td>
+                        <td>{{ visit.student_affinity_group|yesno:"Yes,No" }}</td> 
+                        <td>{{ visit.other|yesno:"Yes,No" }}</td> 
                     </tr>
                 {% endfor %}
             {% else %}
@@ -312,22 +310,13 @@
 
 <script>
     document.getElementById('dateFilter').addEventListener('change', filterTable);
-    document.getElementById('searchBar').addEventListener('keyup', filterTable);
     document.addEventListener('DOMContentLoaded', filterTable);
 
     function filterTable() {
         var dateInput = getDateInput();
         var rows = getTableRows();
-
-        rows.forEach(function (row) {
-            var matchesDate = matchDate(row, dateInput);
-
-            if (matchesDate) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        });
+        var visibleRowCount = filterAndCountVisibleRows(rows, dateInput);
+        updateYesCounts(rows, dateInput);
     }
 
     function getDateInput() {
@@ -338,22 +327,110 @@
         return document.querySelectorAll('#studentTable tbody tr');
     }
 
+    function formatVisitDate(visitDate) {
+        var visitDateObj = new Date(visitDate);
+        return visitDateObj.toISOString().split('T')[0];
+    }
 
-    function matchDate(row, dateInput) {
-        if (dateInput === "") {
-            return true;
-        }
+    function filterAndCountVisibleRows(rows, dateInput) {
+        var visibleRowCount = 0;
 
+        rows.forEach(function (row) {
+            if (isRowVisible(row, dateInput)) {
+                row.style.display = '';
+                visibleRowCount++;
+            } else {
+                row.style.display = 'none';
+            }
+        });
+
+        return visibleRowCount;
+    }
+
+    function isRowVisible(row, dateInput) {
         var visitDate = row.querySelector('td:first-child').textContent.trim();
-        var visitDateISO = new Date(visitDate).toISOString().split('T')[0];
+        var visitDateISO = formatVisitDate(visitDate);
 
-        return visitDateISO === dateInput;
+        return dateInput === "" || visitDateISO === dateInput;
+    }
+
+    function updateYesCounts(rows, dateInput) {
+        const yesCounts = {
+            appointment: 0,
+            printing: 0,
+            study: 0,
+            socialize: 0,
+            affinity: 0,
+            event: 0,
+            schedule: 0,
+            hardship: 0,
+            basicNeeds: 0,
+            financial: 0,
+            volunteer: 0,
+            other: 0,
+        };
+
+        rows.forEach(function (row) {
+            if (row.style.display !== 'none') {
+                var visitDate = row.querySelector('td:first-child').textContent.trim();
+                var visitDateISO = formatVisitDate(visitDate);
+
+                if (visitDateISO === dateInput) {
+                    yesCounts.appointment += row.getElementsByTagName("TD")[1].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
+                    yesCounts.printing += row.getElementsByTagName("TD")[2].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
+                    yesCounts.study += row.getElementsByTagName("TD")[3].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
+                    yesCounts.socialize += row.getElementsByTagName("TD")[4].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
+                    yesCounts.affinity += row.getElementsByTagName("TD")[9].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
+                    yesCounts.event += row.getElementsByTagName("TD")[5].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
+                    yesCounts.schedule += row.getElementsByTagName("TD")[6].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
+                    yesCounts.hardship += row.getElementsByTagName("TD")[7].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
+                    yesCounts.basicNeeds += row.getElementsByTagName("TD")[8].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
+                    yesCounts.other += row.getElementsByTagName("TD")[10].textContent.trim().toLowerCase() === 'yes' ? 1 : 0; // Updated
+                }
+            }
+        });
+
+        const yesCountsDiv = document.getElementById('yesCounts');
+        yesCountsDiv.innerHTML = `
+            <h2>Confirmations</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Appointment with DASH Staff</th>
+                        <th>Printing</th>
+                        <th>Study</th>
+                        <th>Socialize/Relax</th>
+                        <th>Student Affinity Group</th>
+                        <th>Event</th>
+                        <th>Schedule an Appointment</th>
+                        <th>Hardship Follow-up</th>
+                        <th>Basic Needs Support Follow-up</th>
+                        <th>Financial Wellness</th>
+                        <th>Volunteer Opportunities</th>
+                        <th>Other</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>${yesCounts.appointment}</td>
+                        <td>${yesCounts.printing}</td>
+                        <td>${yesCounts.study}</td>
+                        <td>${yesCounts.socialize}</td>
+                        <td>${yesCounts.affinity}</td>
+                        <td>${yesCounts.event}</td>
+                        <td>${yesCounts.schedule}</td>
+                        <td>${yesCounts.hardship}</td>
+                        <td>${yesCounts.basicNeeds}</td>
+                        <td>${yesCounts.financial}</td>
+                        <td>${yesCounts.volunteer}</td>
+                        <td>${yesCounts.other}</td>
+                    </tr>
+                </tbody>
+            </table>
+        `;
     }
 </script>
 
 </body>
 </html>
-
-
-
 
