@@ -253,12 +253,11 @@ def visit_reason(request):
 
 
 def student_activity(request):
-    # Order by date of visit (most recent first), then by student's first name and last name
     visits = VisitReason.objects.select_related('student__user').order_by(
         '-date_time', 'student__user__first_name', 'student__user__last_name'
     )
 
-    paginator = Paginator(visits, 20)  # Show 20 visits per page
+    paginator = Paginator(visits, 10)  # Show 20 visits per page
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 

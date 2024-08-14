@@ -15,7 +15,7 @@
                 margin: 0;
                 padding: 0;
             }
-            
+
             .container {
                 padding: 20px;
                 background-color: #333333;
@@ -24,7 +24,7 @@
                 box-sizing: border-box;
                 margin: 20px auto;
             }
-            
+
             .header {
                 display: flex;
                 justify-content: space-between;
@@ -36,36 +36,36 @@
                 margin-bottom: 20px;
                 color: #000;
             }
-            
+
             .logo img {
                 max-height: 50px;
             }
-            
+
             .nav-links a {
                 color: #000;
                 text-decoration: none;
                 margin-left: 20px;
                 font-weight: bold;
             }
-            
+
             .nav-links a:hover {
                 text-decoration: underline;
             }
-            
+
             .content-header {
                 margin: 40px 0;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
             }
-            
+
             .content-header h1 {
                 margin: 0;
                 color: #fff;
                 text-align: left;
                 flex-grow: 1;
             }
-            
+
             table {
                 width: 100%;
                 border-collapse: collapse;
@@ -75,48 +75,60 @@
                 border-radius: 8px;
                 overflow: hidden;
             }
-            
-            th,
-            td {
+
+            th {
                 padding: 10px;
                 text-align: left;
                 border-bottom: 1px solid #ddd;
-                border-right: 3px solid crimson; 
-            }
-            
-            th:last-child,
-            td:last-child {
-                border-right: none; 
-            }
-            
-            th {
                 background-color: crimson;
                 color: #fff;
                 cursor: pointer;
             }
             
             td {
-                background-color: #f9f9f9;
+                padding: 10px;
+                text-align: left;
+                border-bottom: 1px solid #ddd;
+                border-right: 3px solid dimgrey; 
             }
             
+            td:last-child {
+                border-right: none; 
+            }
+            
+            th:last-child {
+                border-right: none; 
+            }
+
+
+            th {
+                background-color: crimson;
+                color: #fff;
+                cursor: pointer;
+            }
+
+            td {
+                background-color: #f9f9f9;
+            }
+
             .deactivated td {
                 color: gray;
                 background-color: #e0e0e0;
             }
-            
+
             .pagination {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
                 margin: 20px 0;
             }
-            
+
             .pagination .page-info {
                 margin-bottom: 20px;
                 font-weight: bold;
                 color: #fff;
             }
-            
+
             .pagination a {
                 color: #fff;
                 background-color: crimson;
@@ -126,28 +138,28 @@
                 border-radius: 5px;
                 font-weight: bold;
             }
-            
+
             .pagination a:hover {
                 background-color: darkred;
             }
-            
+
             .pagination .current {
                 color: crimson;
                 font-weight: bold;
                 pointer-events: none;
                 background-color: transparent;
             }
-            
+
             .student-link {
                 color: crimson;
                 font-weight: bold;
                 text-decoration: underline;
             }
-            
+
             .student-link:hover {
                 text-decoration: underline;
             }
-            
+
             .search-bar {
                 padding: 10px;
                 font-size: 16px;
@@ -156,17 +168,11 @@
                 border-radius: 5px;
                 border: 1px solid #ccc;
             }
-            
+
             .yes-counts {
                 margin-top: 10px;
                 font-weight: bold;
                 color: #fff;
-            }
-            .crimson-column {
-                        background-color: crimson;
-                        width: 10px;
-                        padding: 5px;
-                        border: none;
             }
     </style>
 </head>
@@ -205,20 +211,18 @@
                         <th onclick="sortTable(1)">Year</th>
                         <th onclick="sortTable(2)">DASH Member</th>
                         <th onclick="sortTableDate(3)">Date of Visit</th>
-                        <th class="crimson-column"></th>
                         <th onclick="sortTableBoolean(4)">Appointment with DASH Staff</th>
                         <th onclick="sortTableBoolean(5)">Printing</th>
                         <th onclick="sortTableBoolean(6)">Study</th>
                         <th onclick="sortTableBoolean(7)">Socialize/Relax</th>
-                        <th onclick="sortTableBoolean(8)">Student Affinity Group</th> 
+                        <th onclick="sortTableBoolean(8)">Student Affinity Group</th>
                         <th onclick="sortTableBoolean(9)">Event</th>
-                        <th class="crimson-column"></th>
                         <th onclick="sortTableBoolean(10)">Schedule an Appointment</th>
                         <th onclick="sortTableBoolean(11)">Hardship Follow-up</th>
                         <th onclick="sortTableBoolean(12)">Basic Needs Support Follow-up</th>
                         <th onclick="sortTableBoolean(13)">Financial Wellness</th>
                         <th onclick="sortTableBoolean(14)">Volunteer Opportunities</th>
-                        <th onclick="sortTableBoolean(15)">Other</th> 
+                        <th onclick="sortTableBoolean(15)">Other</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -234,20 +238,18 @@
                         <td>{{ visit.student.year }}</td>
                         <td>{{ visit.student.DASH_Member|yesno:"Yes,No" }}</td>
                         <td>{{ visit.date_time|date:"M d, Y H:i" }}</td>
-                        <td class="crimson-column"></td>
                         <td>{{ visit.appointment|yesno:"Yes,No" }}</td>
                         <td>{{ visit.printing|yesno:"Yes,No" }}</td>
                         <td>{{ visit.study|yesno:"Yes,No" }}</td>
                         <td>{{ visit.socialize|yesno:"Yes,No" }}</td>
-                        <td>{{ visit.student_affinity_group|yesno:"Yes,No" }}</td> 
+                        <td>{{ visit.student_affinity_group|yesno:"Yes,No" }}</td>
                         <td>{{ visit.event|yesno:"Yes,No" }}</td>
-                        <td class="crimson-column"></td>
                         <td>{{ visit.schedule_appointment|yesno:"Yes,No" }}</td>
                         <td>{{ visit.hardship|yesno:"Yes,No" }}</td>
                         <td>{{ visit.basic_needs_support|yesno:"Yes,No" }}</td>
                         <td>{{ visit.financial_wellness|yesno:"Yes,No" }}</td>
                         <td>{{ visit.volunteer_opportunities|yesno:"Yes,No" }}</td>
-                        <td>{{ visit.other|yesno:"Yes,No" }}</td> 
+                        <td>{{ visit.other|yesno:"Yes,No" }}</td>
                     </tr>
                     {% endfor %}
                     {% else %}
@@ -293,27 +295,90 @@
             var input = getSearchInput();
             var dateInput = getDateInput();
             var rows = getTableRows();
-            
-            // Count total students who match the date filter
-            var totalMatchingStudents = countTotalMatchingStudents(rows, dateInput);
-            
+
             // Filter rows based on both the search and date inputs
             var visibleRowCount = filterAndCountVisibleRows(rows, input, dateInput);
 
-            updateCounter(totalMatchingStudents, dateInput);
-            updateYesCounts(rows);
+            updateYesCounts(rows, dateInput);
         }
 
-        function countTotalMatchingStudents(rows, dateInput) {
-            var total = 0;
+        function updateYesCounts(rows, dateInput) {
+            const yesCounts = {
+                appointment: 0,
+                printing: 0,
+                study: 0,
+                socialize: 0,
+                affinity: 0,
+                event: 0,
+                schedule: 0,
+                hardship: 0,
+                basicNeeds: 0,
+                financial: 0,
+                volunteer: 0,
+                other: 0,
+            };
+
             rows.forEach(function(row) {
-                var visitDate = row.querySelector('td:nth-child(4)').textContent.trim();
-                var visitDateISO = formatVisitDate(visitDate);
-                if (visitDateISO === dateInput) {
-                    total++;
+                if (row.style.display !== 'none') {
+                    var visitDate = row.querySelector('td:nth-child(4)').textContent.trim();
+                    var visitDateISO = formatVisitDate(visitDate);
+
+                    // Check if the row matches the selected date
+                    if (visitDateISO === dateInput) {
+                        yesCounts.appointment += row.getElementsByTagName("TD")[4].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
+                        yesCounts.printing += row.getElementsByTagName("TD")[5].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
+                        yesCounts.study += row.getElementsByTagName("TD")[6].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
+                        yesCounts.socialize += row.getElementsByTagName("TD")[7].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
+                        yesCounts.affinity += row.getElementsByTagName("TD")[8].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
+                        yesCounts.event += row.getElementsByTagName("TD")[9].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
+                        yesCounts.schedule += row.getElementsByTagName("TD")[10].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
+                        yesCounts.hardship += row.getElementsByTagName("TD")[11].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
+                        yesCounts.basicNeeds += row.getElementsByTagName("TD")[12].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
+                        yesCounts.financial += row.getElementsByTagName("TD")[13].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
+                        yesCounts.volunteer += row.getElementsByTagName("TD")[14].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
+                        yesCounts.other += row.getElementsByTagName("TD")[15].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
+                    }
                 }
             });
-            return total;
+
+            const yesCountsDiv = document.getElementById('yesCounts');
+            yesCountsDiv.innerHTML = `
+                <h2>Confirmations</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Appointment with DASH Staff</th>
+                            <th>Printing</th>
+                            <th>Study</th>
+                            <th>Socialize/Relax</th>
+                            <th>Student Affinity Group</th>
+                            <th>Event</th>
+                            <th>Schedule an Appointment</th>
+                            <th>Hardship Follow-up</th>
+                            <th>Basic Needs Support Follow-up</th>
+                            <th>Financial Wellness</th>
+                            <th>Volunteer Opportunities</th>
+                            <th>Other</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>${yesCounts.appointment}</td>
+                            <td>${yesCounts.printing}</td>
+                            <td>${yesCounts.study}</td>
+                            <td>${yesCounts.socialize}</td>
+                            <td>${yesCounts.affinity}</td>
+                            <td>${yesCounts.event}</td>
+                            <td>${yesCounts.schedule}</td>
+                            <td>${yesCounts.hardship}</td>
+                            <td>${yesCounts.basicNeeds}</td>
+                            <td>${yesCounts.financial}</td>
+                            <td>${yesCounts.volunteer}</td>
+                            <td>${yesCounts.other}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            `;
         }
 
         function getSearchInput() {
@@ -335,17 +400,6 @@
             return visitDateObj.toISOString().split('T')[0];
         }
 
-        function isRowVisible(row, input, dateInput) {
-            var fullName = row.querySelector('td:first-child a').textContent.toLowerCase();
-            var visitDate = row.querySelector('td:nth-child(4)').textContent.trim();
-            var visitDateISO = formatVisitDate(visitDate);
-
-            var matchesName = fullName.includes(input);
-            var matchesDate = dateInput === "" || visitDateISO === dateInput;
-
-            return matchesName && matchesDate;
-        }
-
         function filterAndCountVisibleRows(rows, input, dateInput) {
             var visibleRowCount = 0;
 
@@ -361,104 +415,23 @@
             return visibleRowCount;
         }
 
+        function isRowVisible(row, input, dateInput) {
+            var fullName = row.querySelector('td:first-child a').textContent.toLowerCase();
+            var visitDate = row.querySelector('td:nth-child(4)').textContent.trim();
+            var visitDateISO = formatVisitDate(visitDate);
+
+            var matchesName = fullName.includes(input);
+            var matchesDate = dateInput === "" || visitDateISO === dateInput;
+
+            return matchesName && matchesDate;
+        }
+
         function showRow(row) {
             row.style.display = '';
         }
 
         function hideRow(row) {
             row.style.display = 'none';
-        }
-
-        function updateCounter(totalMatchingStudents, dateInput) {
-            var counterDiv = document.getElementById('studentCount');
-
-            if (dateInput === "") {
-                hideCounter(counterDiv);
-            } else {
-                showCounter(counterDiv, totalMatchingStudents);
-            }
-        }
-
-        function hideCounter(counterDiv) {
-            counterDiv.style.display = 'none';
-        }
-
-        function showCounter(counterDiv, totalMatchingStudents) {
-            document.getElementById('count').textContent = totalMatchingStudents;
-            counterDiv.style.display = 'block';
-        }
-
-        function updateYesCounts(rows) {
-            const yesCounts = {
-                appointment: 0,
-                printing: 0,
-                study: 0,
-                socialize: 0,
-                affinity: 0,
-                event: 0,
-                schedule: 0,
-                hardship: 0,
-                basicNeeds: 0,
-                financial: 0,
-                volunteer: 0,
-                other: 0,
-            };
-
-            rows.forEach(function(row) {
-                if (row.style.display !== 'none') {
-                    yesCounts.appointment += row.getElementsByTagName("TD")[5].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
-                    yesCounts.printing += row.getElementsByTagName("TD")[6].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
-                    yesCounts.study += row.getElementsByTagName("TD")[7].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
-                    yesCounts.socialize += row.getElementsByTagName("TD")[8].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
-                    yesCounts.affinity += row.getElementsByTagName("TD")[9].textContent.trim().toLowerCase() === 'yes' ? 1 : 0; // New Field
-                    yesCounts.event += row.getElementsByTagName("TD")[10].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
-                    yesCounts.schedule += row.getElementsByTagName("TD")[12].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
-                    yesCounts.hardship += row.getElementsByTagName("TD")[13].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
-                    yesCounts.basicNeeds += row.getElementsByTagName("TD")[14].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
-                    yesCounts.financial += row.getElementsByTagName("TD")[15].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
-                    yesCounts.volunteer += row.getElementsByTagName("TD")[16].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
-                    yesCounts.other += row.getElementsByTagName("TD")[17].textContent.trim().toLowerCase() === 'yes' ? 1 : 0; // New Field
-                }
-            });
-
-            const yesCountsDiv = document.getElementById('yesCounts');
-            yesCountsDiv.innerHTML = `
-                <h2>Confirmations</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Appointment with DASH Staff</th>
-                            <th>Printing</th>
-                            <th>Study</th>
-                            <th>Socialize/Relax</th>
-                            <th>Student Affinity Group</th> <!-- New Field -->
-                            <th>Event</th>
-                            <th>Schedule an Appointment</th>
-                            <th>Hardship Follow-up</th>
-                            <th>Basic Needs Support Follow-up</th>
-                            <th>Financial Wellness</th>
-                            <th>Volunteer Opportunities</th>
-                            <th>Other</th> <!-- New Field -->
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>${yesCounts.appointment}</td>
-                            <td>${yesCounts.printing}</td>
-                            <td>${yesCounts.study}</td>
-                            <td>${yesCounts.socialize}</td>
-                            <td>${yesCounts.affinity}</td> <!-- New Field -->
-                            <td>${yesCounts.event}</td>
-                            <td>${yesCounts.schedule}</td>
-                            <td>${yesCounts.hardship}</td>
-                            <td>${yesCounts.basicNeeds}</td>
-                            <td>${yesCounts.financial}</td>
-                            <td>${yesCounts.volunteer}</td>
-                            <td>${yesCounts.other}</td> <!-- New Field -->
-                        </tr>
-                    </tbody>
-                </table>
-            `;
         }
 
         function sortTable(n) {
@@ -516,5 +489,4 @@
         }
     </script>
 </body>
-
 </html>
