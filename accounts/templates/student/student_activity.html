@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Activity</title>
     <style>
-        /* Existing styles */
         body {
             background-color: #000;
             color: #fff;
@@ -287,7 +286,7 @@
     document.getElementById('dateFilter').addEventListener('change', filterTable);
     document.getElementById('searchBar').addEventListener('keyup', filterTable);
     document.addEventListener('DOMContentLoaded', function () {
-        sortTable(0);  // Initial sort by Full Name (alphabetical)
+        sortTable(0);  
     });
 
     let sortDirection = true;
@@ -296,8 +295,7 @@
         var input = getSearchInput();
         var dateInput = getDateInput();
         var rows = getTableRows();
-
-        // Filter rows based on both the search and date inputs
+        
         var visibleRowCount = filterAndCountVisibleRows(rows, input, dateInput);
         updateYesCounts(rows, dateInput);
         updateCounter(visibleRowCount, dateInput);
@@ -323,8 +321,7 @@
             if (row.style.display !== 'none') {
                 var visitDate = row.querySelector('td:nth-child(4)').textContent.trim();
                 var visitDateISO = formatVisitDate(visitDate);
-
-                // Check if the row matches the selected date
+                
                 if (visitDateISO === dateInput) {
                     yesCounts.appointment += row.getElementsByTagName("TD")[4].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
                     yesCounts.printing += row.getElementsByTagName("TD")[5].textContent.trim().toLowerCase() === 'yes' ? 1 : 0;
