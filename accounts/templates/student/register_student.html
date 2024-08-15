@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register Student</title>
     <style>
-        /* Existing styles */
         body {
             background-color: #000;
             color: #fff;
@@ -252,15 +251,13 @@
                         {% endfor %}
                     </div>
                 </div>
-
-                <!-- Move buttons here -->
+            
                 <div class="button-container">
                     <button type="submit" class="register-button">Register</button>
                 </div>
                 <div class="button-container">
                     <a href="{% url 'student_login' %}" class="go-back-button">Go Back</a>
                 </div>
-                <!-- End of moved buttons -->
             </div>
         </div>
     </form>
